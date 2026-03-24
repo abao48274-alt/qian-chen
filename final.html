@@ -332,8 +332,77 @@
  </div>
  
  <div class="card">
- <div class="card-header"><h3>📝 代码编辑器</h3><button class="tool-btn" onclick="saveFavorite()">💾收藏</button></div>
- <textarea class="code-editor" id="codeEditor" placeholder="HTML/CSS代码..."></textarea>
+ <div class="card-header"><h3>📊 项目进程</h3><span id="progressPercent" style="font-size:0.65rem;color:#a78bfa">0%</span></div>
+ <div style="padding:16px">
+ <!-- 进度条 -->
+ <div style="background:rgba(255,255,255,0.1);border-radius:10px;height:12px;margin-bottom:16px;overflow:hidden">
+ <div id="progressBar" style="background:linear-gradient(90deg,#a78bfa,#7c3aed);height:100%;width:0%;transition:0.3s;border-radius:10px"></div>
+ </div>
+ 
+ <!-- 分镜状态 -->
+ <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px">
+ <div class="frame-status" id="frame1Status" onclick="selectFrame9(0)">
+ <div style="font-size:1.2rem">🎬</div>
+ <div style="font-size:0.6rem;color:#94a3b8">分镜1</div>
+ </div>
+ <div class="frame-status" id="frame2Status" onclick="selectFrame9(1)">
+ <div style="font-size:1.2rem">🎬</div>
+ <div style="font-size:0.6rem;color:#94a3b8">分镜2</div>
+ </div>
+ <div class="frame-status" id="frame3Status" onclick="selectFrame9(2)">
+ <div style="font-size:1.2rem">🎬</div>
+ <div style="font-size:0.6rem;color:#94a3b8">分镜3</div>
+ </div>
+ <div class="frame-status" id="frame4Status" onclick="selectFrame9(3)">
+ <div style="font-size:1.2rem">🎬</div>
+ <div style="font-size:0.6rem;color:#94a3b8">分镜4</div>
+ </div>
+ <div class="frame-status" id="frame5Status" onclick="selectFrame9(4)">
+ <div style="font-size:1.2rem">🎬</div>
+ <div style="font-size:0.6rem;color:#94a3b8">分镜5</div>
+ </div>
+ </div>
+ <style>
+ .frame-status {
+ background: rgba(255,255,255,0.05);
+ border: 2px solid rgba(255,255,255,0.1);
+ border-radius: 12px;
+ padding: 12px 8px;
+ text-align: center;
+ cursor: pointer;
+ transition: 0.2s;
+ }
+ .frame-status:hover {
+ background: rgba(167,139,250,0.2);
+ border-color: #a78bfa;
+ }
+ .frame-status.completed {
+ background: rgba(16,185,129,0.2);
+ border-color: #10b981;
+ }
+ .frame-status.selected {
+ background: rgba(167,139,250,0.3);
+ border-color: #a78bfa;
+ }
+ </style>
+ 
+ <!-- 统计信息 -->
+ <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+ <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:12px;text-align:center">
+ <div style="font-size:1.5rem;color:#a78bfa;font-weight:600" id="completedCount">0</div>
+ <div style="font-size:0.7rem;color:#94a3b8">已完成</div>
+ </div>
+ <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:12px;text-align:center">
+ <div style="font-size:1.5rem;color:#f59e0b;font-weight:600" id="pendingCount">5</div>
+ <div style="font-size:0.7rem;color:#94a3b8">待生成</div>
+ </div>
+ </div>
+ 
+ <!-- 快速操作 -->
+ <div style="margin-top:16px;display:flex;gap:8px">
+ <button class="tool-btn primary" onclick="generateAllFrames()" style="flex:1">🎬 全部生成</button>
+ <button class="tool-btn" onclick="clearStoryboard()" style="flex:0.5">🗑️</button>
+ </div>
  </div>
  </div>
  
@@ -595,12 +664,13 @@ addMsg(`🎨 已切换主题: ${theme10Styles[theme].name}`);
 window.generateAllFrames=async function(){
 const theme=theme10Styles[currentTheme10];
 addMsg(`🎬 开始生成9格分镜，主题: ${theme.name}...`);
-for(let i=0;i<storyboard9.length;i++){
+for(let i=0;i<5;i++){ // 只生成前5个分镜
 const f=storyboard9[i];
 const prompt=`${f.prompt}, ${theme.prompt}, masterpiece, best quality, detailed, cinematic lighting, 8k`;
 f.imageUrl=`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=288&nologo=true`;
 f.code=`<div style="text-align:center;padding:16px"><img src="${f.imageUrl}" style="max-width:100%;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.2)"><p style="margin-top:8px;font-size:13px">🎬 ${f.prompt}</p><p style="font-size:11px;color:#666">风格: ${theme.name}</p></div>`;
 renderStoryboard9();
+updateProgress(); // 更新进度显示
 await new Promise(r=>setTimeout(r,300));
 }
 selectFrame9(selectedFrameIdx);
@@ -713,12 +783,43 @@ async function sendMessageToAgent(message) {
     }
 }
 
+// 更新项目进程显示
+function updateProgress() {
+    const completed = storyboard9.filter(f => f.imageUrl).length;
+    const total = 5; // 只计算前5个分镜
+    const percent = Math.round((completed / total) * 100);
+    
+    // 更新进度条
+    document.getElementById('progressBar').style.width = `${percent}%`;
+    document.getElementById('progressPercent').textContent = `${percent}%`;
+    
+    // 更新统计
+    document.getElementById('completedCount').textContent = completed;
+    document.getElementById('pendingCount').textContent = total - completed;
+    
+    // 更新分镜状态
+    for (let i = 0; i < 5; i++) {
+        const status = document.getElementById(`frame${i+1}Status`);
+        if (status) {
+            if (storyboard9[i] && storyboard9[i].imageUrl) {
+                status.classList.add('completed');
+                status.querySelector('div:first-child').textContent = '✅';
+            } else {
+                status.classList.remove('completed');
+                status.querySelector('div:first-child').textContent = '🎬';
+            }
+        }
+    }
+}
+
 // 显示分镜内容
 window.showStoryboard = function() {
     document.getElementById('episode7Intro').style.display = 'none';
     document.getElementById('storyboardContent').style.display = 'block';
     // 初始化分镜
     initStoryboard9();
+    // 更新进度显示
+    updateProgress();
 };
 
 // 显示第7集入口
