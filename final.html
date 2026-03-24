@@ -108,6 +108,7 @@
  .storyboard-placeholder {
  width: 100%; height: 100%;
  display: flex;
+ flex-direction: column;
  align-items: center;
  justify-content: center;
  background: linear-gradient(135deg, #2d2d44, #1a1a2e);
@@ -122,6 +123,7 @@
  font-size: 0.7rem;
  padding: 2px 6px;
  border-radius: 12px;
+ z-index: 2;
  }
  .storyboard-label {
  position: absolute;
@@ -131,6 +133,9 @@
  color: white;
  font-size: 0.6rem;
  padding: 2px;
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
  }
  
  /* 10 Themes */
@@ -187,6 +192,7 @@
  background: rgba(16,185,129,0.2);
  padding: 2px 8px;
  border-radius: 20px;
+ pointer-events: none;
  }
  
  .tool-btn {
@@ -199,31 +205,39 @@
  cursor: pointer;
  transition: 0.2s;
  }
- .tool-btn:hover { background: rgba(167,139,250,0.3); }
+ .tool-btn:hover { background: rgba(167,139,250,0.5); }
  .tool-btn.primary { background: #a78bfa; }
- .tool-btn.primary:hover { background: #9580d9; }
- 
  .progress-bar {
  height: 2px;
  background: linear-gradient(90deg, #a78bfa, #7c3aed);
  width: 0%;
  transition: width 0.3s;
  margin-top: 8px;
+ border-radius: 2px;
  }
  
- .chat-area { height: 280px; display: flex; flex-direction: column; }
- .messages { flex: 1; overflow-y: auto; padding: 12px; }
+ /* Chat Area */
+ .chat-area { height: 320px; display: flex; flex-direction: column; }
+ .messages { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
  .message {
- margin-bottom: 8px;
  padding: 8px 12px;
  border-radius: 16px;
  max-width: 85%;
  font-size: 0.75rem;
  line-height: 1.4;
+ animation: fadeIn 0.2s;
  }
- .message.user { background: #a78bfa; color: white; margin-left: auto; }
- .message.assistant { background: rgba(255,255,255,0.1); color: #e2e8f0; }
- 
+ @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+ .message.user { background: #a78bfa; color: white; align-self: flex-end; }
+ .message.assistant { background: rgba(255,255,255,0.1); color: #e2e8f0; align-self: flex-start; }
+ .message pre {
+ background: rgba(0,0,0,0.3);
+ padding: 8px;
+ border-radius: 8px;
+ overflow-x: auto;
+ font-size: 0.65rem;
+ margin-top: 6px;
+ }
  .api-selector { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
  .api-btn {
  background: rgba(255,255,255,0.1);
@@ -232,51 +246,54 @@
  border-radius: 20px;
  font-size: 0.65rem;
  cursor: pointer;
- transition: 0.2s;
  }
- .api-btn:hover { background: rgba(167,139,250,0.3); }
  .api-btn.active { background: #a78bfa; }
  
- input[type="text"], input[type="password"] {
- background: rgba(255,255,255,0.1);
- border: 1px solid rgba(255,255,255,0.2);
- border-radius: 12px;
- padding: 8px 12px;
- color: white;
- font-size: 0.75rem;
- outline: none;
+ /* Quick Materials */
+ .quick-materials {
+ padding: 12px;
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap: 8px;
  }
- input:focus { border-color: #a78bfa; }
+ 
+ /* Responsive */
+ @media (max-width: 768px) {
+ .theme-grid-10 { grid-template-columns: repeat(3, 1fr); }
+ }
  </style>
 </head>
 <body>
 <div class="app-container">
  <div class="dashboard">
- <!-- Left: AI Chat -->
+ <!-- Left: OpenClaw AI Chat + API Config -->
  <div class="card">
- <div class="card-header"><h3>🤖 千尘 AI</h3><span style="font-size:0.65rem;color:#10b981">⚡ 在线</span></div>
+ <div class="card-header">
+ <h3>🤖 OpenClaw · 分镜助手</h3>
+ <span id="apiStatus" style="font-size:0.6rem;">⚡ 已连接</span>
+ </div>
  <div class="chat-area">
  <div class="messages" id="messages">
- <div class="message assistant">✨ 欢迎！实时预览已开启，编辑代码立即生效<br>🎬 10大主题：日系、赛博、古风、仙侠、写实...</div>
+ <div class="message assistant">
+ ✨ 欢迎！我是 OpenClaw 分镜助手<br>
+ 🎬 支持：10大主题 | 9宫格分镜 | 实时预览 | AI生图<br>
+ 💡 试试说："生成赛博朋克风格的分镜" 或 "帮我设计古风角色"
+ </div>
  </div>
  <div style="padding:12px; display:flex; gap:8px; border-top:1px solid rgba(255,255,255,0.1);">
- <input type="text" id="chatInput" style="flex:1;" placeholder="输入分镜描述...">
+ <input type="text" id="chatInput" class="tool-btn" style="flex:1; background:rgba(255,255,255,0.1);" placeholder="输入你的需求...">
  <button class="tool-btn primary" id="sendBtn">发送</button>
  </div>
  </div>
- </div>
- 
- <div class="card">
  <div class="card-header"><h3>🔌 生图API</h3></div>
  <div style="padding:12px;">
  <div class="api-selector" id="apiSelector">
- <button class="api-btn active" data-api="pollinations">🌐 Pollinations</button>
- <button class="api-btn" data-api="custom">⚙️ 自定义</button>
+ <button class="api-btn active" data-api="pollinations">🌐 Pollinations (免费)</button>
+ <button class="api-btn" data-api="custom">⚙️ 自定义API</button>
  </div>
  <div id="customApiPanel" style="display:none;">
- <input type="text" id="customApiUrl" style="width:100%; margin-bottom:6px;" placeholder="API地址">
- <input type="password" id="customApiKey" style="width:100%;" placeholder="API Key">
- </div>
+ <input type="text" id="customApiUrl" class="tool-btn" style="width:100%; margin-bottom:6px;" placeholder="API地址">
+ <input type="password" id="customApiKey" class="tool-btn" style="width:100%;" placeholder="API Key (可选)">
  </div>
  </div>
  </div>
@@ -284,15 +301,17 @@
  <!-- Center: 9-Grid Storyboard -->
  <div class="card">
  <div class="card-header">
- <h3>🎬 9格分镜预览</h3>
- <div>
- <button class="tool-btn" id="generateBtn">🎨 生成9格</button>
- <button class="tool-btn" id="exportBtn">📦 导出</button>
+ <h3>🎬 9格分镜预览 · 关键环节</h3>
+ <div style="display: flex; gap: 6px;">
+ <button class="tool-btn" id="generateBtn">🎨 一键生成9格</button>
+ <button class="tool-btn" id="exportBtn">📦 导出全部</button>
  <button class="tool-btn" id="clearBtn">🗑️ 清空</button>
  </div>
  </div>
  <div class="storyboard-container">
  <div class="storyboard-grid" id="storyboardGrid"></div>
+ 
+ <!-- 10 Theme Selector -->
  <div class="theme-grid-10" id="themeGrid">
  <div class="theme-card" data-theme="anime"><span class="theme-emoji">🌸</span><span>日系动漫</span></div>
  <div class="theme-card" data-theme="cyberpunk"><span class="theme-emoji">🤖</span><span>赛博朋克</span></div>
@@ -321,7 +340,7 @@
  </div>
  <div class="main-preview">
  <div class="main-preview-frame" id="previewWrapper">
- <iframe id="previewFrame" sandbox="allow-same-origin allow-popups"></iframe>
+ <iframe id="previewFrame" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>
  </div>
  </div>
  <div class="card-header"><h3>📝 代码编辑器</h3></div>
@@ -330,7 +349,7 @@
  <div class="live-indicator" id="liveIndicator">⚡ 实时模式已开启</div>
  </div>
  <div class="card-header"><h3>🎨 快速素材</h3></div>
- <div style="padding:12px; display:grid; grid-template-columns:repeat(4,1fr); gap:8px;" id="quickMaterials">
+ <div class="quick-materials" id="quickMaterials">
  <button class="tool-btn" data-material="dialog">💬 对话框</button>
  <button class="tool-btn" data-material="character">👤 角色卡</button>
  <button class="tool-btn" data-material="bg">🖼️ 背景</button>
@@ -341,272 +360,430 @@
 </div>
 
 <script>
-// ========== Live Preview Module v1.0 ==========
-function initLivePreview(editorId, previewFrameId, onUpdateCallback) {
- let liveEnabled = true;
- let updateTimer = null;
- 
- const editor = document.getElementById(editorId);
- const previewFrame = document.getElementById(previewFrameId);
- 
- function updatePreview(code) {
- const doc = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
- *{margin:0;padding:0;box-sizing:border-box;}
- body{background:linear-gradient(135deg,#f5f7fa,#e9eef5);min-height:450px;display:flex;align-items:center;justify-content:center;padding:20px;font-family:system-ui;}
- .preview-content{max-width:100%;animation:fadeIn 0.2s;}
- @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
- </style></head><body><div class="preview-content">${code || '<div style="padding:40px;">✨ 编辑代码实时预览 ✨</div>'}</div></body></html>`;
- previewFrame.srcdoc = doc;
- 
- if (onUpdateCallback) onUpdateCallback(code);
- 
- const wrapper = previewFrame.parentElement;
- if (wrapper && liveEnabled) {
- wrapper.style.transition = 'box-shadow 0.2s';
- wrapper.style.boxShadow = '0 0 0 2px #a78bfa';
- setTimeout(() => wrapper.style.boxShadow = '', 200);
- }
- }
- 
- editor.addEventListener('input', (e) => {
- if (liveEnabled) {
- if (updateTimer) clearTimeout(updateTimer);
- updateTimer = setTimeout(() => {
- updatePreview(e.target.value);
- showLiveIndicator('⚡ 已实时更新');
- }, 100);
- }
- });
- 
- function showLiveIndicator(msg) {
- const indicator = document.getElementById('liveIndicator');
- if (indicator) {
- const originalText = indicator.innerHTML;
- indicator.innerHTML = msg;
- setTimeout(() => indicator.innerHTML = originalText, 1500);
- }
- }
- 
- function toggleLiveMode(enabled) {
- liveEnabled = enabled;
- if (enabled) {
- updatePreview(editor.value);
- showLiveIndicator('⚡ 实时模式已开启');
- } else {
- showLiveIndicator('⏸️ 手动模式');
- }
- return liveEnabled;
- }
- 
- function refreshPreview() {
- updatePreview(editor.value);
- }
- 
- updatePreview(editor.value);
- 
- return { toggleLiveMode, refreshPreview, updatePreview };
-}
-
-// ========== Theme Definitions ==========
+// ========== 10 Theme Styles ==========
 const themeStyles = {
- anime: { name: '日系动漫', prompt: 'anime style, vibrant colors, Japanese animation' },
- cyberpunk: { name: '赛博朋克', prompt: 'cyberpunk style, neon lights, futuristic city' },
- fantasy: { name: '幻想奇幻', prompt: 'fantasy art, magical, ethereal' },
- slice_of_life: { name: '日常治愈', prompt: 'slice of life, gentle colors, warm atmosphere' },
- action: { name: '热血战斗', prompt: 'action scene, dynamic, intense' },
- dark: { name: '暗黑哥特', prompt: 'dark gothic, mysterious, dramatic' },
- traditional: { name: '古风传统', prompt: 'traditional Chinese style, ink wash, elegant, classical beauty, silk and jade' },
- xianxia: { name: '仙侠修真', prompt: 'xianxia style, immortal cultivation, celestial mountains, flowing robes, sword magic' },
- realistic: { name: '真人写实', prompt: 'photorealistic, real human, detailed skin, natural lighting' },
- watercolor: { name: '水墨国风', prompt: 'watercolor painting, Chinese ink art, brush strokes, poetic' }
+ anime: { name: '日系动漫', prompt: 'anime style, vibrant colors, clean lines, Japanese animation, high quality, masterpiece' },
+ cyberpunk: { name: '赛博朋克', prompt: 'cyberpunk style, neon lights, futuristic city, purple and cyan, dark atmosphere, high tech' },
+ fantasy: { name: '幻想奇幻', prompt: 'fantasy art style, magical, ethereal, mystical creatures, soft glowing light, epic' },
+ slice_of_life: { name: '日常治愈', prompt: 'slice of life, gentle colors, warm atmosphere, soft lighting, cozy feeling' },
+ action: { name: '热血战斗', prompt: 'action scene, dynamic, dramatic lighting, intense, battle energy, epic, explosive' },
+ dark: { name: '暗黑哥特', prompt: 'dark gothic style, mysterious, dramatic shadows, haunting beauty, Victorian, eerie' },
+ traditional: { name: '古风传统', prompt: 'traditional Chinese style, ink wash painting, elegant, classical beauty, silk and jade, ancient China aesthetics, hanfu' },
+ xianxia: { name: '仙侠修真', prompt: 'xianxia style, immortal cultivation, floating clouds, celestial mountains, flowing robes, sword and magic, ethereal beauty, daoist' },
+ realistic: { name: '真人写实', prompt: 'photorealistic style, real human, detailed skin texture, natural lighting, hyper-realistic, professional photography' },
+ watercolor: { name: '水墨国风', prompt: 'watercolor painting style, Chinese ink art, brush strokes, poetic, misty mountains, traditional landscape, zen' }
 };
 
-const defaultPrompts = [
- "主角登场，特写镜头，眼神坚定",
- "场景建立，广角镜头，壮丽世界",
- "关键对话，双人镜头，情感交流",
- "战斗场面，动态镜头，特效爆发",
- "转折时刻，悬念镜头，光影对比",
- "情感高潮，近景镜头，动人瞬间",
- "友情羁绊，并肩镜头，温暖氛围",
- "反派亮相，仰视镜头，压迫感强",
- "结局画面，全景镜头，希望之光"
+// 9 Default Scene Prompts
+const defaultScenePrompts = [
+ "主角登场，特写镜头，眼神坚定，英姿飒爽",
+ "场景建立，广角镜头，壮丽世界，宏大场景",
+ "关键对话，双人镜头，情感交流，眼神交汇",
+ "战斗场面，动态镜头，特效爆发，热血沸腾",
+ "转折时刻，悬念镜头，光影对比，紧张气氛",
+ "情感高潮，近景镜头，动人瞬间，泪目时刻",
+ "友情羁绊，并肩镜头，温暖氛围，夕阳背景",
+ "反派亮相，仰视镜头，压迫感强，霸气侧漏",
+ "结局画面，全景镜头，希望之光，圆满收尾"
 ];
 
 let storyboardFrames = [];
 let selectedIndex = 0;
 let currentTheme = 'anime';
 let currentApi = 'pollinations';
+let liveEnabled = true;
+let updateTimer = null;
+let isGenerating = false;
 let apiConfig = { custom: { url: '', key: '' } };
-let livePreview = null;
 
-// Initialize
-function init() {
+// ========== Initialize Storyboard ==========
+function initStoryboard() {
  for (let i = 0; i < 9; i++) {
  storyboardFrames.push({
  id: i,
- prompt: defaultPrompts[i],
+ prompt: defaultScenePrompts[i],
  imageUrl: null,
- code: `<div style="text-align:center; padding:40px; background:linear-gradient(135deg,#667eea,#764ba2); border-radius:20px; color:white;"><div style="font-size:48px;">🎬</div><p>${defaultPrompts[i]}</p></div>`
+ code: `<div style="text-align:center; padding:40px; background:linear-gradient(135deg,#667eea,#764ba2); border-radius:20px; color:white;">
+ <div style="font-size:48px; margin-bottom:12px;">🎬</div>
+ <p style="font-size:14px;">${defaultScenePrompts[i]}</p>
+ <button style="background:white; border:none; padding:8px 20px; border-radius:40px; margin-top:16px; cursor:pointer; color:#764ba2;">查看详情</button>
+ </div>`,
+ loading: false
  });
  }
- renderGrid();
+ renderStoryboardGrid();
  selectFrame(0);
- 
- // Initialize Live Preview Module
- livePreview = initLivePreview('codeEditor', 'previewFrame', (code) => {
- if (storyboardFrames[selectedIndex]) {
- storyboardFrames[selectedIndex].code = code;
- }
- });
 }
 
-function renderGrid() {
+function renderStoryboardGrid() {
  const grid = document.getElementById('storyboardGrid');
- grid.innerHTML = storyboardFrames.map((f, i) => `
+ if (!grid) return;
+ grid.innerHTML = storyboardFrames.map((frame, i) => `
  <div class="storyboard-cell ${selectedIndex === i ? 'active' : ''}" onclick="selectFrame(${i})">
  <div class="storyboard-number">${i+1}</div>
- ${f.imageUrl ? `<img src="${f.imageUrl}" class="storyboard-preview">` : `<div class="storyboard-placeholder">🎬 分镜${i+1}</div>`}
- <div class="storyboard-label">${f.prompt.substring(0, 15)}</div>
+ ${frame.imageUrl ? 
+ `<img src="${frame.imageUrl}" class="storyboard-preview" alt="分镜${i+1}" onerror="this.src=''">` : 
+ `<div class="storyboard-placeholder">
+ <div style="font-size:24px;">🎬</div>
+ <div style="font-size:10px; margin-top:4px;">分镜${i+1}</div>
+ </div>`
+ }
+ <div class="storyboard-label">${frame.prompt.substring(0, 18)}${frame.prompt.length > 18 ? '...' : ''}</div>
  </div>
  `).join('');
- document.getElementById('selectedFrame').textContent = selectedIndex + 1;
- document.getElementById('generatedCount').textContent = storyboardFrames.filter(f => f.imageUrl).length;
 }
 
 window.selectFrame = (idx) => {
  selectedIndex = idx;
- renderGrid();
- document.getElementById('codeEditor').value = storyboardFrames[idx].code;
- if (livePreview) livePreview.updatePreview(storyboardFrames[idx].code);
+ renderStoryboardGrid();
+ const frameCode = storyboardFrames[idx].code;
+ document.getElementById('codeEditor').value = frameCode;
+ updatePreview(frameCode);
 };
 
-// ========== Generate Images ==========
-async function generateAll() {
- const bar = document.getElementById('progressBar');
- addMsg(`🎬 生成中，主题: ${themeStyles[currentTheme].name}...`, false);
- for (let i = 0; i < storyboardFrames.length; i++) {
- bar.style.width = `${((i+1)/9)*100}%`;
- const frame = storyboardFrames[i];
- const theme = themeStyles[currentTheme];
- const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(frame.prompt + ', ' + theme.prompt + ', anime, high quality')}?width=512&height=512`;
- frame.imageUrl = url;
- frame.code = `<div style="text-align:center;"><img src="${url}" style="max-width:100%; border-radius:16px;"><p>${frame.prompt}</p><p style="font-size:12px;">${theme.name}</p></div>`;
- renderGrid();
- if (selectedIndex === i) {
- document.getElementById('codeEditor').value = frame.code;
- if (livePreview) livePreview.updatePreview(frame.code);
+// ========== Live Preview Core ==========
+function updatePreview(code) {
+ const iframe = document.getElementById('previewFrame');
+ const doc = `<!DOCTYPE html>
+ <html>
+ <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <style>
+ *{margin:0;padding:0;box-sizing:border-box;}
+ body{background:linear-gradient(135deg,#f5f7fa,#e9eef5);min-height:450px;display:flex;align-items:center;justify-content:center;padding:20px;font-family:system-ui;}
+ .preview-content{max-width:100%;transition:all 0.2s;animation:fadeIn 0.2s ease;}
+ @keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+ button{cursor:pointer;transition:transform 0.2s;}
+ button:hover{transform:scale(1.02);}
+ </style>
+ </head>
+ <body><div class="preview-content">${code || '<div style="padding:40px; text-align:center; color:#666;">✨ 编辑代码，实时预览 ✨</div>'}</div></body>
+ </html>`;
+ iframe.srcdoc = doc;
+ 
+ // Visual feedback
+ const wrapper = document.getElementById('previewWrapper');
+ if (wrapper && liveEnabled) {
+ wrapper.style.transition = 'box-shadow 0.2s';
+ wrapper.style.boxShadow = '0 0 0 2px #a78bfa';
+ setTimeout(() => wrapper.style.boxShadow = '', 200);
  }
- await new Promise(r => setTimeout(r, 300));
- }
- bar.style.width = '100%';
- setTimeout(() => bar.style.width = '0%', 1000);
- addMsg('✅ 9格分镜生成完成！', false);
 }
 
-async function exportAll() {
- for (let i = 0; i < storyboardFrames.length; i++) {
- if (storyboardFrames[i].imageUrl) {
- const link = document.createElement('a');
- link.download = `storyboard_${i+1}.png`;
- link.href = storyboardFrames[i].imageUrl;
- link.click();
- await new Promise(r => setTimeout(r, 200));
- }
- }
- addMsg('📦 导出完成！', false);
-}
-
-function clearAll() {
- for (let i = 0; i < storyboardFrames.length; i++) {
- storyboardFrames[i].imageUrl = null;
- storyboardFrames[i].code = `<div style="text-align:center; padding:40px; background:linear-gradient(135deg,#667eea,#764ba2); border-radius:20px; color:white;"><div style="font-size:48px;">🎬</div><p>${storyboardFrames[i].prompt}</p></div>`;
- }
- renderGrid();
+function setupLivePreview() {
+ const editor = document.getElementById('codeEditor');
+ editor.addEventListener('input', (e) => {
+ const newCode = e.target.value;
  if (storyboardFrames[selectedIndex]) {
- document.getElementById('codeEditor').value = storyboardFrames[selectedIndex].code;
- if (livePreview) livePreview.updatePreview(storyboardFrames[selectedIndex].code);
- }
- addMsg('🗑️ 已清空', false);
-}
-
-// ========== Chat ==========
-function addMsg(content, isUser) {
- const container = document.getElementById('messages');
- const div = document.createElement('div');
- div.className = `message ${isUser ? 'user' : 'assistant'}`;
- div.innerHTML = content;
- container.appendChild(div);
- container.scrollTop = container.scrollHeight;
-}
-
-async function sendMsg() {
- const input = document.getElementById('chatInput');
- const msg = input.value.trim();
- if (!msg) return;
- input.value = '';
- addMsg(msg, true);
- if (msg.includes('生成')) await generateAll();
- else if (msg.includes('清空')) clearAll();
- else if (msg.includes('导出')) exportAll();
- else addMsg(`✨ 收到！当前主题: ${themeStyles[currentTheme].name}`, false);
-}
-
-// ========== Insert Materials ==========
-function insertMaterial(type) {
- const mats = {
- dialog: '<div style="background:rgba(255,255,240,0.95); border-radius:28px; padding:20px;"><p>✨ 台词</p><small>——角色</small></div>',
- character: '<div style="text-align:center;"><div style="width:80px;height:80px;background:#a78bfa;border-radius:50%;margin:0 auto;font-size:40px;">👤</div><h3>角色</h3></div>',
- bg: '<div style="background:linear-gradient(135deg,#667eea,#764ba2);padding:40px;border-radius:20px;text-align:center;color:white;"><h2>场景</h2></div>',
- effect: '<div style="animation:sparkle 1s infinite;text-align:center;">✨✨✨<style>@keyframes sparkle{0%,100%{opacity:0.5}50%{opacity:1}}</style></div>'
- };
- if (storyboardFrames[selectedIndex]) {
- const newCode = mats[type] + storyboardFrames[selectedIndex].code;
  storyboardFrames[selectedIndex].code = newCode;
- document.getElementById('codeEditor').value = newCode;
- if (livePreview) livePreview.updatePreview(newCode);
  }
+ if (liveEnabled) {
+ if (updateTimer) clearTimeout(updateTimer);
+ updateTimer = setTimeout(() => {
+ updatePreview(newCode);
+ const indicator = document.getElementById('liveIndicator');
+ indicator.innerHTML = '⚡ 已实时更新';
+ setTimeout(() => indicator.innerHTML = '⚡ 实时模式已开启', 1500);
+ }, 100);
+ }
+ });
 }
 
-// ========== Live Preview Toggle ==========
-let liveEnabled = true;
-document.getElementById('liveToggle')?.addEventListener('click', () => {
+function toggleLiveMode() {
  liveEnabled = !liveEnabled;
  const toggle = document.getElementById('liveToggle');
  const status = document.getElementById('liveStatus');
+ const indicator = document.getElementById('liveIndicator');
+ 
  if (liveEnabled) {
  toggle.classList.add('active');
  status.innerHTML = '● 实时';
  status.className = 'status-badge';
- if (livePreview) livePreview.toggleLiveMode(true);
+ indicator.innerHTML = '⚡ 实时模式已开启';
+ updatePreview(document.getElementById('codeEditor').value);
  } else {
  toggle.classList.remove('active');
  status.innerHTML = '○ 手动';
  status.className = 'status-badge off';
- if (livePreview) livePreview.toggleLiveMode(false);
+ indicator.innerHTML = '⏸️ 手动模式';
  }
-});
+}
+
+// ========== AI Image Generation ==========
+async function generateFrameImage(frame, prompt, themeKey) {
+ const theme = themeStyles[themeKey] || themeStyles.anime;
+ const fullPrompt = `${prompt}, ${theme.prompt}, anime style, high quality, masterpiece, detailed, cinematic lighting`;
+ 
+ try {
+ let imageUrl = null;
+ if (currentApi === 'pollinations') {
+ imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=512&height=512&nologo=true`;
+ // Preload test
+ await new Promise((resolve, reject) => {
+ const img = new Image();
+ img.onload = resolve;
+ img.onerror = reject;
+ img.src = imageUrl;
+ setTimeout(resolve, 2000);
+ });
+ } else if (currentApi === 'custom' && apiConfig.custom.url) {
+ const response = await fetch(apiConfig.custom.url, {
+ method: 'POST',
+ headers: {
+ 'Content-Type': 'application/json',
+ ...(apiConfig.custom.key ? { 'Authorization': `Bearer ${apiConfig.custom.key}` } : {})
+ },
+ body: JSON.stringify({ prompt: fullPrompt })
+ });
+ const data = await response.json();
+ imageUrl = data.image_url || data.output?.[0] || data.url;
+ }
+ 
+ if (imageUrl) {
+ frame.imageUrl = imageUrl;
+ frame.code = `<div style="text-align: center; padding: 20px;">
+ <img src="${imageUrl}" style="max-width: 100%; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.2);">
+ <p style="margin-top: 12px; font-size: 14px; color: #333;">🎬 ${frame.prompt}</p>
+ <p style="font-size: 12px; color: #666; margin-top: 4px;">风格: ${theme.name}</p>
+ </div>`;
+ }
+ } catch (error) {
+ console.error('Generation failed:', error);
+ frame.imageUrl = null;
+ }
+ 
+ frame.loading = false;
+ renderStoryboardGrid();
+ if (selectedIndex === frame.id) {
+ document.getElementById('codeEditor').value = frame.code;
+ updatePreview(frame.code);
+ }
+ return frame;
+}
+
+async function generateAllFrames() {
+ if (isGenerating) {
+ addMessageToChat('⏳ 正在生成中，请稍候...', false);
+ return;
+ }
+ isGenerating = true;
+ const progressBar = document.getElementById('progressBar');
+ addMessageToChat(`🎬 开始生成9格分镜，主题: ${themeStyles[currentTheme].name}...`, false);
+ 
+ for (let i = 0; i < storyboardFrames.length; i++) {
+ const frame = storyboardFrames[i];
+ frame.loading = true;
+ renderStoryboardGrid();
+ progressBar.style.width = `${((i + 1) / 9) * 100}%`;
+ await generateFrameImage(frame, frame.prompt, currentTheme);
+ await new Promise(r => setTimeout(r, 500));
+ }
+ 
+ progressBar.style.width = '100%';
+ setTimeout(() => progressBar.style.width = '0%', 1000);
+ addMessageToChat(`✅ 9格分镜全部生成完成！点击任意格子可放大预览`, false);
+ isGenerating = false;
+}
+
+async function exportAllFrames() {
+ addMessageToChat(`📦 开始导出9张分镜图...`, false);
+ for (let i = 0; i < storyboardFrames.length; i++) {
+ const frame = storyboardFrames[i];
+ if (frame.imageUrl) {
+ const link = document.createElement('a');
+ link.download = `storyboard_${i+1}_${currentTheme}.png`;
+ link.href = frame.imageUrl;
+ link.click();
+ await new Promise(r => setTimeout(r, 300));
+ }
+ }
+ addMessageToChat(`✅ 导出完成！`, false);
+}
+
+function clearStoryboard() {
+ for (let i = 0; i < storyboardFrames.length; i++) {
+ storyboardFrames[i].imageUrl = null;
+ storyboardFrames[i].code = `<div style="text-align:center; padding:40px; background:linear-gradient(135deg,#667eea,#764ba2); border-radius:20px; color:white;">
+ <div style="font-size:48px; margin-bottom:12px;">🎬</div>
+ <p>${storyboardFrames[i].prompt}</p>
+ </div>`;
+ }
+ renderStoryboardGrid();
+ if (storyboardFrames[selectedIndex]) {
+ document.getElementById('codeEditor').value = storyboardFrames[selectedIndex].code;
+ updatePreview(storyboardFrames[selectedIndex].code);
+ }
+ addMessageToChat(`🗑️ 已清空所有分镜`, false);
+}
+
+// ========== OpenClaw AI Chat ==========
+function addMessageToChat(content, isUser) {
+ const container = document.getElementById('messages');
+ const div = document.createElement('div');
+ div.className = `message ${isUser ? 'user' : 'assistant'}`;
+ div.innerHTML = content.replace(/\n/g, '<br>');
+ container.appendChild(div);
+ container.scrollTop = container.scrollHeight;
+}
+
+async function callOpenClawAI(userMessage) {
+ const lowerMsg = userMessage.toLowerCase();
+ 
+ // Theme switching
+ if (lowerMsg.includes('日系') || lowerMsg.includes('anime')) {
+ currentTheme = 'anime';
+ document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+ document.querySelector('.theme-card[data-theme="anime"]')?.classList.add('active');
+ return `🎨 已切换到主题: ${themeStyles.anime.name}\n\n你可以说"生成分镜"来创建9格画面，或直接告诉我你想要什么风格的角色。`;
+ }
+ if (lowerMsg.includes('赛博') || lowerMsg.includes('cyberpunk')) {
+ currentTheme = 'cyberpunk';
+ document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+ document.querySelector('.theme-card[data-theme="cyberpunk"]')?.classList.add('active');
+ return `🤖 已切换到主题: ${themeStyles.cyberpunk.name}\n\n霓虹灯、未来城市，开始创作吧！`;
+ }
+ if (lowerMsg.includes('古风') || lowerMsg.includes('traditional')) {
+ currentTheme = 'traditional';
+ document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+ document.querySelector('.theme-card[data-theme="traditional"]')?.classList.add('active');
+ return `🏯 已切换到主题: ${themeStyles.traditional.name}\n\n水墨丹青，古风雅韵，适合宫廷、武侠题材。`;
+ }
+ if (lowerMsg.includes('仙侠') || lowerMsg.includes('xianxia')) {
+ currentTheme = 'xianxia';
+ document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+ document.querySelector('.theme-card[data-theme="xianxia"]')?.classList.add('active');
+ return `⚔️ 已切换到主题: ${themeStyles.xianxia.name}\n\n御剑飞行，修仙问道，适合修真、仙侠题材。`;
+ }
+ if (lowerMsg.includes('写实') || lowerMsg.includes('realistic')) {
+ currentTheme = 'realistic';
+ document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+ document.querySelector('.theme-card[data-theme="realistic"]')?.classList.add('active');
+ return `📸 已切换到主题: ${themeStyles.realistic.name}\n\n照片级真实感，适合真人化作品。`;
+ }
+ 
+ // Generate storyboard
+ if (lowerMsg.includes('生成') || lowerMsg.includes('创建') || lowerMsg.includes('制作')) {
+ generateAllFrames();
+ return `🎬 开始生成9格分镜，主题: ${themeStyles[currentTheme].name}，请稍候...\n\n生成完成后每个格子都会有一张精美的图片！`;
+ }
+ 
+ // Export
+ if (lowerMsg.includes('导出') || lowerMsg.includes('下载')) {
+ exportAllFrames();
+ return `📦 开始导出9张分镜图，请查看下载文件夹~`;
+ }
+ 
+ // Clear
+ if (lowerMsg.includes('清空') || lowerMsg.includes('重置')) {
+ clearStoryboard();
+ return `🗑️ 已清空所有分镜，可以重新生成了！`;
+ }
+ 
+ // Help
+ return `✨ 我是 OpenClaw 分镜助手，你可以这样使用我：
+
+🎨 **切换主题**：
+- "日系动漫" / "赛博朋克"
+- "古风传统" / "仙侠修真" / "真人写实"
+
+🎬 **生成分镜**：
+- "生成分镜" / "创建9格" / "制作分镜"
+
+📦 **其他功能**：
+- "导出图片" / "清空分镜"
+
+🔘 **实时预览**：右侧开关已开启，编辑代码立即生效！
+
+当前主题：${themeStyles[currentTheme].name}
+实时预览：${liveEnabled ? '✅ 开启' : '⏸️ 关闭'}`;
+}
+
+async function sendMessage() {
+ const input = document.getElementById('chatInput');
+ const msg = input.value.trim();
+ if (!msg) return;
+ input.value = '';
+ addMessageToChat(msg, true);
+ 
+ // Show typing
+ const typingDiv = document.createElement('div');
+ typingDiv.className = 'message assistant';
+ typingDiv.innerHTML = '<span style="opacity:0.7;">🤔 思考中...</span>';
+ document.getElementById('messages').appendChild(typingDiv);
+ 
+ try {
+ const reply = await callOpenClawAI(msg);
+ typingDiv.remove();
+ addMessageToChat(reply, false);
+ } catch (error) {
+ typingDiv.remove();
+ addMessageToChat(`⚠️ 出错了：${error.message}`, false);
+ }
+}
+
+// ========== Quick Materials ==========
+function insertMaterial(type) {
+ const materials = {
+ dialog: `<div style="background: rgba(255,255,240,0.95); border-radius: 28px; padding: 20px; max-width: 280px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+ <p>✨ 角色台词显示在这里 ✨</p>
+ <small style="display:block; margin-top:8px;">—— 动漫角色</small>
+ </div>`,
+ character: `<div style="text-align: center;">
+ <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #a78bfa, #7c3aed); border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 48px;">👤</div>
+ <h3 style="margin-bottom: 4px;">角色名</h3>
+ <p style="font-size: 12px; color: #666;">角色描述</p>
+ </div>`,
+ bg: `<div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 60px 20px; border-radius: 24px; text-align: center; color: white;">
+ <h2 style="margin-bottom: 8px;">梦幻场景</h2>
+ <p>背景描述</p>
+ </div>`,
+ effect: `<div style="position: relative; overflow: hidden; padding: 40px; text-align: center;">
+ <div style="animation: sparkle 1s infinite; font-size: 32px;">✨✨✨</div>
+ <style>@keyframes sparkle{0%,100%{opacity:0.5}50%{opacity:1}}</style>
+ <p style="margin-top: 8px;">特效光效</p>
+ </div>`
+ };
+ 
+ if (storyboardFrames[selectedIndex]) {
+ const newCode = materials[type] + storyboardFrames[selectedIndex].code;
+ storyboardFrames[selectedIndex].code = newCode;
+ document.getElementById('codeEditor').value = newCode;
+ updatePreview(newCode);
+ addMessageToChat(`✨ 已插入${type}到分镜 ${selectedIndex+1}`, false);
+ }
+}
+
+// ========== Theme Switching ==========
+function applyTheme(theme) {
+ currentTheme = theme;
+ document.querySelectorAll('.theme-card').forEach(card => {
+ if (card.dataset.theme === theme) {
+ card.classList.add('active');
+ } else {
+ card.classList.remove('active');
+ }
+ });
+ addMessageToChat(`🎨 已切换到主题: ${themeStyles[theme].name}`, false);
+}
 
 // ========== Event Bindings ==========
-document.getElementById('sendBtn')?.addEventListener('click', sendMsg);
-document.getElementById('chatInput')?.addEventListener('keypress', e => { if (e.key === 'Enter') sendMsg(); });
-document.getElementById('generateBtn')?.addEventListener('click', generateAll);
-document.getElementById('exportBtn')?.addEventListener('click', exportAll);
-document.getElementById('clearBtn')?.addEventListener('click', clearAll);
+document.getElementById('sendBtn')?.addEventListener('click', sendMessage);
+document.getElementById('chatInput')?.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+document.getElementById('generateBtn')?.addEventListener('click', generateAllFrames);
+document.getElementById('exportBtn')?.addEventListener('click', exportAllFrames);
+document.getElementById('clearBtn')?.addEventListener('click', clearStoryboard);
+document.getElementById('liveToggle')?.addEventListener('click', toggleLiveMode);
 
+// Theme switching
 document.querySelectorAll('.theme-card').forEach(card => {
- card.addEventListener('click', () => {
- document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
- card.classList.add('active');
- currentTheme = card.dataset.theme;
- addMsg(`🎨 已切换到: ${themeStyles[currentTheme].name}`, false);
- });
+ card.addEventListener('click', () => applyTheme(card.dataset.theme));
 });
 
+// Quick materials
 document.querySelectorAll('[data-material]').forEach(btn => {
  btn.addEventListener('click', () => insertMaterial(btn.dataset.material));
 });
 
+// API switching
 document.querySelectorAll('.api-btn').forEach(btn => {
  btn.addEventListener('click', () => {
  currentApi = btn.dataset.api;
@@ -616,8 +793,15 @@ document.querySelectorAll('.api-btn').forEach(btn => {
  });
 });
 
-init();
-console.log('%c🎬 动漫工厂 Ultimate v5.0 | 实时预览 + 10大主题 + 9宫格分镜', 'color:#a78bfa;font-size:14px;');
+document.getElementById('customApiUrl')?.addEventListener('change', (e) => { apiConfig.custom.url = e.target.value; });
+document.getElementById('customApiKey')?.addEventListener('change', (e) => { apiConfig.custom.key = e.target.value; });
+
+// ========== Initialize ==========
+initStoryboard();
+setupLivePreview();
+document.querySelector('.theme-card[data-theme="anime"]')?.classList.add('active');
+
+console.log('%c🎬 动漫分镜工坊完整版已启动 | OpenClaw对话 | 10大主题 | 9宫格分镜 | 实时预览', 'color: #a78bfa; font-size: 14px;');
 </script>
 </body>
 </html>
