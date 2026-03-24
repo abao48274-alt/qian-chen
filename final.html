@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
  <meta charset="UTF-8">
@@ -7,7 +7,7 @@
  <meta name="apple-mobile-web-app-capable" content="yes">
  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
  <link rel="manifest" href="manifest.json">
- <title>🎬 千尘AI动漫工厂 Ultimate</title>
+ <title>馃幀 鍗冨皹AI鍔ㄦ极宸ュ巶 Ultimate</title>
  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
  <style>
@@ -223,11 +223,11 @@
 <body>
 <div class="app-container">
  <header class="header">
- <h1>🎬 动漫工厂 Ultimate</h1>
+ <h1>馃幀 鍔ㄦ极宸ュ巶 Ultimate</h1>
  <div class="header-actions">
- <span class="achievement-badge" id="achievementBadge">🏆 0</span>
- <button class="icon-btn" onclick="showQR()">📱</button>
- <button class="icon-btn" onclick="location.reload()">🔄</button>
+ <span class="achievement-badge" id="achievementBadge">馃弳 0</span>
+ <button class="icon-btn" onclick="showQR()">馃摫</button>
+ <button class="icon-btn" onclick="location.reload()">馃攧</button>
  </div>
  </header>
  
@@ -235,8 +235,8 @@
  <div class="dashboard">
  <div>
  <div class="card">
- <div class="card-header"><h3>🤖 千尘 AI</h3><span style="font-size:0.65rem;color:#10b981">⚡ 在线</span></div>
- <!-- 7个分身选择器 -->
+ <div class="card-header"><h3>馃 鍗冨皹 AI</h3><span style="font-size:0.65rem;color:#10b981">鈿?鍦ㄧ嚎</span></div>
+ <!-- 7涓垎韬€夋嫨鍣?-->
  <div class="agents-selector" id="agentsContainer" style="padding:8px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,0.1)">
  </div>
  <style>
@@ -263,36 +263,36 @@
  </style>
  <div class="chat-area">
  <div class="messages-container" id="messagesContainer">
- <div class="message assistant">✨ 你好雨陌！<br><br>支持多源生图API：<br>🌐 Pollinations (免费)<br>🤗 HuggingFace (免费)<br>🎨 Stability AI<br>✨ OpenAI DALL-E<br>⚙️ 自定义API<br><br>试试："生成图片 赛博朋克女战士"</div>
+ <div class="message assistant">鉁?浣犲ソ闆ㄩ檶锛?br><br>鏀寔澶氭簮鐢熷浘API锛?br>馃寪 Pollinations (鍏嶈垂)<br>馃 HuggingFace (鍏嶈垂)<br>馃帹 Stability AI<br>鉁?OpenAI DALL-E<br>鈿欙笍 鑷畾涔堿PI<br><br>璇曡瘯锛?鐢熸垚鍥剧墖 璧涘崥鏈嬪厠濂虫垬澹?</div>
  </div>
  <div class="chat-input-area">
- <input type="text" class="chat-input" id="chatInput" placeholder="输入需求..." autocomplete="off">
- <button class="send-btn" onclick="sendMessage()">发送</button>
+ <input type="text" class="chat-input" id="chatInput" placeholder="杈撳叆闇€姹?.." autocomplete="off">
+ <button class="send-btn" onclick="sendMessage()">鍙戦€?/button>
  </div>
  <div class="quick-commands">
- <button class="quick-btn" onclick="quickGen('赛博朋克女战士')">🤖 赛博</button>
- <button class="quick-btn" onclick="quickGen('日系美少女樱花')">🌸 日系</button>
- <button class="quick-btn" onclick="quickGen('古风仙侠剑客')">⚔️ 仙侠</button>
- <button class="quick-btn" onclick="quickGen('Q版可爱角色')">🐧 Q版</button>
+ <button class="quick-btn" onclick="quickGen('璧涘崥鏈嬪厠濂虫垬澹?)">馃 璧涘崥</button>
+ <button class="quick-btn" onclick="quickGen('鏃ョ郴缇庡皯濂虫ū鑺?)">馃尭 鏃ョ郴</button>
+ <button class="quick-btn" onclick="quickGen('鍙ら浠欎緺鍓戝')">鈿旓笍 浠欎緺</button>
+ <button class="quick-btn" onclick="quickGen('Q鐗堝彲鐖辫鑹?)">馃惂 Q鐗?/button>
  </div>
  </div>
  </div>
  
  <div class="card">
- <div class="card-header"><h3>🔌 生图API</h3><button class="tool-btn" onclick="testApi()" style="font-size:0.6rem">测试</button></div>
+ <div class="card-header"><h3>馃攲 鐢熷浘API</h3><button class="tool-btn" onclick="testApi()" style="font-size:0.6rem">娴嬭瘯</button></div>
  <div class="api-config">
  <div class="api-selector" id="apiSelector">
- <button class="api-btn active" data-api="pollinations" onclick="setApi('pollinations')">🌐 免费</button>
- <button class="api-btn" data-api="huggingface" onclick="setApi('huggingface')">🤗 HF</button>
- <button class="api-btn" data-api="stability" onclick="setApi('stability')">🎨 SD</button>
- <button class="api-btn" data-api="openai" onclick="setApi('openai')">✨ DALL-E</button>
- <button class="api-btn" data-api="custom" onclick="setApi('custom')">⚙️ 自定义</button>
+ <button class="api-btn active" data-api="pollinations" onclick="setApi('pollinations')">馃寪 鍏嶈垂</button>
+ <button class="api-btn" data-api="huggingface" onclick="setApi('huggingface')">馃 HF</button>
+ <button class="api-btn" data-api="stability" onclick="setApi('stability')">馃帹 SD</button>
+ <button class="api-btn" data-api="openai" onclick="setApi('openai')">鉁?DALL-E</button>
+ <button class="api-btn" data-api="custom" onclick="setApi('custom')">鈿欙笍 鑷畾涔?/button>
  </div>
  <div id="apiConfigArea">
- <span class="api-label">API Key (如需要)</span>
- <input type="password" class="api-input" id="apiKey" placeholder="输入API Key...">
+ <span class="api-label">API Key (濡傞渶瑕?</span>
+ <input type="password" class="api-input" id="apiKey" placeholder="杈撳叆API Key...">
  </div>
- <button class="tool-btn primary" onclick="saveApiConfig()" style="width:100%">💾 保存配置</button>
+ <button class="tool-btn primary" onclick="saveApiConfig()" style="width:100%">馃捑 淇濆瓨閰嶇疆</button>
  </div>
  </div>
  </div>
@@ -300,185 +300,254 @@
  <div>
  <div class="card">
  <div class="card-header">
- <h3>🎨 实时预览</h3>
+ <h3>馃帹 瀹炴椂棰勮</h3>
  <div class="device-buttons">
- <button class="device-btn" onclick="setDevice('375px')">📱</button>
- <button class="device-btn" onclick="setDevice('768px')">📟</button>
- <button class="device-btn active" onclick="setDevice('100%')">💻</button>
+ <button class="device-btn" onclick="setDevice('375px')">馃摫</button>
+ <button class="device-btn" onclick="setDevice('768px')">馃摕</button>
+ <button class="device-btn active" onclick="setDevice('100%')">馃捇</button>
  </div>
  </div>
  <div class="preview-frame-container">
  <div class="preview-frame" id="previewWrapper"><iframe id="previewFrame" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe></div>
  </div>
  <div class="toolbar">
- <button class="tool-btn primary" onclick="applyCode()">✨ 应用</button>
- <button class="tool-btn" onclick="takeScreenshot()">📸 截图</button>
- <button class="tool-btn" onclick="exportHTML()">📁 下载</button>
- <button class="tool-btn" onclick="copyCode()">📋 复制</button>
- <button class="tool-btn" onclick="undo()">↩️</button>
- <button class="tool-btn" onclick="redo()">↪️</button>
+ <button class="tool-btn primary" onclick="applyCode()">鉁?搴旂敤</button>
+ <button class="tool-btn" onclick="takeScreenshot()">馃摳 鎴浘</button>
+ <button class="tool-btn" onclick="exportHTML()">馃搧 涓嬭浇</button>
+ <button class="tool-btn" onclick="copyCode()">馃搵 澶嶅埗</button>
+ <button class="tool-btn" onclick="undo()">鈫╋笍</button>
+ <button class="tool-btn" onclick="redo()">鈫笍</button>
  </div>
  </div>
  
  <div class="card">
- <div class="card-header"><h3>🎬 动画时间轴</h3><div><button class="tool-btn" onclick="addKeyframe()">+帧</button><button class="tool-btn primary" onclick="applyTimeline()">✨应用</button></div></div>
+ <div class="card-header"><h3>馃幀 鍔ㄧ敾鏃堕棿杞?/h3><div><button class="tool-btn" onclick="addKeyframe()">+甯?/button><button class="tool-btn primary" onclick="applyTimeline()">鉁ㄥ簲鐢?/button></div></div>
  <div class="timeline-container">
  <div class="timeline-keyframes" id="timelineKeyframes"></div>
  <div class="timeline-track">
- <div style="display:flex;justify-content:space-between;font-size:0.65rem;margin-bottom:8px"><span>时间轴</span><span id="timelinePos">0%</span></div>
+ <div style="display:flex;justify-content:space-between;font-size:0.65rem;margin-bottom:8px"><span>鏃堕棿杞?/span><span id="timelinePos">0%</span></div>
  <input type="range" id="timelineSeek" min="0" max="100" value="0" oninput="document.getElementById('timelinePos').textContent=this.value+'%'">
  </div>
  </div>
  </div>
  
  <div class="card">
- <div class="card-header"><h3>📝 代码编辑器</h3><button class="tool-btn" onclick="saveFavorite()">💾收藏</button></div>
- <textarea class="code-editor" id="codeEditor" placeholder="HTML/CSS代码..."></textarea>
+ <div class="card-header"><h3>馃搳 Project Progress</h3><span id="progressPercent" style="font-size:0.65rem;color:#a78bfa">0%</span></div>
+ <div style="padding:16px">
+ <!-- Progress Bar -->
+ <div style="background:rgba(255,255,255,0.1);border-radius:10px;height:12px;margin-bottom:16px;overflow:hidden">
+ <div id="progressBar" style="background:linear-gradient(90deg,#a78bfa,#7c3aed);height:100%;width:0%;transition:0.3s;border-radius:10px"></div>
+ </div>
+ 
+ <!-- Frame Status -->
+ <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px">
+ <div class="frame-status" id="frame1Status" onclick="selectFrame9(0)">
+ <div style="font-size:1.2rem" id="frame1Icon">馃幀</div>
+ <div style="font-size:0.6rem;color:#94a3b8">Frame 1</div>
+ </div>
+ <div class="frame-status" id="frame2Status" onclick="selectFrame9(1)">
+ <div style="font-size:1.2rem" id="frame2Icon">馃幀</div>
+ <div style="font-size:0.6rem;color:#94a3b8">Frame 2</div>
+ </div>
+ <div class="frame-status" id="frame3Status" onclick="selectFrame9(2)">
+ <div style="font-size:1.2rem" id="frame3Icon">馃幀</div>
+ <div style="font-size:0.6rem;color:#94a3b8">Frame 3</div>
+ </div>
+ <div class="frame-status" id="frame4Status" onclick="selectFrame9(3)">
+ <div style="font-size:1.2rem" id="frame4Icon">馃幀</div>
+ <div style="font-size:0.6rem;color:#94a3b8">Frame 4</div>
+ </div>
+ <div class="frame-status" id="frame5Status" onclick="selectFrame9(4)">
+ <div style="font-size:1.2rem" id="frame5Icon">馃幀</div>
+ <div style="font-size:0.6rem;color:#94a3b8">Frame 5</div>
+ </div>
+ </div>
+ <style>
+ .frame-status {
+ background: rgba(255,255,255,0.05);
+ border: 2px solid rgba(255,255,255,0.1);
+ border-radius: 12px;
+ padding: 12px 8px;
+ text-align: center;
+ cursor: pointer;
+ transition: 0.2s;
+ }
+ .frame-status:hover {
+ background: rgba(167,139,250,0.2);
+ border-color: #a78bfa;
+ }
+ .frame-status.completed {
+ background: rgba(16,185,129,0.2);
+ border-color: #10b981;
+ }
+ .frame-status.selected {
+ background: rgba(167,139,250,0.3);
+ border-color: #a78bfa;
+ }
+ </style>
+ 
+ <!-- Statistics -->
+ <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+ <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:12px;text-align:center">
+ <div style="font-size:1.5rem;color:#a78bfa;font-weight:600" id="completedCount">0</div>
+ <div style="font-size:0.7rem;color:#94a3b8">Completed</div>
+ </div>
+ <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:12px;text-align:center">
+ <div style="font-size:1.5rem;color:#f59e0b;font-weight:600" id="pendingCount">5</div>
+ <div style="font-size:0.7rem;color:#94a3b8">Pending</div>
+ </div>
+ </div>
+ 
+ <!-- Quick Actions -->
+ <div style="margin-top:16px;display:flex;gap:8px">
+ <button class="tool-btn primary" onclick="generateAllFrames()" style="flex:1">馃幀 Generate All</button>
+ <button class="tool-btn" onclick="clearStoryboard()" style="flex:0.5">馃棏锔?/button>
+ </div>
  </div>
  </div>
  
  <div>
  <div class="card">
- <div class="card-header"><h3>🖼️ AI图片生成</h3><span id="genStatus" style="font-size:0.6rem"></span></div>
+ <div class="card-header"><h3>馃柤锔?AI鍥剧墖鐢熸垚</h3><span id="genStatus" style="font-size:0.6rem"></span></div>
  <div class="ai-generator">
- <input type="text" class="ai-prompt" id="aiPrompt" placeholder="描述图片，如：赛博朋克女战士">
+ <input type="text" class="ai-prompt" id="aiPrompt" placeholder="鎻忚堪鍥剧墖锛屽锛氳禌鍗氭湅鍏嬪コ鎴樺＋">
  <div style="display:flex;gap:8px;margin-bottom:10px">
- <button class="generate-btn" onclick="generateImage()" style="flex:1">✨ 生成图片</button>
- <button class="tool-btn" onclick="toggleAdvanced()" style="flex:0.3">⚙️</button>
+ <button class="generate-btn" onclick="generateImage()" style="flex:1">鉁?鐢熸垚鍥剧墖</button>
+ <button class="tool-btn" onclick="toggleAdvanced()" style="flex:0.3">鈿欙笍</button>
  </div>
  <div id="advancedPanel" style="display:none">
- <input type="text" class="api-input" id="negativePrompt" placeholder="反向提示词 (可选)">
+ <input type="text" class="api-input" id="negativePrompt" placeholder="鍙嶅悜鎻愮ず璇?(鍙€?">
  <select class="api-input" id="imageSize"><option value="512x512">512x512</option><option value="768x768">768x768</option><option value="1024x1024">1024x1024</option></select>
  </div>
  <div class="generated-image" id="generatedImage"></div>
  </div>
  </div>
  
- <div class="card"><div class="card-header"><h3>📚 素材库</h3></div><div class="material-grid" id="materialGrid"></div></div>
+ <div class="card"><div class="card-header"><h3>馃摎 绱犳潗搴?/h3></div><div class="material-grid" id="materialGrid"></div></div>
  
  <div class="card">
- <div class="card-header"><h3>🎨 主题风格</h3></div>
+ <div class="card-header"><h3>馃帹 涓婚椋庢牸</h3></div>
  <div class="control-grid" id="themeGrid">
- <button class="control-btn" onclick="setTheme('xianxia')">⚔️仙侠</button>
- <button class="control-btn" onclick="setTheme('japanese')">🌸日系</button>
- <button class="control-btn" onclick="setTheme('cyberpunk')">🤖赛博</button>
- <button class="control-btn" onclick="setTheme('chibi')">🐧Q版</button>
- <button class="control-btn" onclick="setTheme('realistic')">📸写实</button>
- <button class="control-btn" onclick="setTheme('fantasy')">🐉奇幻</button>
+ <button class="control-btn" onclick="setTheme('xianxia')">鈿旓笍浠欎緺</button>
+ <button class="control-btn" onclick="setTheme('japanese')">馃尭鏃ョ郴</button>
+ <button class="control-btn" onclick="setTheme('cyberpunk')">馃璧涘崥</button>
+ <button class="control-btn" onclick="setTheme('chibi')">馃惂Q鐗?/button>
+ <button class="control-btn" onclick="setTheme('realistic')">馃摳鍐欏疄</button>
+ <button class="control-btn" onclick="setTheme('fantasy')">馃悏濂囧够</button>
  </div>
  </div>
  
  <div class="card">
- <div class="card-header"><h3>✨ 预设动画</h3></div>
+ <div class="card-header"><h3>鉁?棰勮鍔ㄧ敾</h3></div>
  <div class="control-grid" id="animGrid">
- <button class="control-btn" onclick="setAnim('')">⏹️无</button>
- <button class="control-btn" onclick="setAnim('float')">🎈漂浮</button>
- <button class="control-btn" onclick="setAnim('glow')">✨闪烁</button>
- <button class="control-btn" onclick="setAnim('shake')">🎭震动</button>
- <button class="control-btn" onclick="setAnim('bounce')">🎢弹跳</button>
- <button class="control-btn" onclick="setAnim('rotate')">🔄旋转</button>
+ <button class="control-btn" onclick="setAnim('')">鈴癸笍鏃?/button>
+ <button class="control-btn" onclick="setAnim('float')">馃巿婕傛诞</button>
+ <button class="control-btn" onclick="setAnim('glow')">鉁ㄩ棯鐑?/button>
+ <button class="control-btn" onclick="setAnim('shake')">馃幁闇囧姩</button>
+ <button class="control-btn" onclick="setAnim('bounce')">馃帰寮硅烦</button>
+ <button class="control-btn" onclick="setAnim('rotate')">馃攧鏃嬭浆</button>
  </div>
- <div style="padding:0 12px"><div style="font-size:0.7rem">速度</div><input type="range" id="animSpeed" min="0.2" max="3" step="0.1" value="1" oninput="updatePreview()"></div>
+ <div style="padding:0 12px"><div style="font-size:0.7rem">閫熷害</div><input type="range" id="animSpeed" min="0.2" max="3" step="0.1" value="1" oninput="updatePreview()"></div>
  </div>
  </div>
  </div>
  </div>
  
  <div class="tab-content" id="storyboard-tab">
- <!-- 第7集入口界面 -->
+ <!-- 绗?闆嗗叆鍙ｇ晫闈?-->
  <div class="card" id="episode7Intro">
  <div style="text-align:center;padding:40px">
- <div style="font-size:64px;margin-bottom:20px">⚔️</div>
- <h2 style="margin-bottom:12px;color:#a78bfa">第7集《毒丝侵剑心》</h2>
- <p style="color:#94a3b8;margin-bottom:20px">古风仙侠动漫分镜预览</p>
- <button onclick="showStoryboard()" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 24px;border-radius:40px;color:white;margin-top:16px;cursor:pointer;font-size:1rem;font-weight:600">✨ 查看分镜 ✨</button>
+ <div style="font-size:64px;margin-bottom:20px">鈿旓笍</div>
+ <h2 style="margin-bottom:12px;color:#a78bfa">绗?闆嗐€婃瘨涓濅镜鍓戝績銆?/h2>
+ <p style="color:#94a3b8;margin-bottom:20px">鍙ら浠欎緺鍔ㄦ极鍒嗛暅棰勮</p>
+ <button onclick="showStoryboard()" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 24px;border-radius:40px;color:white;margin-top:16px;cursor:pointer;font-size:1rem;font-weight:600">鉁?鏌ョ湅鍒嗛暅 鉁?/button>
  </div>
  </div>
  
- <!-- 9宫格分镜（默认隐藏） -->
+ <!-- 9瀹牸鍒嗛暅锛堥粯璁ら殣钘忥級 -->
  <div id="storyboardContent" style="display:none">
  <div class="status-bar">
- <div class="status-item"><div class="status-value" id="frameCount">9</div><div class="status-label">分镜</div></div>
- <div class="status-item"><div class="status-value" id="selectedFrame">1</div><div class="status-label">当前</div></div>
- <div class="status-item"><div class="status-value" id="generatedCount">0</div><div class="status-label">已生成</div></div>
- <div class="status-item"><div class="status-value" id="currentThemeName">日系动漫</div><div class="status-label">主题</div></div>
+ <div class="status-item"><div class="status-value" id="frameCount">9</div><div class="status-label">鍒嗛暅</div></div>
+ <div class="status-item"><div class="status-value" id="selectedFrame">1</div><div class="status-label">褰撳墠</div></div>
+ <div class="status-item"><div class="status-value" id="generatedCount">0</div><div class="status-label">宸茬敓鎴?/div></div>
+ <div class="status-item"><div class="status-value" id="currentThemeName">鏃ョ郴鍔ㄦ极</div><div class="status-label">涓婚</div></div>
  </div>
  
- <!-- 9宫格分镜 -->
+ <!-- 9瀹牸鍒嗛暅 -->
  <div class="storyboard-9grid" id="storyboard9Grid"></div>
 <style>
 .storyboard-9grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
 @media (max-width: 480px) { .storyboard-9grid { grid-template-columns: repeat(2, 1fr); gap: 6px; } }
 </style>
  
- <!-- 10大主题选择器 -->
+ <!-- 10澶т富棰橀€夋嫨鍣?-->
  <div style="background:rgba(255,255,255,0.05);border-radius:16px;padding:12px;margin-bottom:12px">
- <div style="font-size:0.7rem;color:#a78bfa;margin-bottom:8px">🎨 选择主题风格</div>
+ <div style="font-size:0.7rem;color:#a78bfa;margin-bottom:8px">馃帹 閫夋嫨涓婚椋庢牸</div>
  <div class="theme-10grid" id="theme10Grid">
 <style>
 .theme-10grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
 @media (max-width: 768px) { .theme-10grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 480px) { .theme-10grid { grid-template-columns: repeat(2, 1fr); } }
 </style>
- <button class="control-btn active" data-theme="anime" onclick="setTheme10('anime')">🌸 日系</button>
- <button class="control-btn" data-theme="cyberpunk" onclick="setTheme10('cyberpunk')">🤖 赛博</button>
- <button class="control-btn" data-theme="fantasy" onclick="setTheme10('fantasy')">🐉 奇幻</button>
- <button class="control-btn" data-theme="slice_of_life" onclick="setTheme10('slice_of_life')">☕ 日常</button>
- <button class="control-btn" data-theme="action" onclick="setTheme10('action')">⚡ 热血</button>
- <button class="control-btn" data-theme="dark" onclick="setTheme10('dark')">🌙 暗黑</button>
- <button class="control-btn" data-theme="traditional" onclick="setTheme10('traditional')">🏯 古风</button>
- <button class="control-btn" data-theme="xianxia" onclick="setTheme10('xianxia')">⚔️ 仙侠</button>
- <button class="control-btn" data-theme="realistic" onclick="setTheme10('realistic')">📸 写实</button>
- <button class="control-btn" data-theme="watercolor" onclick="setTheme10('watercolor')">🎨 水墨</button>
+ <button class="control-btn active" data-theme="anime" onclick="setTheme10('anime')">馃尭 鏃ョ郴</button>
+ <button class="control-btn" data-theme="cyberpunk" onclick="setTheme10('cyberpunk')">馃 璧涘崥</button>
+ <button class="control-btn" data-theme="fantasy" onclick="setTheme10('fantasy')">馃悏 濂囧够</button>
+ <button class="control-btn" data-theme="slice_of_life" onclick="setTheme10('slice_of_life')">鈽?鏃ュ父</button>
+ <button class="control-btn" data-theme="action" onclick="setTheme10('action')">鈿?鐑</button>
+ <button class="control-btn" data-theme="dark" onclick="setTheme10('dark')">馃寵 鏆楅粦</button>
+ <button class="control-btn" data-theme="traditional" onclick="setTheme10('traditional')">馃彲 鍙ら</button>
+ <button class="control-btn" data-theme="xianxia" onclick="setTheme10('xianxia')">鈿旓笍 浠欎緺</button>
+ <button class="control-btn" data-theme="realistic" onclick="setTheme10('realistic')">馃摳 鍐欏疄</button>
+ <button class="control-btn" data-theme="watercolor" onclick="setTheme10('watercolor')">馃帹 姘村ⅷ</button>
  </div>
  </div>
  
- <!-- 分镜控制 -->
+ <!-- 鍒嗛暅鎺у埗 -->
  <div class="toolbar" style="background:rgba(0,0,0,0.2);border-radius:16px;padding:12px;flex-wrap:wrap">
- <button class="tool-btn primary" onclick="generateAllFrames()">🎬 生成9格分镜</button>
- <button class="tool-btn" onclick="exportAllFrames()">📦 导出全部</button>
- <button class="tool-btn" onclick="clearStoryboard()">🗑️ 清空</button>
- <button class="tool-btn" onclick="showEpisode7Intro()">⬅️ 返回</button>
+ <button class="tool-btn primary" onclick="generateAllFrames()">馃幀 鐢熸垚9鏍煎垎闀?/button>
+ <button class="tool-btn" onclick="exportAllFrames()">馃摝 瀵煎嚭鍏ㄩ儴</button>
+ <button class="tool-btn" onclick="clearStoryboard()">馃棏锔?娓呯┖</button>
+ <button class="tool-btn" onclick="showEpisode7Intro()">猬咃笍 杩斿洖</button>
  </div>
  
- <!-- 选中分镜详情 -->
+ <!-- 閫変腑鍒嗛暅璇︽儏 -->
  <div class="card" style="margin-top:12px">
- <div class="card-header"><h3>📷 当前分镜详情</h3><button class="tool-btn" onclick="screenshotFrame()">📸 截图</button></div>
+ <div class="card-header"><h3>馃摲 褰撳墠鍒嗛暅璇︽儏</h3><button class="tool-btn" onclick="screenshotFrame()">馃摳 鎴浘</button></div>
  <div style="padding:12px">
  <div id="framePreview" style="background:#0a0a0f;border-radius:16px;min-height:200px;display:flex;align-items:center;justify-content:center;color:#666">
- <span>点击上方分镜格查看详情</span>
+ <span>鐐瑰嚮涓婃柟鍒嗛暅鏍兼煡鐪嬭鎯?/span>
  </div>
- <textarea class="code-editor" id="frameCodeEditor" style="margin-top:12px;height:100px" placeholder="编辑当前分镜代码..."></textarea>
+ <textarea class="code-editor" id="frameCodeEditor" style="margin-top:12px;height:100px" placeholder="缂栬緫褰撳墠鍒嗛暅浠ｇ爜..."></textarea>
  </div>
  </div>
  </div>
  </div>
  
  <div class="tab-content" id="generate-tab">
- <div class="settings-section"><div class="settings-title">🤖 AI提示词生成</div><div class="settings-row"><span>使用Gemini</span><div class="toggle active" onclick="this.classList.toggle('active')"></div></div><div class="settings-row"><span>自动优化</span><div class="toggle" onclick="this.classList.toggle('active')"></div></div></div>
- <div class="settings-section"><div class="settings-title">🎨 火山引擎画图</div><div class="settings-row"><span>模型</span><span style="color:#a78bfa;font-size:0.8rem">doubao-seedream-4-5</span></div><div class="settings-row"><span>分辨率</span><span style="color:#a78bfa;font-size:0.8rem">2048x2048</span></div></div>
- <button class="tool-btn primary" style="width:100%;padding:14px;border-radius:16px;font-size:0.9rem" onclick="alert('🚀 开始生成...')">🚀 开始生成</button>
+ <div class="settings-section"><div class="settings-title">馃 AI鎻愮ず璇嶇敓鎴?/div><div class="settings-row"><span>浣跨敤Gemini</span><div class="toggle active" onclick="this.classList.toggle('active')"></div></div><div class="settings-row"><span>鑷姩浼樺寲</span><div class="toggle" onclick="this.classList.toggle('active')"></div></div></div>
+ <div class="settings-section"><div class="settings-title">馃帹 鐏北寮曟搸鐢诲浘</div><div class="settings-row"><span>妯″瀷</span><span style="color:#a78bfa;font-size:0.8rem">doubao-seedream-4-5</span></div><div class="settings-row"><span>鍒嗚鲸鐜?/span><span style="color:#a78bfa;font-size:0.8rem">2048x2048</span></div></div>
+ <button class="tool-btn primary" style="width:100%;padding:14px;border-radius:16px;font-size:0.9rem" onclick="alert('馃殌 寮€濮嬬敓鎴?..')">馃殌 寮€濮嬬敓鎴?/button>
  </div>
  
- <div class="tab-content" id="videos-tab"><div class="settings-section"><div class="settings-title">📹 已生成视频</div><div style="text-align:center;padding:40px;color:#888">暂无视频</div></div></div>
+ <div class="tab-content" id="videos-tab"><div class="settings-section"><div class="settings-title">馃摴 宸茬敓鎴愯棰?/div><div style="text-align:center;padding:40px;color:#888">鏆傛棤瑙嗛</div></div></div>
  
  <div class="tab-content" id="settings-tab">
- <div class="settings-section"><div class="settings-title">🔑 API配置</div><div class="settings-row"><span>小米MiMo</span><span style="color:#10b981;font-size:0.8rem">已连接 ✓</span></div><div class="settings-row"><span>Gemini</span><span style="color:#10b981;font-size:0.8rem">已连接 ✓</span></div><div class="settings-row"><span>火山引擎</span><span style="color:#10b981;font-size:0.8rem">已连接 ✓</span></div></div>
- <div class="settings-section"><div class="settings-title">ℹ️ 关于</div><div class="settings-row"><span>版本</span><span style="color:#888">v5.0 Ultimate</span></div></div>
+ <div class="settings-section"><div class="settings-title">馃攽 API閰嶇疆</div><div class="settings-row"><span>灏忕背MiMo</span><span style="color:#10b981;font-size:0.8rem">宸茶繛鎺?鉁?/span></div><div class="settings-row"><span>Gemini</span><span style="color:#10b981;font-size:0.8rem">宸茶繛鎺?鉁?/span></div><div class="settings-row"><span>鐏北寮曟搸</span><span style="color:#10b981;font-size:0.8rem">宸茶繛鎺?鉁?/span></div></div>
+ <div class="settings-section"><div class="settings-title">鈩癸笍 鍏充簬</div><div class="settings-row"><span>鐗堟湰</span><span style="color:#888">v5.0 Ultimate</span></div></div>
  </div>
 </div>
  
- <button class="fab" onclick="generateVideo()">🎬</button>
+ <button class="fab" onclick="generateVideo()">馃幀</button>
  
  <nav class="bottom-nav">
- <div class="nav-item active" data-tab="preview"><span class="nav-icon">🎨</span><span>预览</span></div>
- <div class="nav-item" data-tab="storyboard"><span class="nav-icon">🎬</span><span>分镜</span></div>
- <div class="nav-item" data-tab="generate"><span class="nav-icon">✨</span><span>生成</span></div>
- <div class="nav-item" data-tab="videos"><span class="nav-icon">📹</span><span>视频</span></div>
- <div class="nav-item" data-tab="settings"><span class="nav-icon">⚙️</span><span>设置</span></div>
+ <div class="nav-item active" data-tab="preview"><span class="nav-icon">馃帹</span><span>棰勮</span></div>
+ <div class="nav-item" data-tab="storyboard"><span class="nav-icon">馃幀</span><span>鍒嗛暅</span></div>
+ <div class="nav-item" data-tab="generate"><span class="nav-icon">鉁?/span><span>鐢熸垚</span></div>
+ <div class="nav-item" data-tab="videos"><span class="nav-icon">馃摴</span><span>瑙嗛</span></div>
+ <div class="nav-item" data-tab="settings"><span class="nav-icon">鈿欙笍</span><span>璁剧疆</span></div>
  </nav>
  
- <div class="modal" id="qrModal"><div class="modal-content"><h3 style="margin-bottom:20px">📱 手机访问</h3><div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:12px;margin-bottom:15px"><div id="mobileUrl" style="font-size:0.8rem;color:#a78bfa;word-break:break-all;user-select:all"></div></div><button onclick="copyUrl()" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 24px;border-radius:30px;color:white;cursor:pointer;margin-right:10px">📋 复制</button><button onclick="closeQR()" style="background:rgba(255,255,255,0.1);border:none;padding:12px 24px;border-radius:30px;color:white;cursor:pointer">关闭</button></div></div>
+ <div class="modal" id="qrModal"><div class="modal-content"><h3 style="margin-bottom:20px">馃摫 鎵嬫満璁块棶</h3><div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:12px;margin-bottom:15px"><div id="mobileUrl" style="font-size:0.8rem;color:#a78bfa;word-break:break-all;user-select:all"></div></div><button onclick="copyUrl()" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 24px;border-radius:30px;color:white;cursor:pointer;margin-right:10px">馃搵 澶嶅埗</button><button onclick="closeQR()" style="background:rgba(255,255,255,0.1);border:none;padding:12px 24px;border-radius:30px;color:white;cursor:pointer">鍏抽棴</button></div></div>
 
 <script>
 const themes={japanese:'background:linear-gradient(135deg,#fef3e8,#ffe4e1);color:#4a3728;font-family:serif;',cyberpunk:'background:linear-gradient(135deg,#0f0c29,#302b63);color:#0ff;font-family:monospace;',xianxia:'background:linear-gradient(135deg,#d9cba3,#b8a77a);color:#5d3a1a;font-family:KaiTi,serif;',chibi:'background:linear-gradient(135deg,#fdeff2,#ffe6f0);color:#e67e9e;font-family:cursive;',realistic:'background:linear-gradient(135deg,#e8eef4,#d4dee8);color:#2c3e50;font-family:system-ui;',fantasy:'background:linear-gradient(135deg,#1b1030,#2a1e3c);color:#e6d5ff;'};
@@ -492,49 +561,49 @@ let timelineKeyframes=[{time:0},{time:50},{time:100}];
 let apiConfigs=JSON.parse(localStorage.getItem('apiConfigs')||'{}');
 if(!apiConfigs.pollinations)apiConfigs={pollinations:{free:true},huggingface:{key:''},stability:{key:''},openai:{key:''},custom:{url:'',key:''}};
 
-const defaultCode='<div style="text-align:center;padding:40px"><div style="font-size:64px;margin-bottom:20px">⚔️</div><h2 style="margin-bottom:12px">第7集《毒丝侵剑心》</h2><p>古风仙侠动漫分镜预览</p><button style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 24px;border-radius:40px;color:white;margin-top:16px;cursor:pointer">✨ 查看分镜 ✨</button></div>';
+const defaultCode='<div style="text-align:center;padding:40px"><div style="font-size:64px;margin-bottom:20px">鈿旓笍</div><h2 style="margin-bottom:12px">绗?闆嗐€婃瘨涓濅镜鍓戝績銆?/h2><p>鍙ら浠欎緺鍔ㄦ极鍒嗛暅棰勮</p><button style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 24px;border-radius:40px;color:white;margin-top:16px;cursor:pointer">鉁?鏌ョ湅鍒嗛暅 鉁?/button></div>';
 
 const materials=[
-{name:'樱花背景',icon:'🌸',code:'<div style="background:linear-gradient(135deg,#ffb7c5,#ff9eb5);padding:40px;border-radius:20px;text-align:center"><h2>🌸 樱花树下</h2></div>'},
-{name:'赛博城市',icon:'🌃',code:'<div style="background:linear-gradient(135deg,#0f0c29,#302b63);padding:40px;border-radius:20px;color:#0ff;text-align:center;border:1px solid #0ff"><h2>🌃 赛博空间</h2></div>'},
-{name:'古风庭院',icon:'🏯',code:'<div style="background:linear-gradient(135deg,#d9cba3,#b8a77a);padding:40px;border-radius:20px;text-align:center"><h2>🏯 古风雅韵</h2></div>'},
-{name:'Q版角色',icon:'🐧',code:'<div style="text-align:center"><div style="width:80px;height:80px;background:linear-gradient(135deg,#ffb7c5,#ff9eb5);border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:40px">🐧</div><p>Q版角色</p></div>'},
-{name:'对话框',icon:'💬',code:'<div style="background:rgba(255,255,240,0.95);border-radius:24px;padding:16px;max-width:280px"><p>✨ 角色台词</p><small>—— 动漫角色</small></div>'},
-{name:'霓虹按钮',icon:'🔘',code:'<button style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 28px;border-radius:40px;color:white;font-size:16px;cursor:pointer">✨ 按钮</button>'}
+{name:'妯辫姳鑳屾櫙',icon:'馃尭',code:'<div style="background:linear-gradient(135deg,#ffb7c5,#ff9eb5);padding:40px;border-radius:20px;text-align:center"><h2>馃尭 妯辫姳鏍戜笅</h2></div>'},
+{name:'璧涘崥鍩庡競',icon:'馃寖',code:'<div style="background:linear-gradient(135deg,#0f0c29,#302b63);padding:40px;border-radius:20px;color:#0ff;text-align:center;border:1px solid #0ff"><h2>馃寖 璧涘崥绌洪棿</h2></div>'},
+{name:'鍙ら搴櫌',icon:'馃彲',code:'<div style="background:linear-gradient(135deg,#d9cba3,#b8a77a);padding:40px;border-radius:20px;text-align:center"><h2>馃彲 鍙ら闆呴煹</h2></div>'},
+{name:'Q鐗堣鑹?,icon:'馃惂',code:'<div style="text-align:center"><div style="width:80px;height:80px;background:linear-gradient(135deg,#ffb7c5,#ff9eb5);border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:40px">馃惂</div><p>Q鐗堣鑹?/p></div>'},
+{name:'瀵硅瘽妗?,icon:'馃挰',code:'<div style="background:rgba(255,255,240,0.95);border-radius:24px;padding:16px;max-width:280px"><p>鉁?瑙掕壊鍙拌瘝</p><small>鈥斺€?鍔ㄦ极瑙掕壊</small></div>'},
+{name:'闇撹櫣鎸夐挳',icon:'馃敇',code:'<button style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 28px;border-radius:40px;color:white;font-size:16px;cursor:pointer">鉁?鎸夐挳</button>'}
 ];
 
-// 10大主题风格定义
+// 10澶т富棰橀鏍煎畾涔?
 const theme10Styles = {
-anime: { name: '日系动漫', prompt: 'anime style, vibrant colors, clean lines, Japanese animation, high quality' },
-cyberpunk: { name: '赛博朋克', prompt: 'cyberpunk style, neon lights, futuristic city, purple and cyan, dark atmosphere' },
-fantasy: { name: '幻想奇幻', prompt: 'fantasy art style, magical, ethereal, mystical creatures, soft glowing light' },
-slice_of_life: { name: '日常治愈', prompt: 'slice of life, gentle colors, warm atmosphere, soft lighting, cozy feeling' },
-action: { name: '热血战斗', prompt: 'action scene, dynamic, dramatic lighting, intense, battle energy, epic' },
-dark: { name: '暗黑哥特', prompt: 'dark gothic style, mysterious, dramatic shadows, haunting beauty, Victorian' },
-traditional: { name: '古风传统', prompt: 'traditional Chinese style, ink wash painting, elegant, classical beauty, silk and jade, ancient China aesthetics' },
-xianxia: { name: '仙侠修真', prompt: 'xianxia style, immortal cultivation, floating clouds, celestial mountains, flowing robes, sword and magic, ethereal beauty' },
-realistic: { name: '真人写实', prompt: 'photorealistic style, real human, detailed skin texture, natural lighting, hyper-realistic, professional photography' },
-watercolor: { name: '水墨国风', prompt: 'watercolor painting style, Chinese ink art, brush strokes, poetic, misty mountains, traditional landscape' }
+anime: { name: '鏃ョ郴鍔ㄦ极', prompt: 'anime style, vibrant colors, clean lines, Japanese animation, high quality' },
+cyberpunk: { name: '璧涘崥鏈嬪厠', prompt: 'cyberpunk style, neon lights, futuristic city, purple and cyan, dark atmosphere' },
+fantasy: { name: '骞绘兂濂囧够', prompt: 'fantasy art style, magical, ethereal, mystical creatures, soft glowing light' },
+slice_of_life: { name: '鏃ュ父娌绘剤', prompt: 'slice of life, gentle colors, warm atmosphere, soft lighting, cozy feeling' },
+action: { name: '鐑鎴樻枟', prompt: 'action scene, dynamic, dramatic lighting, intense, battle energy, epic' },
+dark: { name: '鏆楅粦鍝ョ壒', prompt: 'dark gothic style, mysterious, dramatic shadows, haunting beauty, Victorian' },
+traditional: { name: '鍙ら浼犵粺', prompt: 'traditional Chinese style, ink wash painting, elegant, classical beauty, silk and jade, ancient China aesthetics' },
+xianxia: { name: '浠欎緺淇湡', prompt: 'xianxia style, immortal cultivation, floating clouds, celestial mountains, flowing robes, sword and magic, ethereal beauty' },
+realistic: { name: '鐪熶汉鍐欏疄', prompt: 'photorealistic style, real human, detailed skin texture, natural lighting, hyper-realistic, professional photography' },
+watercolor: { name: '姘村ⅷ鍥介', prompt: 'watercolor painting style, Chinese ink art, brush strokes, poetic, misty mountains, traditional landscape' }
 };
 
-// 9宫格分镜数据
+// 9瀹牸鍒嗛暅鏁版嵁
 let storyboard9 = [];
 let selectedFrameIdx = 0;
 let currentTheme10 = 'anime';
 
 const defaultPrompts = [
-"主角登场，特写镜头，眼神坚定",
-"场景建立，广角镜头，壮丽世界",
-"关键对话，双人镜头，情感交流",
-"战斗场面，动态镜头，特效爆发",
-"转折时刻，悬念镜头，光影对比",
-"情感高潮，近景镜头，动人瞬间",
-"友情羁绊，并肩镜头，温暖氛围",
-"反派亮相，仰视镜头，压迫感强",
-"结局画面，全景镜头，希望之光"
+"涓昏鐧诲満锛岀壒鍐欓暅澶达紝鐪肩鍧氬畾",
+"鍦烘櫙寤虹珛锛屽箍瑙掗暅澶达紝澹附涓栫晫",
+"鍏抽敭瀵硅瘽锛屽弻浜洪暅澶达紝鎯呮劅浜ゆ祦",
+"鎴樻枟鍦洪潰锛屽姩鎬侀暅澶达紝鐗规晥鐖嗗彂",
+"杞姌鏃跺埢锛屾偓蹇甸暅澶达紝鍏夊奖瀵规瘮",
+"鎯呮劅楂樻疆锛岃繎鏅暅澶达紝鍔ㄤ汉鐬棿",
+"鍙嬫儏缇佺粖锛屽苟鑲╅暅澶达紝娓╂殩姘涘洿",
+"鍙嶆淳浜浉锛屼话瑙嗛暅澶达紝鍘嬭揩鎰熷己",
+"缁撳眬鐢婚潰锛屽叏鏅暅澶达紝甯屾湜涔嬪厜"
 ];
 
-// Episode 7 分镜图路径
+// Episode 7 鍒嗛暅鍥捐矾寰?
 const episode7Images = [
 'scene1_sword_stance.png',
 'scene2_poison_attack.png',
@@ -556,11 +625,11 @@ id:i,
 prompt:defaultPrompts[i],
 imageUrl: hasImage ? episode7Images[i] : null,
 code: hasImage 
-? `<div style="text-align:center;padding:16px"><img src="${episode7Images[i]}" style="max-width:100%;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.2)"><p style="margin-top:8px;font-size:13px">🎬 ${defaultPrompts[i]}</p></div>`
-: `<div style="text-align:center;padding:30px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:16px;color:white"><div style="font-size:36px">🎬</div><p>分镜${i+1}</p><small>${defaultPrompts[i].substring(0,15)}...</small></div>`
+? `<div style="text-align:center;padding:16px"><img src="${episode7Images[i]}" style="max-width:100%;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.2)"><p style="margin-top:8px;font-size:13px">馃幀 ${defaultPrompts[i]}</p></div>`
+: `<div style="text-align:center;padding:30px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:16px;color:white"><div style="font-size:36px">馃幀</div><p>鍒嗛暅${i+1}</p><small>${defaultPrompts[i].substring(0,15)}...</small></div>`
 });
 }
-renderStoryboard9();
+renderStoryboard9(); updateProgress();
 }
 
 function renderStoryboard9(){
@@ -569,7 +638,7 @@ if(!el)return;
 el.innerHTML=storyboard9.map((f,i)=>`
 <div style="aspect-ratio:16/9;background:rgba(0,0,0,0.5);border-radius:12px;overflow:hidden;position:relative;cursor:pointer;border:2px solid ${selectedFrameIdx===i?'#a78bfa':'transparent'};transition:0.2s" onclick="selectFrame9(${i})">
 <div style="position:absolute;top:4px;left:6px;background:rgba(0,0,0,0.6);color:white;font-size:0.65rem;padding:2px 6px;border-radius:10px;z-index:2">${i+1}</div>
-${f.imageUrl?`<img src="${f.imageUrl}" style="width:100%;height:100%;object-fit:cover">`:`<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#2d2d44,#1a1a2e);color:#a78bfa;font-size:0.65rem"><div style="font-size:20px">🎬</div>分镜${i+1}</div>`}
+${f.imageUrl?`<img src="${f.imageUrl}" style="width:100%;height:100%;object-fit:cover">`:`<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#2d2d44,#1a1a2e);color:#a78bfa;font-size:0.65rem"><div style="font-size:20px">馃幀</div>鍒嗛暅${i+1}</div>`}
 <div style="position:absolute;bottom:4px;left:0;right:0;text-align:center;background:rgba(0,0,0,0.6);color:white;font-size:0.55rem;padding:2px">${f.prompt.substring(0,12)}...</div>
 </div>
 `).join('');
@@ -579,9 +648,9 @@ document.getElementById('generatedCount').textContent=storyboard9.filter(f=>f.im
 
 window.selectFrame9=function(i){
 selectedFrameIdx=i;
-renderStoryboard9();
+renderStoryboard9(); updateProgress();
 const f=storyboard9[i];
-document.getElementById('framePreview').innerHTML=f.imageUrl?`<img src="${f.imageUrl}" style="max-width:100%;border-radius:12px">`:`<div style="text-align:center;color:#888;padding:20px"><div style="font-size:32px">🎬</div><p>${f.prompt}</p><small>点击"生成9格分镜"生成图片</small></div>`;
+document.getElementById('framePreview').innerHTML=f.imageUrl?`<img src="${f.imageUrl}" style="max-width:100%;border-radius:12px">`:`<div style="text-align:center;color:#888;padding:20px"><div style="font-size:32px">馃幀</div><p>${f.prompt}</p><small>鐐瑰嚮"鐢熸垚9鏍煎垎闀?鐢熸垚鍥剧墖</small></div>`;
 document.getElementById('frameCodeEditor').value=f.code;
 };
 
@@ -589,26 +658,26 @@ window.setTheme10=function(theme){
 currentTheme10=theme;
 document.querySelectorAll('#theme10Grid .control-btn').forEach(b=>b.classList.toggle('active',b.dataset.theme===theme));
 document.getElementById('currentThemeName').textContent=theme10Styles[theme].name;
-addMsg(`🎨 已切换主题: ${theme10Styles[theme].name}`);
+addMsg(`馃帹 宸插垏鎹富棰? ${theme10Styles[theme].name}`);
 };
 
 window.generateAllFrames=async function(){
 const theme=theme10Styles[currentTheme10];
-addMsg(`🎬 开始生成9格分镜，主题: ${theme.name}...`);
+addMsg(`馃幀 寮€濮嬬敓鎴?鏍煎垎闀滐紝涓婚: ${theme.name}...`);
 for(let i=0;i<storyboard9.length;i++){
 const f=storyboard9[i];
 const prompt=`${f.prompt}, ${theme.prompt}, masterpiece, best quality, detailed, cinematic lighting, 8k`;
 f.imageUrl=`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=288&nologo=true`;
-f.code=`<div style="text-align:center;padding:16px"><img src="${f.imageUrl}" style="max-width:100%;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.2)"><p style="margin-top:8px;font-size:13px">🎬 ${f.prompt}</p><p style="font-size:11px;color:#666">风格: ${theme.name}</p></div>`;
-renderStoryboard9();
+f.code=`<div style="text-align:center;padding:16px"><img src="${f.imageUrl}" style="max-width:100%;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.2)"><p style="margin-top:8px;font-size:13px">馃幀 ${f.prompt}</p><p style="font-size:11px;color:#666">椋庢牸: ${theme.name}</p></div>`;
+renderStoryboard9(); updateProgress();
 await new Promise(r=>setTimeout(r,300));
 }
 selectFrame9(selectedFrameIdx);
-addMsg('✅ 9格分镜全部生成完成！');
+addMsg('鉁?9鏍煎垎闀滃叏閮ㄧ敓鎴愬畬鎴愶紒');
 };
 
 window.exportAllFrames=async function(){
-addMsg('📦 导出分镜...');
+addMsg('馃摝 瀵煎嚭鍒嗛暅...');
 for(let i=0;i<storyboard9.length;i++){
 if(storyboard9[i].imageUrl){
 const a=document.createElement('a');
@@ -618,13 +687,13 @@ a.click();
 await new Promise(r=>setTimeout(r,200));
 }
 }
-addMsg('✅ 导出完成！');
+addMsg('鉁?瀵煎嚭瀹屾垚锛?);
 };
 
 window.clearStoryboard=function(){
 for(let i=0;i<storyboard9.length;i++){storyboard9[i].imageUrl=null;}
 initStoryboard9();
-addMsg('🗑️ 已清空');
+addMsg('馃棏锔?宸叉竻绌?);
 };
 
 window.screenshotFrame=async function(){
@@ -634,37 +703,37 @@ const a=document.createElement('a');
 a.download=`frame_${selectedFrameIdx+1}.png`;
 a.href=storyboard9[selectedFrameIdx].imageUrl;
 a.click();
-addMsg(`📸 已截图分镜${selectedFrameIdx+1}`);
+addMsg(`馃摳 宸叉埅鍥惧垎闀?{selectedFrameIdx+1}`);
 }
 };
 
-// 编辑分镜代码
-// 7个分身角色
+// 缂栬緫鍒嗛暅浠ｇ爜
+// 7涓垎韬鑹?
 const agents = {
-    ceo: { name: 'CEO分身', icon: '👔', role: '总调度，统筹全局，分配任务' },
-    artist: { name: '美术总监', icon: '🎨', role: '负责AI绘图、分镜设计、画面构图' },
-    writer: { name: '编剧', icon: '📝', role: '负责剧本创作、对白设计、情节编排' },
-    editor: { name: '剪辑师', icon: '🎬', role: '负责视频剪辑、特效处理、最终合成' },
-    prompter: { name: '提示词工程师', icon: '💡', role: '负责优化AI提示词、提升生成质量' },
-    qa: { name: '质检总监', icon: '🔍', role: '负责质量检查、风格统一、问题修复' },
-    voice: { name: '配音师', icon: '🎤', role: '负责角色配音、音效设计、音频处理' }
+    ceo: { name: 'CEO鍒嗚韩', icon: '馃憯', role: '鎬昏皟搴︼紝缁熺鍏ㄥ眬锛屽垎閰嶄换鍔? },
+    artist: { name: '缇庢湳鎬荤洃', icon: '馃帹', role: '璐熻矗AI缁樺浘銆佸垎闀滆璁°€佺敾闈㈡瀯鍥? },
+    writer: { name: '缂栧墽', icon: '馃摑', role: '璐熻矗鍓ф湰鍒涗綔銆佸鐧借璁°€佹儏鑺傜紪鎺? },
+    editor: { name: '鍓緫甯?, icon: '馃幀', role: '璐熻矗瑙嗛鍓緫銆佺壒鏁堝鐞嗐€佹渶缁堝悎鎴? },
+    prompter: { name: '鎻愮ず璇嶅伐绋嬪笀', icon: '馃挕', role: '璐熻矗浼樺寲AI鎻愮ず璇嶃€佹彁鍗囩敓鎴愯川閲? },
+    qa: { name: '璐ㄦ鎬荤洃', icon: '馃攳', role: '璐熻矗璐ㄩ噺妫€鏌ャ€侀鏍肩粺涓€銆侀棶棰樹慨澶? },
+    voice: { name: '閰嶉煶甯?, icon: '馃帳', role: '璐熻矗瑙掕壊閰嶉煶銆侀煶鏁堣璁°€侀煶棰戝鐞? }
 };
 
 let currentAgent = 'ceo';
 const backendUrl = 'https://unhastily-unpadlocked-marlen.ngrok-free.dev';
 
-// 选择分身
+// 閫夋嫨鍒嗚韩
 window.selectAgent = function(agentId) {
     currentAgent = agentId;
     document.querySelectorAll('.agent-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.agent === agentId);
     });
     const agent = agents[agentId];
-    addMsg(`✅ 已切换到 ${agent.icon} ${agent.name}`);
-    addMsg(`📋 职责：${agent.role}`);
+    addMsg(`鉁?宸插垏鎹㈠埌 ${agent.icon} ${agent.name}`);
+    addMsg(`馃搵 鑱岃矗锛?{agent.role}`);
 };
 
-// 渲染分身选择器
+// 娓叉煋鍒嗚韩閫夋嫨鍣?
 function renderAgents() {
     const container = document.getElementById('agentsContainer');
     if (!container) return;
@@ -679,7 +748,7 @@ function renderAgents() {
     `).join('');
 }
 
-// 调用后端API
+// 璋冪敤鍚庣API
 async function callBackend(action, data) {
     try {
         const response = await fetch(`${backendUrl}/${action}`, {
@@ -694,10 +763,10 @@ async function callBackend(action, data) {
     }
 }
 
-// 发送消息给分身
+// 鍙戦€佹秷鎭粰鍒嗚韩
 async function sendMessageToAgent(message) {
     const agent = agents[currentAgent];
-    addMsg(`📤 发送给 ${agent.icon} ${agent.name}: ${message}`);
+    addMsg(`馃摛 鍙戦€佺粰 ${agent.icon} ${agent.name}: ${message}`);
     
     const result = await callBackend('chat', {
         agent: currentAgent,
@@ -708,33 +777,33 @@ async function sendMessageToAgent(message) {
         addMsg(`${agent.icon} ${agent.name}: ${result.response}`);
         return result.response;
     } else {
-        addMsg(`⚠️ ${agent.name} 暂时无法响应，请稍后重试`);
-        return `⚠️ ${agent.name} 暂时无法响应`;
+        addMsg(`鈿狅笍 ${agent.name} 鏆傛椂鏃犳硶鍝嶅簲锛岃绋嶅悗閲嶈瘯`);
+        return `鈿狅笍 ${agent.name} 鏆傛椂鏃犳硶鍝嶅簲`;
     }
 }
 
-// 显示分镜内容
+// 鏄剧ず鍒嗛暅鍐呭
 window.showStoryboard = function() {
     document.getElementById('episode7Intro').style.display = 'none';
     document.getElementById('storyboardContent').style.display = 'block';
-    // 初始化分镜
+    // 鍒濆鍖栧垎闀?
     initStoryboard9();
 };
 
-// 显示第7集入口
+// 鏄剧ず绗?闆嗗叆鍙?
 window.showEpisode7Intro = function() {
     document.getElementById('episode7Intro').style.display = 'block';
     document.getElementById('storyboardContent').style.display = 'none';
 };
 
-// 渲染分镜图
+// 娓叉煋鍒嗛暅鍥?
 function renderStoryboard9(){
     const el=document.getElementById('storyboard9Grid');
     if(!el)return;
     el.innerHTML=storyboard9.map((f,i)=>`
     <div style="aspect-ratio:9/16;background:rgba(0,0,0,0.5);border-radius:12px;overflow:hidden;position:relative;cursor:pointer;border:2px solid ${selectedFrameIdx===i?'#a78bfa':'transparent'};transition:0.2s" onclick="selectFrame9(${i})">
     <div style="position:absolute;top:4px;left:6px;background:rgba(0,0,0,0.6);color:white;font-size:0.65rem;padding:2px 6px;border-radius:10px;z-index:2">${i+1}</div>
-    ${f.imageUrl?`<img src="${f.imageUrl}" style="width:100%;height:100%;object-fit:cover">`:`<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#2d2d44,#1a1a2e);color:#a78bfa;font-size:0.65rem"><div style="font-size:20px">🎬</div>分镜${i+1}</div>`}
+    ${f.imageUrl?`<img src="${f.imageUrl}" style="width:100%;height:100%;object-fit:cover">`:`<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#2d2d44,#1a1a2e);color:#a78bfa;font-size:0.65rem"><div style="font-size:20px">馃幀</div>鍒嗛暅${i+1}</div>`}
     <div style="position:absolute;bottom:4px;left:0;right:0;text-align:center;background:rgba(0,0,0,0.6);color:white;font-size:0.55rem;padding:2px">${f.prompt.substring(0,12)}...</div>
     </div>
     `).join('');
@@ -742,26 +811,26 @@ function renderStoryboard9(){
     document.getElementById('generatedCount').textContent=storyboard9.filter(f=>f.imageUrl).length;
 }
 
-// 选择分镜
+// 閫夋嫨鍒嗛暅
 window.selectFrame9=function(i){
     selectedFrameIdx=i;
-    renderStoryboard9();
+    renderStoryboard9(); updateProgress();
     const f=storyboard9[i];
-    document.getElementById('framePreview').innerHTML=f.imageUrl?`<img src="${f.imageUrl}" style="max-width:100%;border-radius:12px">`:`<div style="text-align:center;color:#888;padding:20px"><div style="font-size:32px">🎬</div><p>${f.prompt}</p><small>点击"生成9格分镜"生成图片</small></div>`;
+    document.getElementById('framePreview').innerHTML=f.imageUrl?`<img src="${f.imageUrl}" style="max-width:100%;border-radius:12px">`:`<div style="text-align:center;color:#888;padding:20px"><div style="font-size:32px">馃幀</div><p>${f.prompt}</p><small>鐐瑰嚮"鐢熸垚9鏍煎垎闀?鐢熸垚鍥剧墖</small></div>`;
     document.getElementById('frameCodeEditor').value=f.code;
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     renderAgents();
-    // ... 其他初始化代码
+    // ... 鍏朵粬鍒濆鍖栦唬鐮?
 });
 
 const scenes=[
-{id:1,title:'剑心破碎危机',desc:'冰洞修炼',dur:'15秒',img:'../volcano_images_v2/scene1_sword_break.png',sel:false},
-{id:2,title:'发现下毒真相',desc:'烛光室内',dur:'30秒',img:'../volcano_images_v2/scene2_poison_discover.png',sel:false},
-{id:3,title:'真面目暴露',desc:'夜色对峙',dur:'30秒',img:'../volcano_images_v2/scene3_villain_reveal.png',sel:false},
-{id:4,title:'激烈剑战',desc:'剑光纵横',dur:'30秒',img:'../volcano_images_v2/scene4_sword_battle.png',sel:false},
-{id:5,title:'悬念结尾',desc:'剑片飘落',dur:'15秒',img:'../volcano_images_v2/scene5_cliffhanger.png',sel:false}
+{id:1,title:'鍓戝績鐮寸鍗辨満',desc:'鍐版礊淇偧',dur:'15绉?,img:'../volcano_images_v2/scene1_sword_break.png',sel:false},
+{id:2,title:'鍙戠幇涓嬫瘨鐪熺浉',desc:'鐑涘厜瀹ゅ唴',dur:'30绉?,img:'../volcano_images_v2/scene2_poison_discover.png',sel:false},
+{id:3,title:'鐪熼潰鐩毚闇?,desc:'澶滆壊瀵瑰硻',dur:'30绉?,img:'../volcano_images_v2/scene3_villain_reveal.png',sel:false},
+{id:4,title:'婵€鐑堝墤鎴?,desc:'鍓戝厜绾垫í',dur:'30绉?,img:'../volcano_images_v2/scene4_sword_battle.png',sel:false},
+{id:5,title:'鎮康缁撳熬',desc:'鍓戠墖椋樿惤',dur:'15绉?,img:'../volcano_images_v2/scene5_cliffhanger.png',sel:false}
 ];
 
 function sanitize(s){return(s||'').replace(/<script[^>]*>[\s\S]*?<\/script>/gi,'').replace(/on\w+\s*=\s*["'][^"']*["']/gi,'').replace(/javascript:/gi,'#');}
@@ -781,74 +850,74 @@ function redo(){if(historyIndex<codeHistory.length-1){historyIndex++;currentCode
 function renderTimeline(){document.getElementById('timelineKeyframes').innerHTML=timelineKeyframes.map((kf,i)=>`<div class="keyframe-item${i===0?' active':''}" onclick="selectKF(${i})">${kf.time}%</div>`).join('');}
 function selectKF(i){document.querySelectorAll('.keyframe-item').forEach((el,j)=>el.classList.toggle('active',j===i));document.getElementById('timelineSeek').value=timelineKeyframes[i].time;}
 function addKeyframe(){timelineKeyframes.push({time:Math.min(100,timelineKeyframes.length*25)});timelineKeyframes.sort((a,b)=>a.time-b.time);renderTimeline();}
-function applyTimeline(){addMsg('🎬 时间轴动画已应用！');}
+function applyTimeline(){addMsg('馃幀 鏃堕棿杞村姩鐢诲凡搴旂敤锛?);}
 
 function renderMaterials(){document.getElementById('materialGrid').innerHTML=materials.map(m=>`<div class="material-item" onclick="insertMaterial('${m.name}')"><div class="material-icon">${m.icon}</div><div class="material-name">${m.name}</div></div>`).join('');}
-window.insertMaterial=function(n){const m=materials.find(x=>x.name===n);if(m){currentCode=m.code;document.getElementById('codeEditor').value=currentCode;updatePreview();saveHistory(currentCode);addMsg(`📦 已插入: ${n}`);}};
+window.insertMaterial=function(n){const m=materials.find(x=>x.name===n);if(m){currentCode=m.code;document.getElementById('codeEditor').value=currentCode;updatePreview();saveHistory(currentCode);addMsg(`馃摝 宸叉彃鍏? ${n}`);}};
 
 function setApi(api){currentApi=api;document.querySelectorAll('.api-btn').forEach(b=>b.classList.toggle('active',b.dataset.api===api));document.getElementById('apiKey').value=apiConfigs[api]?.key||'';}
-function saveApiConfig(){apiConfigs[currentApi].key=document.getElementById('apiKey').value;localStorage.setItem('apiConfigs',JSON.stringify(apiConfigs));addMsg('💾 API配置已保存');}
-function testApi(){addMsg('🔌 测试API连接...');generateImageWithAPI('test, simple anime cat');}
+function saveApiConfig(){apiConfigs[currentApi].key=document.getElementById('apiKey').value;localStorage.setItem('apiConfigs',JSON.stringify(apiConfigs));addMsg('馃捑 API閰嶇疆宸蹭繚瀛?);}
+function testApi(){addMsg('馃攲 娴嬭瘯API杩炴帴...');generateImageWithAPI('test, simple anime cat');}
 
 async function generateImageWithAPI(prompt){
 const fullPrompt=prompt+', anime style, high quality, masterpiece';
 const status=document.getElementById('genStatus');
-status.innerHTML='⏳ 生成中...';
+status.innerHTML='鈴?鐢熸垚涓?..';
 try{
 let imageUrl=null;
 switch(currentApi){
 case'pollinations':imageUrl=`https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=512&height=512&nologo=true`;break;
 case'huggingface':const hf=await fetch('https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev',{method:'POST',headers:{'Content-Type':'application/json','Authorization':apiConfigs.huggingface.key?`Bearer ${apiConfigs.huggingface.key}`:''},body:JSON.stringify({inputs:fullPrompt})});const blob=await hf.blob();imageUrl=URL.createObjectURL(blob);break;
-case'openai':if(!apiConfigs.openai.key)throw new Error('请配置OpenAI Key');const oa=await fetch('https://api.openai.com/v1/images/generations',{method:'POST',headers:{'Authorization':`Bearer ${apiConfigs.openai.key}`,'Content-Type':'application/json'},body:JSON.stringify({model:'dall-e-3',prompt:fullPrompt,n:1,size:'1024x1024'})});const oad=await oa.json();imageUrl=oad.data?.[0]?.url;break;
-case'custom':if(!apiConfigs.custom.url)throw new Error('请配置自定义API');const cu=await fetch(apiConfigs.custom.url,{method:'POST',headers:{'Content-Type':'application/json',...(apiConfigs.custom.key?{'Authorization':`Bearer ${apiConfigs.custom.key}`}:{})},body:JSON.stringify({prompt:fullPrompt})});const cud=await cu.json();imageUrl=cud.image_url||cud.output?.[0]||cud.data?.[0]?.url;break;
+case'openai':if(!apiConfigs.openai.key)throw new Error('璇烽厤缃甇penAI Key');const oa=await fetch('https://api.openai.com/v1/images/generations',{method:'POST',headers:{'Authorization':`Bearer ${apiConfigs.openai.key}`,'Content-Type':'application/json'},body:JSON.stringify({model:'dall-e-3',prompt:fullPrompt,n:1,size:'1024x1024'})});const oad=await oa.json();imageUrl=oad.data?.[0]?.url;break;
+case'custom':if(!apiConfigs.custom.url)throw new Error('璇烽厤缃嚜瀹氫箟API');const cu=await fetch(apiConfigs.custom.url,{method:'POST',headers:{'Content-Type':'application/json',...(apiConfigs.custom.key?{'Authorization':`Bearer ${apiConfigs.custom.key}`}:{})},body:JSON.stringify({prompt:fullPrompt})});const cud=await cu.json();imageUrl=cud.image_url||cud.output?.[0]||cud.data?.[0]?.url;break;
 default:imageUrl=`https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=512&height=512`;
 }
-if(!imageUrl)throw new Error('生成失败');
-status.innerHTML='✅ 成功';
+if(!imageUrl)throw new Error('鐢熸垚澶辫触');
+status.innerHTML='鉁?鎴愬姛';
 document.getElementById('generatedImage').innerHTML=`<img src="${imageUrl}" onclick="insertImage('${imageUrl.replace(/'/g,"\\'")}')" style="max-width:100%;border-radius:16px;cursor:pointer">`;
-addMsg('🎨 图片已生成！点击插入');
-}catch(e){status.innerHTML='❌ 失败';addMsg(`⚠️ ${e.message}`);}
+addMsg('馃帹 鍥剧墖宸茬敓鎴愶紒鐐瑰嚮鎻掑叆');
+}catch(e){status.innerHTML='鉂?澶辫触';addMsg(`鈿狅笍 ${e.message}`);}
 }
 
 window.insertImage=function(u){currentCode=`<img src="${u}" style="max-width:100%;border-radius:16px">`;document.getElementById('codeEditor').value=currentCode;updatePreview();saveHistory(currentCode);};
-window.generateImage=function(){const p=document.getElementById('aiPrompt').value;if(!p)return addMsg('请输入描述');generateImageWithAPI(p);};
+window.generateImage=function(){const p=document.getElementById('aiPrompt').value;if(!p)return addMsg('璇疯緭鍏ユ弿杩?);generateImageWithAPI(p);};
 window.quickGen=function(p){document.getElementById('aiPrompt').value=p;generateImageWithAPI(p);};
 window.toggleAdvanced=function(){document.getElementById('advancedPanel').style.display=document.getElementById('advancedPanel').style.display==='none'?'block':'none';};
 
-function addMsg(c,isU){const el=document.getElementById('messagesContainer'),d=document.createElement('div');d.className=`message ${isU?'user':'assistant'}`;if(!isU){d.innerHTML=c.replace(/```html\n([\s\S]*?)\n```/g,(m,code)=>{const esc=code.replace(/`/g,'\\`').replace(/\$/g,'\\$');return `<pre><code>${code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</code></pre><button class="tool-btn" style="margin-top:6px" onclick="applyFromMsg(\`${esc}\`)">✨ 应用</button>`;}).replace(/\n/g,'<br>');}else d.textContent=c;el.appendChild(d);el.scrollTop=el.scrollHeight;}
-window.applyFromMsg=function(c){currentCode=c;document.getElementById('codeEditor').value=c;updatePreview();saveHistory(c);addMsg('✅ 已应用');};
+function addMsg(c,isU){const el=document.getElementById('messagesContainer'),d=document.createElement('div');d.className=`message ${isU?'user':'assistant'}`;if(!isU){d.innerHTML=c.replace(/```html\n([\s\S]*?)\n```/g,(m,code)=>{const esc=code.replace(/`/g,'\\`').replace(/\$/g,'\\$');return `<pre><code>${code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</code></pre><button class="tool-btn" style="margin-top:6px" onclick="applyFromMsg(\`${esc}\`)">鉁?搴旂敤</button>`;}).replace(/\n/g,'<br>');}else d.textContent=c;el.appendChild(d);el.scrollTop=el.scrollHeight;}
+window.applyFromMsg=function(c){currentCode=c;document.getElementById('codeEditor').value=c;updatePreview();saveHistory(c);addMsg('鉁?宸插簲鐢?);};
 
-async function getAI(msg){await new Promise(r=>setTimeout(r,600));const m=msg.toLowerCase();if(m.includes('生成图片')||m.includes('画')){const p=msg.replace(/生成图片|画|帮我|生成/g,'').trim();if(p){generateImageWithAPI(p);return`🎨 正在生成: ${p}`;}}
-if(m.includes('赛博'))return `🤖 赛博卡片：\n\`\`\`html\n<div style="background:linear-gradient(135deg,#0f0c29,#302b63);border-radius:24px;padding:30px;text-align:center;border:1px solid #0ff;box-shadow:0 0 30px rgba(0,255,255,.3)"><div style="font-size:64px">🤖</div><h2 style="color:#0ff;margin:16px 0">霓虹猎手</h2><span style="background:#0ff;color:#000;padding:6px 16px;border-radius:40px">⚡ 传说级</span></div>\n\`\`\``;
-if(m.includes('日系'))return `🌸 日系对话框：\n\`\`\`html\n<div style="background:rgba(255,240,230,.95);border-radius:28px;padding:20px;max-width:300px;box-shadow:0 8px 20px rgba(0,0,0,.1)"><div style="display:flex;gap:12px;align-items:center"><div style="width:40px;height:40px;background:#ffb7c5;border-radius:50%;display:flex;align-items:center;justify-content:center">🌸</div><div><strong style="color:#e67e9e">小樱</strong><br><span style="font-size:12px">元气满满！</span></div></div></div>\n\`\`\``;
-if(m.includes('仙侠'))return `⚔️ 仙侠头像：\n\`\`\`html\n<div style="text-align:center"><div style="width:100px;height:100px;background:linear-gradient(135deg,#d9cba3,#b8a77a);border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:48px;border:3px solid #c9ae6e">⚔️</div><h3 style="color:#5d3a1a">云瑶仙子</h3></div>\n\`\`\``;
-return `✨ 收到: ${msg}`;}
+async function getAI(msg){await new Promise(r=>setTimeout(r,600));const m=msg.toLowerCase();if(m.includes('鐢熸垚鍥剧墖')||m.includes('鐢?)){const p=msg.replace(/鐢熸垚鍥剧墖|鐢粅甯垜|鐢熸垚/g,'').trim();if(p){generateImageWithAPI(p);return`馃帹 姝ｅ湪鐢熸垚: ${p}`;}}
+if(m.includes('璧涘崥'))return `馃 璧涘崥鍗＄墖锛歕n\`\`\`html\n<div style="background:linear-gradient(135deg,#0f0c29,#302b63);border-radius:24px;padding:30px;text-align:center;border:1px solid #0ff;box-shadow:0 0 30px rgba(0,255,255,.3)"><div style="font-size:64px">馃</div><h2 style="color:#0ff;margin:16px 0">闇撹櫣鐚庢墜</h2><span style="background:#0ff;color:#000;padding:6px 16px;border-radius:40px">鈿?浼犺绾?/span></div>\n\`\`\``;
+if(m.includes('鏃ョ郴'))return `馃尭 鏃ョ郴瀵硅瘽妗嗭細\n\`\`\`html\n<div style="background:rgba(255,240,230,.95);border-radius:28px;padding:20px;max-width:300px;box-shadow:0 8px 20px rgba(0,0,0,.1)"><div style="display:flex;gap:12px;align-items:center"><div style="width:40px;height:40px;background:#ffb7c5;border-radius:50%;display:flex;align-items:center;justify-content:center">馃尭</div><div><strong style="color:#e67e9e">灏忔ū</strong><br><span style="font-size:12px">鍏冩皵婊℃弧锛?/span></div></div></div>\n\`\`\``;
+if(m.includes('浠欎緺'))return `鈿旓笍 浠欎緺澶村儚锛歕n\`\`\`html\n<div style="text-align:center"><div style="width:100px;height:100px;background:linear-gradient(135deg,#d9cba3,#b8a77a);border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:48px;border:3px solid #c9ae6e">鈿旓笍</div><h3 style="color:#5d3a1a">浜戠懚浠欏瓙</h3></div>\n\`\`\``;
+return `鉁?鏀跺埌: ${msg}`;}
 
-async function sendMessage(){const input=document.getElementById('chatInput'),msg=input.value.trim();if(!msg||isWaiting)return;input.value='';addMsg(msg,true);isWaiting=true;const c=document.getElementById('messagesContainer'),t=document.createElement('div');t.className='message assistant';t.innerHTML='<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';c.appendChild(t);c.scrollTop=c.scrollHeight;try{const resp=await sendMessageToAgent(msg);t.remove();const code=resp.match(/```html\n([\s\S]*?)\n```/);if(code){currentCode=code[1];document.getElementById('codeEditor').value=currentCode;updatePreview();saveHistory(currentCode);}}catch(e){t.remove();addMsg(`⚠️ ${e.message}`);}isWaiting=false;}
+async function sendMessage(){const input=document.getElementById('chatInput'),msg=input.value.trim();if(!msg||isWaiting)return;input.value='';addMsg(msg,true);isWaiting=true;const c=document.getElementById('messagesContainer'),t=document.createElement('div');t.className='message assistant';t.innerHTML='<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';c.appendChild(t);c.scrollTop=c.scrollHeight;try{const resp=await sendMessageToAgent(msg);t.remove();const code=resp.match(/```html\n([\s\S]*?)\n```/);if(code){currentCode=code[1];document.getElementById('codeEditor').value=currentCode;updatePreview();saveHistory(currentCode);}}catch(e){t.remove();addMsg(`鈿狅笍 ${e.message}`);}isWaiting=false;}
 
 window.applyCode=function(){currentCode=document.getElementById('codeEditor').value;updatePreview();saveHistory(currentCode);};
 window.setTheme=function(t){currentTheme=t;updatePreview();};
 window.setAnim=function(a){currentAnim=a;updatePreview();};
 window.setDevice=function(w){document.getElementById('previewWrapper').style.width=w;document.querySelectorAll('.device-btn').forEach(b=>b.classList.toggle('active',b.dataset.w===w));};
-window.takeScreenshot=async function(){const iframe=document.getElementById('previewFrame');const doc=iframe.contentDocument||iframe.contentWindow.document;const target=doc.querySelector('.preview-content')||doc.body;if(target&&window.html2canvas){const canvas=await html2canvas(target,{scale:2});const a=document.createElement('a');a.download=`anime_${Date.now()}.png`;a.href=canvas.toDataURL();a.click();achievements++;localStorage.setItem('animeAchievements',achievements);document.getElementById('achievementBadge').textContent=`🏆 ${achievements}`;}};
-window.exportHTML=function(){const doc=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>动漫</title></head><body>${currentCode||defaultCode}</body></html>`;const blob=new Blob([doc],{type:'text/html'});const a=document.createElement('a');a.download=`anime_${Date.now()}.html`;a.href=URL.createObjectURL(blob);a.click();};
-window.copyCode=function(){navigator.clipboard.writeText(currentCode||defaultCode);addMsg('📋 已复制');};
-window.saveFavorite=function(){const n=prompt('收藏名称:',`模板${Date.now()}`);if(n){const favs=JSON.parse(localStorage.getItem('favs')||'[]');favs.unshift({name:n,code:currentCode||defaultCode});localStorage.setItem('favs',JSON.stringify(favs));addMsg(`⭐ 已收藏: ${n}`);}};
+window.takeScreenshot=async function(){const iframe=document.getElementById('previewFrame');const doc=iframe.contentDocument||iframe.contentWindow.document;const target=doc.querySelector('.preview-content')||doc.body;if(target&&window.html2canvas){const canvas=await html2canvas(target,{scale:2});const a=document.createElement('a');a.download=`anime_${Date.now()}.png`;a.href=canvas.toDataURL();a.click();achievements++;localStorage.setItem('animeAchievements',achievements);document.getElementById('achievementBadge').textContent=`馃弳 ${achievements}`;}};
+window.exportHTML=function(){const doc=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>鍔ㄦ极</title></head><body>${currentCode||defaultCode}</body></html>`;const blob=new Blob([doc],{type:'text/html'});const a=document.createElement('a');a.download=`anime_${Date.now()}.html`;a.href=URL.createObjectURL(blob);a.click();};
+window.copyCode=function(){navigator.clipboard.writeText(currentCode||defaultCode);addMsg('馃搵 宸插鍒?);};
+window.saveFavorite=function(){const n=prompt('鏀惰棌鍚嶇О:',`妯℃澘${Date.now()}`);if(n){const favs=JSON.parse(localStorage.getItem('favs')||'[]');favs.unshift({name:n,code:currentCode||defaultCode});localStorage.setItem('favs',JSON.stringify(favs));addMsg(`猸?宸叉敹钘? ${n}`);}};
 
 function switchTab(t){document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));document.getElementById(`${t}-tab`).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.tab===t));if(t==='storyboard')renderStoryboard();}
 document.querySelectorAll('.nav-item').forEach(item=>item.addEventListener('click',()=>switchTab(item.dataset.tab)));
 document.getElementById('chatInput').addEventListener('keypress',e=>{if(e.key==='Enter')sendMessage();});
 document.getElementById('codeEditor').addEventListener('input',e=>{currentCode=e.target.value;updatePreview();});
 
-function renderStoryboard(){const el=document.getElementById('storyboard');el.innerHTML='';scenes.forEach((s,i)=>{const card=document.createElement('div');card.className=`scene-card ${s.sel?'selected':''}`;card.innerHTML=`<img src="${s.img}" class="scene-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 178%22><rect fill=%22%23333%22 width=%22100%22 height=%22178%22/><text x=%2250%22 y=%2290%22 text-anchor=%22middle%22 fill=%22%23666%22>场景${s.id}</text></svg>'"><div class="scene-info"><div class="scene-title">${s.title}</div><div class="scene-meta">${s.desc}·${s.dur}</div><div class="scene-actions"><button class="btn-sm btn-select" onclick="toggleScene(${i})">${s.sel?'✅ 已选':'⬜ 选择'}</button></div></div>`;el.appendChild(card);});document.getElementById('selectedCount').textContent=scenes.filter(s=>s.sel).length;}
+function renderStoryboard(){const el=document.getElementById('storyboard');el.innerHTML='';scenes.forEach((s,i)=>{const card=document.createElement('div');card.className=`scene-card ${s.sel?'selected':''}`;card.innerHTML=`<img src="${s.img}" class="scene-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 178%22><rect fill=%22%23333%22 width=%22100%22 height=%22178%22/><text x=%2250%22 y=%2290%22 text-anchor=%22middle%22 fill=%22%23666%22>鍦烘櫙${s.id}</text></svg>'"><div class="scene-info"><div class="scene-title">${s.title}</div><div class="scene-meta">${s.desc}路${s.dur}</div><div class="scene-actions"><button class="btn-sm btn-select" onclick="toggleScene(${i})">${s.sel?'鉁?宸查€?:'猬?閫夋嫨'}</button></div></div>`;el.appendChild(card);});document.getElementById('selectedCount').textContent=scenes.filter(s=>s.sel).length;}
 window.toggleScene=function(i){scenes[i].sel=!scenes[i].sel;renderStoryboard();};
-window.generateVideo=function(){const sel=scenes.filter(s=>s.sel);if(!sel.length)return alert('请先选择场景！');alert(`将为 ${sel.length} 个场景生成视频！`);};
+window.generateVideo=function(){const sel=scenes.filter(s=>s.sel);if(!sel.length)return alert('璇峰厛閫夋嫨鍦烘櫙锛?);alert(`灏嗕负 ${sel.length} 涓満鏅敓鎴愯棰戯紒`);};
 
 window.showQR=function(){document.getElementById('mobileUrl').textContent=`http://${window.location.hostname}:8080/anime-studio/final.html`;document.getElementById('qrModal').classList.add('show');};
 window.closeQR=function(){document.getElementById('qrModal').classList.remove('show');};
-window.copyUrl=function(){navigator.clipboard.writeText(document.getElementById('mobileUrl').textContent).then(()=>alert('✅ 已复制！'));};
+window.copyUrl=function(){navigator.clipboard.writeText(document.getElementById('mobileUrl').textContent).then(()=>alert('鉁?宸插鍒讹紒'));};
 
-currentCode=defaultCode;document.getElementById('codeEditor').value=defaultCode;saveHistory(defaultCode);renderTimeline();renderMaterials();updatePreview();renderStoryboard();initStoryboard9();document.getElementById('achievementBadge').textContent=`🏆 ${achievements}`;setApi('pollinations');
+currentCode=defaultCode;document.getElementById('codeEditor').value=defaultCode;saveHistory(defaultCode);renderTimeline();renderMaterials();updatePreview();renderStoryboard();initStoryboard9();document.getElementById('achievementBadge').textContent=`馃弳 ${achievements}`;setApi('pollinations');
 // Register Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -858,7 +927,8 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-console.log('🎬 千尘AI动漫工厂 Ultimate v5.0 + 9宫格分镜');
+console.log('馃幀 鍗冨皹AI鍔ㄦ极宸ュ巶 Ultimate v5.0 + 9瀹牸鍒嗛暅');
 </script>
 </body>
 </html>
+
