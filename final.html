@@ -692,8 +692,10 @@ async function sendMessageToAgent(message) {
     
     if (result && result.response) {
         addMsg(`${agent.icon} ${agent.name}: ${result.response}`);
+        return result.response;
     } else {
         addMsg(`⚠️ ${agent.name} 暂时无法响应，请稍后重试`);
+        return `⚠️ ${agent.name} 暂时无法响应`;
     }
 }
 
