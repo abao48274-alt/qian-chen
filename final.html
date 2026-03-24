@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+ <meta name="theme-color" content="#a78bfa">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+ <link rel="manifest" href="manifest.json">
+ <title>🎬 千尘AI动漫工厂 Ultimate</title>
+ <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+ <style>
+ * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+ body {
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+ background: linear-gradient(135deg, #0f0c29, #1a1a2e, #16213e);
+ min-height: 100vh; color: #e2e8f0;
+ padding-bottom: calc(env(safe-area-inset-bottom) + 70px);
+ }
+ .app-container { max-width: 1600px; margin: 0 auto; padding: 12px; }
+ 
+ .header {
+ background: rgba(255,255,255,0.1); backdrop-filter: blur(20px);
+ border-radius: 20px; padding: 12px 16px; margin-bottom: 12px;
+ display: flex; justify-content: space-between; align-items: center;
+ border: 1px solid rgba(255,255,255,0.2); position: sticky; top: 12px; z-index: 100;
+ }
+ .header h1 { font-size: 1.1rem; display: flex; align-items: center; gap: 6px; }
+ .header-actions { display: flex; gap: 6px; align-items: center; }
+ .icon-btn {
+ width: 36px; height: 36px; border-radius: 50%;
+ background: rgba(255,255,255,0.1); border: none; color: white;
+ font-size: 16px; cursor: pointer; transition: 0.2s;
+ }
+ .icon-btn:hover { background: #a78bfa; }
+ .achievement-badge {
+ background: rgba(255,215,0,0.2); border-radius: 40px;
+ padding: 4px 10px; font-size: 0.65rem;
+ }
+ 
+ .tab-content { display: none; }
+ .tab-content.active { display: block; }
+ 
+ .dashboard { display: grid; grid-template-columns: 280px 1fr 300px; gap: 12px; }
+ @media (max-width: 1200px) { .dashboard { grid-template-columns: 1fr 1fr; } }
+ @media (max-width: 768px) { 
+ .dashboard { grid-template-columns: 1fr; }
+ .header h1 { font-size: 0.95rem; }
+ .header-actions { gap: 4px; }
+ .icon-btn { width: 32px; height: 32px; font-size: 14px; }
+ .card-header h3 { font-size: 0.75rem; }
+ .chat-area { height: 280px; }
+ .chat-input { font-size: 0.8rem; padding: 8px 14px; }
+ .messages-container { padding: 8px; }
+ .message { font-size: 0.75rem; padding: 8px 12px; }
+ .toolbar { padding: 8px; gap: 4px; }
+ .tool-btn { padding: 5px 10px; font-size: 0.65rem; }
+ .preview-frame-container { padding: 10px; }
+ iframe { height: 350px; }
+ .material-grid { grid-template-columns: repeat(2, 1fr); max-height: 150px; }
+ .control-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+ .control-btn { padding: 6px; font-size: 0.65rem; }
+ .ai-prompt { font-size: 0.8rem; padding: 8px 14px; }
+ .api-btn { padding: 4px 8px; font-size: 0.6rem; }
+ .api-input { font-size: 0.7rem; padding: 6px 10px; }
+ .code-editor { height: 100px; font-size: 0.7rem; padding: 8px; }
+ .quick-btn { padding: 4px 8px; font-size: 0.6rem; }
+ .settings-row { font-size: 0.8rem; padding: 10px 0; }
+ .status-bar { padding: 10px; }
+ .status-value { font-size: 0.9rem; }
+ .scene-title { font-size: 0.75rem; }
+ .scene-meta { font-size: 0.6rem; }
+ }
+ @media (max-width: 480px) {
+ .app-container { padding: 8px; }
+ .header { padding: 10px 12px; margin-bottom: 8px; }
+ .card { border-radius: 20px; margin-bottom: 8px; }
+ .card-header { padding: 10px 12px; }
+ .chat-area { height: 250px; }
+ iframe { height: 300px; }
+ .fab { width: 50px; height: 50px; font-size: 20px; bottom: 65px; right: 12px; }
+ .nav-item { padding: 5px 8px; }
+ .nav-icon { font-size: 18px; }
+ }
+ 
+ .card {
+ background: rgba(30,30,46,0.9); backdrop-filter: blur(12px);
+ border-radius: 24px; overflow: hidden;
+ border: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px;
+ }
+ .card-header {
+ padding: 12px 16px; background: rgba(0,0,0,0.3);
+ display: flex; justify-content: space-between; align-items: center;
+ border-bottom: 1px solid rgba(255,255,255,0.1);
+ }
+ .card-header h3 { font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
+ 
+ .chat-area { height: 320px; display: flex; flex-direction: column; }
+ .messages-container {
+ flex: 1; overflow-y: auto; padding: 12px;
+ display: flex; flex-direction: column; gap: 10px; -webkit-overflow-scrolling: touch;
+ }
+ .message {
+ max-width: 85%; padding: 10px 14px; border-radius: 18px;
+ font-size: 0.8rem; line-height: 1.4; animation: fadeIn 0.3s ease;
+ }
+ @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+ .message.user { background: linear-gradient(135deg, #a78bfa, #7c3aed); color: white; align-self: flex-end; }
+ .message.assistant { background: rgba(255,255,255,0.1); color: #e2e8f0; align-self: flex-start; }
+ .message pre, .message code { background: rgba(0,0,0,0.3); padding: 6px; border-radius: 8px; font-family: monospace; font-size: 0.7rem; display: block; margin: 6px 0; overflow-x: auto; }
+ .chat-input-area { padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 10px; background: rgba(0,0,0,0.2); }
+ .chat-input { flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 10px 16px; color: white; font-size: 0.85rem; outline: none; }
+ .chat-input:focus { border-color: #a78bfa; }
+ .send-btn { background: linear-gradient(135deg, #a78bfa, #7c3aed); border: none; border-radius: 30px; padding: 0 20px; color: white; font-weight: 600; cursor: pointer; }
+ .quick-commands { padding: 10px 12px; display: flex; gap: 6px; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.05); }
+ .quick-btn { background: rgba(255,255,255,0.1); border: none; padding: 5px 10px; border-radius: 20px; color: #a78bfa; font-size: 0.65rem; cursor: pointer; }
+ .quick-btn:hover { background: rgba(167,139,250,0.3); }
+ 
+ .api-config { padding: 12px; }
+ .api-selector { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+ .api-btn { background: rgba(255,255,255,0.1); border: none; padding: 6px 12px; border-radius: 20px; color: white; font-size: 0.65rem; cursor: pointer; transition: 0.2s; }
+ .api-btn.active { background: #a78bfa; }
+ .api-input { width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 8px 12px; color: white; font-size: 0.75rem; margin-bottom: 8px; }
+ .api-label { font-size: 0.65rem; color: #a78bfa; margin-bottom: 4px; display: block; }
+ 
+ .material-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px; max-height: 200px; overflow-y: auto; }
+ .material-item { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 8px; text-align: center; cursor: pointer; transition: 0.2s; }
+ .material-item:hover { background: rgba(167,139,250,0.4); transform: scale(1.02); }
+ .material-icon { font-size: 24px; margin-bottom: 4px; }
+ .material-name { font-size: 0.6rem; }
+ 
+ .preview-frame-container { padding: 16px; display: flex; justify-content: center; background: #0a0a0f; }
+ .preview-frame { background: white; border-radius: 20px; overflow: hidden; transition: all 0.3s; box-shadow: 0 8px 32px rgba(0,0,0,0.3); width: 100%; }
+ iframe { width: 100%; height: 420px; border: none; }
+ 
+ .toolbar { padding: 10px 12px; background: rgba(0,0,0,0.2); display: flex; gap: 6px; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.1); }
+ .tool-btn { background: rgba(255,255,255,0.1); border: none; padding: 6px 12px; border-radius: 20px; color: white; font-size: 0.7rem; cursor: pointer; }
+ .tool-btn.primary { background: #a78bfa; }
+ .tool-btn:hover { background: rgba(167,139,250,0.5); }
+ 
+ .device-buttons { display: flex; gap: 6px; }
+ .device-btn { background: rgba(255,255,255,0.1); border: none; padding: 4px 10px; border-radius: 20px; font-size: 0.65rem; cursor: pointer; }
+ .device-btn.active { background: #a78bfa; }
+ 
+ .timeline-container { padding: 12px; }
+ .timeline-keyframes { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+ .keyframe-item { background: rgba(167,139,250,0.3); border-radius: 10px; padding: 6px 10px; text-align: center; min-width: 60px; cursor: pointer; font-size: 0.65rem; }
+ .keyframe-item.active { background: #a78bfa; border: 2px solid white; }
+ .timeline-track { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 12px; }
+ input[type="range"] { width: 100%; margin: 8px 0; }
+ 
+ .control-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 12px; }
+ .control-btn { background: rgba(255,255,255,0.1); border: none; padding: 8px; border-radius: 12px; color: white; font-size: 0.7rem; cursor: pointer; text-align: center; }
+ .control-btn.active { background: #a78bfa; }
+ 
+ .ai-generator { padding: 12px; }
+ .ai-prompt { width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 10px 16px; color: white; font-size: 0.85rem; outline: none; margin-bottom: 10px; }
+ .generate-btn { background: linear-gradient(135deg, #a78bfa, #7c3aed); border: none; padding: 10px; border-radius: 20px; color: white; cursor: pointer; width: 100%; font-size: 0.85rem; }
+ .generated-image { margin-top: 12px; text-align: center; }
+ .generated-image img { max-width: 100%; border-radius: 16px; cursor: pointer; }
+ 
+ .code-editor { width: 100%; height: 120px; background: #0a0a0f; color: #e2e8f0; font-family: monospace; font-size: 0.75rem; padding: 12px; border: none; outline: none; resize: vertical; }
+ 
+ .settings-section { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 16px; margin-bottom: 12px; }
+ .settings-title { font-size: 0.75rem; color: #a78bfa; margin-bottom: 12px; }
+ .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+ .settings-row:last-child { border-bottom: none; }
+ .toggle { width: 50px; height: 28px; background: rgba(255,255,255,0.1); border-radius: 14px; position: relative; cursor: pointer; transition: 0.2s; }
+ .toggle.active { background: #a78bfa; }
+ .toggle::after { content: ''; position: absolute; width: 22px; height: 22px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: 0.2s; }
+ .toggle.active::after { left: 25px; }
+ 
+ .status-bar { display: flex; justify-content: space-around; background: rgba(255,255,255,0.05); border-radius: 16px; padding: 14px; margin-bottom: 12px; }
+ .status-item { text-align: center; }
+ .status-value { font-size: 1.1rem; font-weight: bold; color: #a78bfa; }
+ .status-label { font-size: 0.6rem; color: #888; }
+ .storyboard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+ @media (min-width: 500px) { .storyboard { grid-template-columns: repeat(3, 1fr); } }
+ @media (min-width: 900px) { .storyboard { grid-template-columns: repeat(5, 1fr); } }
+ .scene-card { background: rgba(255,255,255,0.05); border-radius: 14px; overflow: hidden; border: 2px solid transparent; transition: 0.2s; }
+ .scene-card.selected { border-color: #10b981; box-shadow: 0 0 15px rgba(16,185,129,0.3); }
+ .scene-image { width: 100%; aspect-ratio: 9/16; object-fit: cover; display: block; }
+ .scene-info { padding: 8px; }
+ .scene-title { font-size: 0.8rem; font-weight: 600; margin-bottom: 2px; }
+ .scene-meta { font-size: 0.65rem; color: #888; margin-bottom: 6px; }
+ .scene-actions { display: flex; gap: 4px; }
+ .btn-sm { flex: 1; padding: 6px; border-radius: 6px; border: none; font-size: 0.65rem; cursor: pointer; }
+ .btn-select { background: rgba(16,185,129,0.2); color: #10b981; }
+ .btn-edit { background: rgba(167,139,250,0.2); color: #a78bfa; }
+ 
+ .bottom-nav {
+ position: fixed; bottom: 0; left: 0; right: 0;
+ background: rgba(26,26,46,0.95); backdrop-filter: blur(20px);
+ padding: 8px 0; padding-bottom: max(8px, env(safe-area-inset-bottom));
+ border-top: 1px solid rgba(255,255,255,0.1);
+ display: flex; justify-content: space-around; z-index: 100;
+ }
+ .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; color: #666; font-size: 0.6rem; padding: 6px 10px; cursor: pointer; transition: 0.2s; }
+ .nav-item.active { color: #a78bfa; }
+ .nav-icon { font-size: 20px; }
+ 
+ .fab {
+ position: fixed; bottom: 70px; right: 16px;
+ width: 56px; height: 56px; border-radius: 50%;
+ background: linear-gradient(135deg, #a78bfa, #7c3aed);
+ border: none; color: white; font-size: 24px; cursor: pointer;
+ box-shadow: 0 4px 20px rgba(167,139,250,0.5); z-index: 50;
+ }
+ .fab:active { transform: scale(0.95); }
+ 
+ .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+ .modal.show { display: flex; }
+ .modal-content { background: #1a1a2e; border-radius: 24px; padding: 30px; text-align: center; max-width: 350px; width: 90%; }
+ 
+ .typing-indicator { display: flex; gap: 3px; padding: 6px 10px; background: rgba(255,255,255,0.1); border-radius: 16px; width: fit-content; }
+ .typing-dot { width: 5px; height: 5px; background: #a78bfa; border-radius: 50%; animation: typing 1.4s infinite; }
+ .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+ .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+ @keyframes typing { 0%,60%,100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-6px); opacity: 1; } }
+ </style>
+</head>
+<body>
+<div class="app-container">
+ <header class="header">
+ <h1>🎬 动漫工厂 Ultimate</h1>
+ <div class="header-actions">
+ <span class="achievement-badge" id="achievementBadge">🏆 0</span>
+ <button class="icon-btn" onclick="showQR()">📱</button>
+ <button class="icon-btn" onclick="location.reload()">🔄</button>
+ </div>
+ </header>
+ 
+ <div class="tab-content active" id="preview-tab">
+ <div class="dashboard">
+ <div>
+ <div class="card">
+ <div class="card-header"><h3>🤖 千尘 AI</h3><span style="font-size:0.65rem;color:#10b981">⚡ 在线</span></div>
+ <div class="chat-area">
+ <div class="messages-container" id="messagesContainer">
+ <div class="message assistant">✨ 你好雨陌！<br><br>支持多源生图API：<br>🌐 Pollinations (免费)<br>🤗 HuggingFace (免费)<br>🎨 Stability AI<br>✨ OpenAI DALL-E<br>⚙️ 自定义API<br><br>试试："生成图片 赛博朋克女战士"</div>
+ </div>
+ <div class="chat-input-area">
+ <input type="text" class="chat-input" id="chatInput" placeholder="输入需求..." autocomplete="off">
+ <button class="send-btn" onclick="sendMessage()">发送</button>
+ </div>
+ <div class="quick-commands">
+ <button class="quick-btn" onclick="quickGen('赛博朋克女战士')">🤖 赛博</button>
+ <button class="quick-btn" onclick="quickGen('日系美少女樱花')">🌸 日系</button>
+ <button class="quick-btn" onclick="quickGen('古风仙侠剑客')">⚔️ 仙侠</button>
+ <button class="quick-btn" onclick="quickGen('Q版可爱角色')">🐧 Q版</button>
+ </div>
+ </div>
+ </div>
+ 
+ <div class="card">
+ <div class="card-header"><h3>🔌 生图API</h3><button class="tool-btn" onclick="testApi()" style="font-size:0.6rem">测试</button></div>
+ <div class="api-config">
+ <div class="api-selector" id="apiSelector">
+ <button class="api-btn active" data-api="pollinations" onclick="setApi('pollinations')">🌐 免费</button>
+ <button class="api-btn" data-api="huggingface" onclick="setApi('huggingface')">🤗 HF</button>
+ <button class="api-btn" data-api="stability" onclick="setApi('stability')">🎨 SD</button>
+ <button class="api-btn" data-api="openai" onclick="setApi('openai')">✨ DALL-E</button>
+ <button class="api-btn" data-api="custom" onclick="setApi('custom')">⚙️ 自定义</button>
+ </div>
+ <div id="apiConfigArea">
+ <span class="api-label">API Key (如需要)</span>
+ <input type="password" class="api-input" id="apiKey" placeholder="输入API Key...">
+ </div>
+ <button class="tool-btn primary" onclick="saveApiConfig()" style="width:100%">💾 保存配置</button>
+ </div>
+ </div>
+ </div>
+ 
+ <div>
+ <div class="card">
+ <div class="card-header">
+ <h3>🎨 实时预览</h3>
+ <div class="device-buttons">
+ <button class="device-btn" onclick="setDevice('375px')">📱</button>
+ <button class="device-btn" onclick="setDevice('768px')">📟</button>
+ <button class="device-btn active" onclick="setDevice('100%')">💻</button>
+ </div>
+ </div>
+ <div class="preview-frame-container">
+ <div class="preview-frame" id="previewWrapper"><iframe id="previewFrame" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe></div>
+ </div>
+ <div class="toolbar">
+ <button class="tool-btn primary" onclick="applyCode()">✨ 应用</button>
+ <button class="tool-btn" onclick="takeScreenshot()">📸 截图</button>
+ <button class="tool-btn" onclick="exportHTML()">📁 下载</button>
+ <button class="tool-btn" onclick="copyCode()">📋 复制</button>
+ <button class="tool-btn" onclick="undo()">↩️</button>
+ <button class="tool-btn" onclick="redo()">↪️</button>
+ </div>
+ </div>
+ 
+ <div class="card">
+ <div class="card-header"><h3>🎬 动画时间轴</h3><div><button class="tool-btn" onclick="addKeyframe()">+帧</button><button class="tool-btn primary" onclick="applyTimeline()">✨应用</button></div></div>
+ <div class="timeline-container">
+ <div class="timeline-keyframes" id="timelineKeyframes"></div>
+ <div class="timeline-track">
+ <div style="display:flex;justify-content:space-between;font-size:0.65rem;margin-bottom:8px"><span>时间轴</span><span id="timelinePos">0%</span></div>
+ <input type="range" id="timelineSeek" min="0" max="100" value="0" oninput="document.getElementById('timelinePos').textContent=this.value+'%'">
+ </div>
+ </div>
+ </div>
+ 
+ <div class="card">
+ <div class="card-header"><h3>📝 代码编辑器</h3><button class="tool-btn" onclick="saveFavorite()">💾收藏</button></div>
+ <textarea class="code-editor" id="codeEditor" placeholder="HTML/CSS代码..."></textarea>
+ </div>
+ </div>
+ 
+ <div>
+ <div class="card">
+ <div class="card-header"><h3>🖼️ AI图片生成</h3><span id="genStatus" style="font-size:0.6rem"></span></div>
+ <div class="ai-generator">
+ <input type="text" class="ai-prompt" id="aiPrompt" placeholder="描述图片，如：赛博朋克女战士">
+ <div style="display:flex;gap:8px;margin-bottom:10px">
+ <button class="generate-btn" onclick="generateImage()" style="flex:1">✨ 生成图片</button>
+ <button class="tool-btn" onclick="toggleAdvanced()" style="flex:0.3">⚙️</button>
+ </div>
+ <div id="advancedPanel" style="display:none">
+ <input type="text" class="api-input" id="negativePrompt" placeholder="反向提示词 (可选)">
+ <select class="api-input" id="imageSize"><option value="512x512">512x512</option><option value="768x768">768x768</option><option value="1024x1024">1024x1024</option></select>
+ </div>
+ <div class="generated-image" id="generatedImage"></div>
+ </div>
+ </div>
+ 
+ <div class="card"><div class="card-header"><h3>📚 素材库</h3></div><div class="material-grid" id="materialGrid"></div></div>
+ 
+ <div class="card">
+ <div class="card-header"><h3>🎨 主题风格</h3></div>
+ <div class="control-grid" id="themeGrid">
+ <button class="control-btn" onclick="setTheme('xianxia')">⚔️仙侠</button>
+ <button class="control-btn" onclick="setTheme('japanese')">🌸日系</button>
+ <button class="control-btn" onclick="setTheme('cyberpunk')">🤖赛博</button>
+ <button class="control-btn" onclick="setTheme('chibi')">🐧Q版</button>
+ <button class="control-btn" onclick="setTheme('realistic')">📸写实</button>
+ <button class="control-btn" onclick="setTheme('fantasy')">🐉奇幻</button>
+ </div>
+ </div>
+ 
+ <div class="card">
+ <div class="card-header"><h3>✨ 预设动画</h3></div>
+ <div class="control-grid" id="animGrid">
+ <button class="control-btn" onclick="setAnim('')">⏹️无</button>
+ <button class="control-btn" onclick="setAnim('float')">🎈漂浮</button>
+ <button class="control-btn" onclick="setAnim('glow')">✨闪烁</button>
+ <button class="control-btn" onclick="setAnim('shake')">🎭震动</button>
+ <button class="control-btn" onclick="setAnim('bounce')">🎢弹跳</button>
+ <button class="control-btn" onclick="setAnim('rotate')">🔄旋转</button>
+ </div>
+ <div style="padding:0 12px"><div style="font-size:0.7rem">速度</div><input type="range" id="animSpeed" min="0.2" max="3" step="0.1" value="1" oninput="updatePreview()"></div>
+ </div>
+ </div>
+ </div>
+ </div>
+ 
+ <div class="tab-content" id="storyboard-tab">
+ <div class="status-bar">
+ <div class="status-item"><div class="status-value" id="frameCount">9</div><div class="status-label">分镜</div></div>
+ <div class="status-item"><div class="status-value" id="selectedFrame">1</div><div class="status-label">当前</div></div>
+ <div class="status-item"><div class="status-value" id="generatedCount">0</div><div class="status-label">已生成</div></div>
+ <div class="status-item"><div class="status-value" id="currentThemeName">日系动漫</div><div class="status-label">主题</div></div>
+ </div>
+ 
+ <!-- 9宫格分镜 -->
+ <div class="storyboard-9grid" id="storyboard9Grid"></div>
+<style>
+.storyboard-9grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+@media (max-width: 480px) { .storyboard-9grid { grid-template-columns: repeat(2, 1fr); gap: 6px; } }
+</style>
+ 
+ <!-- 10大主题选择器 -->
+ <div style="background:rgba(255,255,255,0.05);border-radius:16px;padding:12px;margin-bottom:12px">
+ <div style="font-size:0.7rem;color:#a78bfa;margin-bottom:8px">🎨 选择主题风格</div>
+ <div class="theme-10grid" id="theme10Grid">
+<style>
+.theme-10grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+@media (max-width: 768px) { .theme-10grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 480px) { .theme-10grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+ <button class="control-btn active" data-theme="anime" onclick="setTheme10('anime')">🌸 日系</button>
+ <button class="control-btn" data-theme="cyberpunk" onclick="setTheme10('cyberpunk')">🤖 赛博</button>
+ <button class="control-btn" data-theme="fantasy" onclick="setTheme10('fantasy')">🐉 奇幻</button>
+ <button class="control-btn" data-theme="slice_of_life" onclick="setTheme10('slice_of_life')">☕ 日常</button>
+ <button class="control-btn" data-theme="action" onclick="setTheme10('action')">⚡ 热血</button>
+ <button class="control-btn" data-theme="dark" onclick="setTheme10('dark')">🌙 暗黑</button>
+ <button class="control-btn" data-theme="traditional" onclick="setTheme10('traditional')">🏯 古风</button>
+ <button class="control-btn" data-theme="xianxia" onclick="setTheme10('xianxia')">⚔️ 仙侠</button>
+ <button class="control-btn" data-theme="realistic" onclick="setTheme10('realistic')">📸 写实</button>
+ <button class="control-btn" data-theme="watercolor" onclick="setTheme10('watercolor')">🎨 水墨</button>
+ </div>
+ </div>
+ 
+ <!-- 分镜控制 -->
+ <div class="toolbar" style="background:rgba(0,0,0,0.2);border-radius:16px;padding:12px;flex-wrap:wrap">
+ <button class="tool-btn primary" onclick="generateAllFrames()">🎬 生成9格分镜</button>
+ <button class="tool-btn" onclick="exportAllFrames()">📦 导出全部</button>
+ <button class="tool-btn" onclick="clearStoryboard()">🗑️ 清空</button>
+ </div>
+ 
+ <!-- 选中分镜详情 -->
+ <div class="card" style="margin-top:12px">
+ <div class="card-header"><h3>📷 当前分镜详情</h3><button class="tool-btn" onclick="screenshotFrame()">📸 截图</button></div>
+ <div style="padding:12px">
+ <div id="framePreview" style="background:#0a0a0f;border-radius:16px;min-height:200px;display:flex;align-items:center;justify-content:center;color:#666">
+ <span>点击上方分镜格查看详情</span>
+ </div>
+ <textarea class="code-editor" id="frameCodeEditor" style="margin-top:12px;height:100px" placeholder="编辑当前分镜代码..."></textarea>
+ </div>
+ </div>
+ </div>
+ 
+ <div class="tab-content" id="generate-tab">
+ <div class="settings-section"><div class="settings-title">🤖 AI提示词生成</div><div class="settings-row"><span>使用Gemini</span><div class="toggle active" onclick="this.classList.toggle('active')"></div></div><div class="settings-row"><span>自动优化</span><div class="toggle" onclick="this.classList.toggle('active')"></div></div></div>
+ <div class="settings-section"><div class="settings-title">🎨 火山引擎画图</div><div class="settings-row"><span>模型</span><span style="color:#a78bfa;font-size:0.8rem">doubao-seedream-4-5</span></div><div class="settings-row"><span>分辨率</span><span style="color:#a78bfa;font-size:0.8rem">2048x2048</span></div></div>
+ <button class="tool-btn primary" style="width:100%;padding:14px;border-radius:16px;font-size:0.9rem" onclick="alert('🚀 开始生成...')">🚀 开始生成</button>
+ </div>
+ 
+ <div class="tab-content" id="videos-tab"><div class="settings-section"><div class="settings-title">📹 已生成视频</div><div style="text-align:center;padding:40px;color:#888">暂无视频</div></div></div>
+ 
+ <div class="tab-content" id="settings-tab">
+ <div class="settings-section"><div class="settings-title">🔑 API配置</div><div class="settings-row"><span>小米MiMo</span><span style="color:#10b981;font-size:0.8rem">已连接 ✓</span></div><div class="settings-row"><span>Gemini</span><span style="color:#10b981;font-size:0.8rem">已连接 ✓</span></div><div class="settings-row"><span>火山引擎</span><span style="color:#10b981;font-size:0.8rem">已连接 ✓</span></div></div>
+ <div class="settings-section"><div class="settings-title">ℹ️ 关于</div><div class="settings-row"><span>版本</span><span style="color:#888">v5.0 Ultimate</span></div></div>
+ </div>
+</div>
+ 
+ <button class="fab" onclick="generateVideo()">🎬</button>
+ 
+ <nav class="bottom-nav">
+ <div class="nav-item active" data-tab="preview"><span class="nav-icon">🎨</span><span>预览</span></div>
+ <div class="nav-item" data-tab="storyboard"><span class="nav-icon">🎬</span><span>分镜</span></div>
+ <div class="nav-item" data-tab="generate"><span class="nav-icon">✨</span><span>生成</span></div>
+ <div class="nav-item" data-tab="videos"><span class="nav-icon">📹</span><span>视频</span></div>
+ <div class="nav-item" data-tab="settings"><span class="nav-icon">⚙️</span><span>设置</span></div>
+ </nav>
+ 
+ <div class="modal" id="qrModal"><div class="modal-content"><h3 style="margin-bottom:20px">📱 手机访问</h3><div style="background:rgba(0,0,0,0.3);border-radius:12px;padding:12px;margin-bottom:15px"><div id="mobileUrl" style="font-size:0.8rem;color:#a78bfa;word-break:break-all;user-select:all"></div></div><button onclick="copyUrl()" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 24px;border-radius:30px;color:white;cursor:pointer;margin-right:10px">📋 复制</button><button onclick="closeQR()" style="background:rgba(255,255,255,0.1);border:none;padding:12px 24px;border-radius:30px;color:white;cursor:pointer">关闭</button></div></div>
+
+<script>
+const themes={japanese:'background:linear-gradient(135deg,#fef3e8,#ffe4e1);color:#4a3728;font-family:serif;',cyberpunk:'background:linear-gradient(135deg,#0f0c29,#302b63);color:#0ff;font-family:monospace;',xianxia:'background:linear-gradient(135deg,#d9cba3,#b8a77a);color:#5d3a1a;font-family:KaiTi,serif;',chibi:'background:linear-gradient(135deg,#fdeff2,#ffe6f0);color:#e67e9e;font-family:cursive;',realistic:'background:linear-gradient(135deg,#e8eef4,#d4dee8);color:#2c3e50;font-family:system-ui;',fantasy:'background:linear-gradient(135deg,#1b1030,#2a1e3c);color:#e6d5ff;'};
+const keyframeCSS={float:'@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}',glow:'@keyframes glow{0%,100%{box-shadow:0 0 5px #a78bfa}50%{box-shadow:0 0 20px #a78bfa}}',shake:'@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}',bounce:'@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}',rotate:'@keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}'};
+
+let currentTheme='xianxia',currentCode='',currentAnim='',currentApi='pollinations',isWaiting=false;
+let codeHistory=[],historyIndex=-1;
+let achievements=parseInt(localStorage.getItem('animeAchievements')||'0');
+let timelineKeyframes=[{time:0},{time:50},{time:100}];
+
+let apiConfigs=JSON.parse(localStorage.getItem('apiConfigs')||'{}');
+if(!apiConfigs.pollinations)apiConfigs={pollinations:{free:true},huggingface:{key:''},stability:{key:''},openai:{key:''},custom:{url:'',key:''}};
+
+const defaultCode='<div style="text-align:center;padding:40px"><div style="font-size:64px;margin-bottom:20px">⚔️</div><h2 style="margin-bottom:12px">第7集《毒丝侵剑心》</h2><p>古风仙侠动漫分镜预览</p><button style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 24px;border-radius:40px;color:white;margin-top:16px;cursor:pointer">✨ 查看分镜 ✨</button></div>';
+
+const materials=[
+{name:'樱花背景',icon:'🌸',code:'<div style="background:linear-gradient(135deg,#ffb7c5,#ff9eb5);padding:40px;border-radius:20px;text-align:center"><h2>🌸 樱花树下</h2></div>'},
+{name:'赛博城市',icon:'🌃',code:'<div style="background:linear-gradient(135deg,#0f0c29,#302b63);padding:40px;border-radius:20px;color:#0ff;text-align:center;border:1px solid #0ff"><h2>🌃 赛博空间</h2></div>'},
+{name:'古风庭院',icon:'🏯',code:'<div style="background:linear-gradient(135deg,#d9cba3,#b8a77a);padding:40px;border-radius:20px;text-align:center"><h2>🏯 古风雅韵</h2></div>'},
+{name:'Q版角色',icon:'🐧',code:'<div style="text-align:center"><div style="width:80px;height:80px;background:linear-gradient(135deg,#ffb7c5,#ff9eb5);border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:40px">🐧</div><p>Q版角色</p></div>'},
+{name:'对话框',icon:'💬',code:'<div style="background:rgba(255,255,240,0.95);border-radius:24px;padding:16px;max-width:280px"><p>✨ 角色台词</p><small>—— 动漫角色</small></div>'},
+{name:'霓虹按钮',icon:'🔘',code:'<button style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 28px;border-radius:40px;color:white;font-size:16px;cursor:pointer">✨ 按钮</button>'}
+];
+
+// 10大主题风格定义
+const theme10Styles = {
+anime: { name: '日系动漫', prompt: 'anime style, vibrant colors, clean lines, Japanese animation, high quality' },
+cyberpunk: { name: '赛博朋克', prompt: 'cyberpunk style, neon lights, futuristic city, purple and cyan, dark atmosphere' },
+fantasy: { name: '幻想奇幻', prompt: 'fantasy art style, magical, ethereal, mystical creatures, soft glowing light' },
+slice_of_life: { name: '日常治愈', prompt: 'slice of life, gentle colors, warm atmosphere, soft lighting, cozy feeling' },
+action: { name: '热血战斗', prompt: 'action scene, dynamic, dramatic lighting, intense, battle energy, epic' },
+dark: { name: '暗黑哥特', prompt: 'dark gothic style, mysterious, dramatic shadows, haunting beauty, Victorian' },
+traditional: { name: '古风传统', prompt: 'traditional Chinese style, ink wash painting, elegant, classical beauty, silk and jade, ancient China aesthetics' },
+xianxia: { name: '仙侠修真', prompt: 'xianxia style, immortal cultivation, floating clouds, celestial mountains, flowing robes, sword and magic, ethereal beauty' },
+realistic: { name: '真人写实', prompt: 'photorealistic style, real human, detailed skin texture, natural lighting, hyper-realistic, professional photography' },
+watercolor: { name: '水墨国风', prompt: 'watercolor painting style, Chinese ink art, brush strokes, poetic, misty mountains, traditional landscape' }
+};
+
+// 9宫格分镜数据
+let storyboard9 = [];
+let selectedFrameIdx = 0;
+let currentTheme10 = 'anime';
+
+const defaultPrompts = [
+"主角登场，特写镜头，眼神坚定",
+"场景建立，广角镜头，壮丽世界",
+"关键对话，双人镜头，情感交流",
+"战斗场面，动态镜头，特效爆发",
+"转折时刻，悬念镜头，光影对比",
+"情感高潮，近景镜头，动人瞬间",
+"友情羁绊，并肩镜头，温暖氛围",
+"反派亮相，仰视镜头，压迫感强",
+"结局画面，全景镜头，希望之光"
+];
+
+// Episode 7 分镜图路径
+const episode7Images = [
+'scene1_sword_stance.png',
+'scene2_poison_attack.png',
+'scene3_cultivation_room.png',
+'scene4_dying_question.png',
+'scene5_reality_shock.png',
+null, // scene6-9 not generated yet
+null,
+null,
+null
+];
+
+function initStoryboard9(){
+storyboard9=[];
+for(let i=0;i<9;i++){
+const hasImage = episode7Images[i] !== null;
+storyboard9.push({
+id:i,
+prompt:defaultPrompts[i],
+imageUrl: hasImage ? episode7Images[i] : null,
+code: hasImage 
+? `<div style="text-align:center;padding:16px"><img src="${episode7Images[i]}" style="max-width:100%;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.2)"><p style="margin-top:8px;font-size:13px">🎬 ${defaultPrompts[i]}</p></div>`
+: `<div style="text-align:center;padding:30px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:16px;color:white"><div style="font-size:36px">🎬</div><p>分镜${i+1}</p><small>${defaultPrompts[i].substring(0,15)}...</small></div>`
+});
+}
+renderStoryboard9();
+}
+
+function renderStoryboard9(){
+const el=document.getElementById('storyboard9Grid');
+if(!el)return;
+el.innerHTML=storyboard9.map((f,i)=>`
+<div style="aspect-ratio:16/9;background:rgba(0,0,0,0.5);border-radius:12px;overflow:hidden;position:relative;cursor:pointer;border:2px solid ${selectedFrameIdx===i?'#a78bfa':'transparent'};transition:0.2s" onclick="selectFrame9(${i})">
+<div style="position:absolute;top:4px;left:6px;background:rgba(0,0,0,0.6);color:white;font-size:0.65rem;padding:2px 6px;border-radius:10px;z-index:2">${i+1}</div>
+${f.imageUrl?`<img src="${f.imageUrl}" style="width:100%;height:100%;object-fit:cover">`:`<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#2d2d44,#1a1a2e);color:#a78bfa;font-size:0.65rem"><div style="font-size:20px">🎬</div>分镜${i+1}</div>`}
+<div style="position:absolute;bottom:4px;left:0;right:0;text-align:center;background:rgba(0,0,0,0.6);color:white;font-size:0.55rem;padding:2px">${f.prompt.substring(0,12)}...</div>
+</div>
+`).join('');
+document.getElementById('selectedFrame').textContent=selectedFrameIdx+1;
+document.getElementById('generatedCount').textContent=storyboard9.filter(f=>f.imageUrl).length;
+}
+
+window.selectFrame9=function(i){
+selectedFrameIdx=i;
+renderStoryboard9();
+const f=storyboard9[i];
+document.getElementById('framePreview').innerHTML=f.imageUrl?`<img src="${f.imageUrl}" style="max-width:100%;border-radius:12px">`:`<div style="text-align:center;color:#888;padding:20px"><div style="font-size:32px">🎬</div><p>${f.prompt}</p><small>点击"生成9格分镜"生成图片</small></div>`;
+document.getElementById('frameCodeEditor').value=f.code;
+};
+
+window.setTheme10=function(theme){
+currentTheme10=theme;
+document.querySelectorAll('#theme10Grid .control-btn').forEach(b=>b.classList.toggle('active',b.dataset.theme===theme));
+document.getElementById('currentThemeName').textContent=theme10Styles[theme].name;
+addMsg(`🎨 已切换主题: ${theme10Styles[theme].name}`);
+};
+
+window.generateAllFrames=async function(){
+const theme=theme10Styles[currentTheme10];
+addMsg(`🎬 开始生成9格分镜，主题: ${theme.name}...`);
+for(let i=0;i<storyboard9.length;i++){
+const f=storyboard9[i];
+const prompt=`${f.prompt}, ${theme.prompt}, masterpiece, best quality, detailed, cinematic lighting, 8k`;
+f.imageUrl=`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=288&nologo=true`;
+f.code=`<div style="text-align:center;padding:16px"><img src="${f.imageUrl}" style="max-width:100%;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.2)"><p style="margin-top:8px;font-size:13px">🎬 ${f.prompt}</p><p style="font-size:11px;color:#666">风格: ${theme.name}</p></div>`;
+renderStoryboard9();
+await new Promise(r=>setTimeout(r,300));
+}
+selectFrame9(selectedFrameIdx);
+addMsg('✅ 9格分镜全部生成完成！');
+};
+
+window.exportAllFrames=async function(){
+addMsg('📦 导出分镜...');
+for(let i=0;i<storyboard9.length;i++){
+if(storyboard9[i].imageUrl){
+const a=document.createElement('a');
+a.download=`storyboard_${i+1}_${currentTheme10}.png`;
+a.href=storyboard9[i].imageUrl;
+a.click();
+await new Promise(r=>setTimeout(r,200));
+}
+}
+addMsg('✅ 导出完成！');
+};
+
+window.clearStoryboard=function(){
+for(let i=0;i<storyboard9.length;i++){storyboard9[i].imageUrl=null;}
+initStoryboard9();
+addMsg('🗑️ 已清空');
+};
+
+window.screenshotFrame=async function(){
+const el=document.getElementById('framePreview');
+if(el.querySelector('img')){
+const a=document.createElement('a');
+a.download=`frame_${selectedFrameIdx+1}.png`;
+a.href=storyboard9[selectedFrameIdx].imageUrl;
+a.click();
+addMsg(`📸 已截图分镜${selectedFrameIdx+1}`);
+}
+};
+
+// 编辑分镜代码
+document.addEventListener('DOMContentLoaded',()=>{
+const editor=document.getElementById('frameCodeEditor');
+if(editor)editor.addEventListener('input',e=>{
+if(storyboard9[selectedFrameIdx]){
+storyboard9[selectedFrameIdx].code=e.target.value;
+}
+});
+});
+
+const scenes=[
+{id:1,title:'剑心破碎危机',desc:'冰洞修炼',dur:'15秒',img:'../volcano_images_v2/scene1_sword_break.png',sel:false},
+{id:2,title:'发现下毒真相',desc:'烛光室内',dur:'30秒',img:'../volcano_images_v2/scene2_poison_discover.png',sel:false},
+{id:3,title:'真面目暴露',desc:'夜色对峙',dur:'30秒',img:'../volcano_images_v2/scene3_villain_reveal.png',sel:false},
+{id:4,title:'激烈剑战',desc:'剑光纵横',dur:'30秒',img:'../volcano_images_v2/scene4_sword_battle.png',sel:false},
+{id:5,title:'悬念结尾',desc:'剑片飘落',dur:'15秒',img:'../volcano_images_v2/scene5_cliffhanger.png',sel:false}
+];
+
+function sanitize(s){return(s||'').replace(/<script[^>]*>[\s\S]*?<\/script>/gi,'').replace(/on\w+\s*=\s*["'][^"']*["']/gi,'').replace(/javascript:/gi,'#');}
+
+function updatePreview(){
+const code=currentCode||document.getElementById('codeEditor').value||defaultCode;
+const safe=sanitize(code);
+const speed=document.getElementById('animSpeed')?.value||1;
+const animCSS=currentAnim?`${keyframeCSS[currentAnim]||''}.preview-content{animation:${currentAnim} ${speed}s infinite}`:'';
+document.getElementById('previewFrame').srcdoc=`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>*{margin:0;padding:0;box-sizing:border-box}body{${themes[currentTheme]}min-height:420px;display:flex;align-items:center;justify-content:center;padding:20px}.preview-content{max-width:100%;transition:all .3s}${animCSS}button{cursor:pointer}</style></head><body><div class="preview-content">${safe}</div></body></html>`;
+}
+
+function saveHistory(c){if(codeHistory.length&&codeHistory[historyIndex]===c)return;codeHistory=codeHistory.slice(0,historyIndex+1);codeHistory.push(c);historyIndex++;if(codeHistory.length>50)codeHistory.shift();}
+function undo(){if(historyIndex>0){historyIndex--;currentCode=codeHistory[historyIndex];document.getElementById('codeEditor').value=currentCode;updatePreview();}}
+function redo(){if(historyIndex<codeHistory.length-1){historyIndex++;currentCode=codeHistory[historyIndex];document.getElementById('codeEditor').value=currentCode;updatePreview();}}
+
+function renderTimeline(){document.getElementById('timelineKeyframes').innerHTML=timelineKeyframes.map((kf,i)=>`<div class="keyframe-item${i===0?' active':''}" onclick="selectKF(${i})">${kf.time}%</div>`).join('');}
+function selectKF(i){document.querySelectorAll('.keyframe-item').forEach((el,j)=>el.classList.toggle('active',j===i));document.getElementById('timelineSeek').value=timelineKeyframes[i].time;}
+function addKeyframe(){timelineKeyframes.push({time:Math.min(100,timelineKeyframes.length*25)});timelineKeyframes.sort((a,b)=>a.time-b.time);renderTimeline();}
+function applyTimeline(){addMsg('🎬 时间轴动画已应用！');}
+
+function renderMaterials(){document.getElementById('materialGrid').innerHTML=materials.map(m=>`<div class="material-item" onclick="insertMaterial('${m.name}')"><div class="material-icon">${m.icon}</div><div class="material-name">${m.name}</div></div>`).join('');}
+window.insertMaterial=function(n){const m=materials.find(x=>x.name===n);if(m){currentCode=m.code;document.getElementById('codeEditor').value=currentCode;updatePreview();saveHistory(currentCode);addMsg(`📦 已插入: ${n}`);}};
+
+function setApi(api){currentApi=api;document.querySelectorAll('.api-btn').forEach(b=>b.classList.toggle('active',b.dataset.api===api));document.getElementById('apiKey').value=apiConfigs[api]?.key||'';}
+function saveApiConfig(){apiConfigs[currentApi].key=document.getElementById('apiKey').value;localStorage.setItem('apiConfigs',JSON.stringify(apiConfigs));addMsg('💾 API配置已保存');}
+function testApi(){addMsg('🔌 测试API连接...');generateImageWithAPI('test, simple anime cat');}
+
+async function generateImageWithAPI(prompt){
+const fullPrompt=prompt+', anime style, high quality, masterpiece';
+const status=document.getElementById('genStatus');
+status.innerHTML='⏳ 生成中...';
+try{
+let imageUrl=null;
+switch(currentApi){
+case'pollinations':imageUrl=`https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=512&height=512&nologo=true`;break;
+case'huggingface':const hf=await fetch('https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev',{method:'POST',headers:{'Content-Type':'application/json','Authorization':apiConfigs.huggingface.key?`Bearer ${apiConfigs.huggingface.key}`:''},body:JSON.stringify({inputs:fullPrompt})});const blob=await hf.blob();imageUrl=URL.createObjectURL(blob);break;
+case'openai':if(!apiConfigs.openai.key)throw new Error('请配置OpenAI Key');const oa=await fetch('https://api.openai.com/v1/images/generations',{method:'POST',headers:{'Authorization':`Bearer ${apiConfigs.openai.key}`,'Content-Type':'application/json'},body:JSON.stringify({model:'dall-e-3',prompt:fullPrompt,n:1,size:'1024x1024'})});const oad=await oa.json();imageUrl=oad.data?.[0]?.url;break;
+case'custom':if(!apiConfigs.custom.url)throw new Error('请配置自定义API');const cu=await fetch(apiConfigs.custom.url,{method:'POST',headers:{'Content-Type':'application/json',...(apiConfigs.custom.key?{'Authorization':`Bearer ${apiConfigs.custom.key}`}:{})},body:JSON.stringify({prompt:fullPrompt})});const cud=await cu.json();imageUrl=cud.image_url||cud.output?.[0]||cud.data?.[0]?.url;break;
+default:imageUrl=`https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=512&height=512`;
+}
+if(!imageUrl)throw new Error('生成失败');
+status.innerHTML='✅ 成功';
+document.getElementById('generatedImage').innerHTML=`<img src="${imageUrl}" onclick="insertImage('${imageUrl.replace(/'/g,"\\'")}')" style="max-width:100%;border-radius:16px;cursor:pointer">`;
+addMsg('🎨 图片已生成！点击插入');
+}catch(e){status.innerHTML='❌ 失败';addMsg(`⚠️ ${e.message}`);}
+}
+
+window.insertImage=function(u){currentCode=`<img src="${u}" style="max-width:100%;border-radius:16px">`;document.getElementById('codeEditor').value=currentCode;updatePreview();saveHistory(currentCode);};
+window.generateImage=function(){const p=document.getElementById('aiPrompt').value;if(!p)return addMsg('请输入描述');generateImageWithAPI(p);};
+window.quickGen=function(p){document.getElementById('aiPrompt').value=p;generateImageWithAPI(p);};
+window.toggleAdvanced=function(){document.getElementById('advancedPanel').style.display=document.getElementById('advancedPanel').style.display==='none'?'block':'none';};
+
+function addMsg(c,isU){const el=document.getElementById('messagesContainer'),d=document.createElement('div');d.className=`message ${isU?'user':'assistant'}`;if(!isU){d.innerHTML=c.replace(/```html\n([\s\S]*?)\n```/g,(m,code)=>{const esc=code.replace(/`/g,'\\`').replace(/\$/g,'\\$');return `<pre><code>${code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</code></pre><button class="tool-btn" style="margin-top:6px" onclick="applyFromMsg(\`${esc}\`)">✨ 应用</button>`;}).replace(/\n/g,'<br>');}else d.textContent=c;el.appendChild(d);el.scrollTop=el.scrollHeight;}
+window.applyFromMsg=function(c){currentCode=c;document.getElementById('codeEditor').value=c;updatePreview();saveHistory(c);addMsg('✅ 已应用');};
+
+async function getAI(msg){await new Promise(r=>setTimeout(r,600));const m=msg.toLowerCase();if(m.includes('生成图片')||m.includes('画')){const p=msg.replace(/生成图片|画|帮我|生成/g,'').trim();if(p){generateImageWithAPI(p);return`🎨 正在生成: ${p}`;}}
+if(m.includes('赛博'))return `🤖 赛博卡片：\n\`\`\`html\n<div style="background:linear-gradient(135deg,#0f0c29,#302b63);border-radius:24px;padding:30px;text-align:center;border:1px solid #0ff;box-shadow:0 0 30px rgba(0,255,255,.3)"><div style="font-size:64px">🤖</div><h2 style="color:#0ff;margin:16px 0">霓虹猎手</h2><span style="background:#0ff;color:#000;padding:6px 16px;border-radius:40px">⚡ 传说级</span></div>\n\`\`\``;
+if(m.includes('日系'))return `🌸 日系对话框：\n\`\`\`html\n<div style="background:rgba(255,240,230,.95);border-radius:28px;padding:20px;max-width:300px;box-shadow:0 8px 20px rgba(0,0,0,.1)"><div style="display:flex;gap:12px;align-items:center"><div style="width:40px;height:40px;background:#ffb7c5;border-radius:50%;display:flex;align-items:center;justify-content:center">🌸</div><div><strong style="color:#e67e9e">小樱</strong><br><span style="font-size:12px">元气满满！</span></div></div></div>\n\`\`\``;
+if(m.includes('仙侠'))return `⚔️ 仙侠头像：\n\`\`\`html\n<div style="text-align:center"><div style="width:100px;height:100px;background:linear-gradient(135deg,#d9cba3,#b8a77a);border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:48px;border:3px solid #c9ae6e">⚔️</div><h3 style="color:#5d3a1a">云瑶仙子</h3></div>\n\`\`\``;
+return `✨ 收到: ${msg}`;}
+
+async function sendMessage(){const input=document.getElementById('chatInput'),msg=input.value.trim();if(!msg||isWaiting)return;input.value='';addMsg(msg,true);isWaiting=true;const c=document.getElementById('messagesContainer'),t=document.createElement('div');t.className='message assistant';t.innerHTML='<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';c.appendChild(t);c.scrollTop=c.scrollHeight;try{const resp=await getAI(msg);t.remove();addMsg(resp);const code=resp.match(/```html\n([\s\S]*?)\n```/);if(code){currentCode=code[1];document.getElementById('codeEditor').value=currentCode;updatePreview();saveHistory(currentCode);}}catch(e){t.remove();addMsg(`⚠️ ${e.message}`);}isWaiting=false;}
+
+window.applyCode=function(){currentCode=document.getElementById('codeEditor').value;updatePreview();saveHistory(currentCode);};
+window.setTheme=function(t){currentTheme=t;updatePreview();};
+window.setAnim=function(a){currentAnim=a;updatePreview();};
+window.setDevice=function(w){document.getElementById('previewWrapper').style.width=w;document.querySelectorAll('.device-btn').forEach(b=>b.classList.toggle('active',b.dataset.w===w));};
+window.takeScreenshot=async function(){const iframe=document.getElementById('previewFrame');const doc=iframe.contentDocument||iframe.contentWindow.document;const target=doc.querySelector('.preview-content')||doc.body;if(target&&window.html2canvas){const canvas=await html2canvas(target,{scale:2});const a=document.createElement('a');a.download=`anime_${Date.now()}.png`;a.href=canvas.toDataURL();a.click();achievements++;localStorage.setItem('animeAchievements',achievements);document.getElementById('achievementBadge').textContent=`🏆 ${achievements}`;}};
+window.exportHTML=function(){const doc=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>动漫</title></head><body>${currentCode||defaultCode}</body></html>`;const blob=new Blob([doc],{type:'text/html'});const a=document.createElement('a');a.download=`anime_${Date.now()}.html`;a.href=URL.createObjectURL(blob);a.click();};
+window.copyCode=function(){navigator.clipboard.writeText(currentCode||defaultCode);addMsg('📋 已复制');};
+window.saveFavorite=function(){const n=prompt('收藏名称:',`模板${Date.now()}`);if(n){const favs=JSON.parse(localStorage.getItem('favs')||'[]');favs.unshift({name:n,code:currentCode||defaultCode});localStorage.setItem('favs',JSON.stringify(favs));addMsg(`⭐ 已收藏: ${n}`);}};
+
+function switchTab(t){document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));document.getElementById(`${t}-tab`).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.tab===t));if(t==='storyboard')renderStoryboard();}
+document.querySelectorAll('.nav-item').forEach(item=>item.addEventListener('click',()=>switchTab(item.dataset.tab)));
+document.getElementById('chatInput').addEventListener('keypress',e=>{if(e.key==='Enter')sendMessage();});
+document.getElementById('codeEditor').addEventListener('input',e=>{currentCode=e.target.value;updatePreview();});
+
+function renderStoryboard(){const el=document.getElementById('storyboard');el.innerHTML='';scenes.forEach((s,i)=>{const card=document.createElement('div');card.className=`scene-card ${s.sel?'selected':''}`;card.innerHTML=`<img src="${s.img}" class="scene-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 178%22><rect fill=%22%23333%22 width=%22100%22 height=%22178%22/><text x=%2250%22 y=%2290%22 text-anchor=%22middle%22 fill=%22%23666%22>场景${s.id}</text></svg>'"><div class="scene-info"><div class="scene-title">${s.title}</div><div class="scene-meta">${s.desc}·${s.dur}</div><div class="scene-actions"><button class="btn-sm btn-select" onclick="toggleScene(${i})">${s.sel?'✅ 已选':'⬜ 选择'}</button></div></div>`;el.appendChild(card);});document.getElementById('selectedCount').textContent=scenes.filter(s=>s.sel).length;}
+window.toggleScene=function(i){scenes[i].sel=!scenes[i].sel;renderStoryboard();};
+window.generateVideo=function(){const sel=scenes.filter(s=>s.sel);if(!sel.length)return alert('请先选择场景！');alert(`将为 ${sel.length} 个场景生成视频！`);};
+
+window.showQR=function(){document.getElementById('mobileUrl').textContent=`http://${window.location.hostname}:8080/anime-studio/final.html`;document.getElementById('qrModal').classList.add('show');};
+window.closeQR=function(){document.getElementById('qrModal').classList.remove('show');};
+window.copyUrl=function(){navigator.clipboard.writeText(document.getElementById('mobileUrl').textContent).then(()=>alert('✅ 已复制！'));};
+
+currentCode=defaultCode;document.getElementById('codeEditor').value=defaultCode;saveHistory(defaultCode);renderTimeline();renderMaterials();updatePreview();renderStoryboard();initStoryboard9();document.getElementById('achievementBadge').textContent=`🏆 ${achievements}`;setApi('pollinations');
+console.log('🎬 千尘AI动漫工厂 Ultimate v5.0 + 9宫格分镜');
+</script>
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+ <meta name="theme-color" content="#a78bfa">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+ <link rel="manifest" href="manifest.json">
+ <title>🎬 千尘AI动漫工厂</title>
+ <style>
+ * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+ 
+ body {
+ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+ min-height: 100vh;
+ color: #e2e8f0;
+ padding-bottom: calc(env(safe-area-inset-bottom) + 70px);
+ }
+ 
+ .app-container { max-width: 1400px; margin: 0 auto; padding: 12px; }
+ 
+ /* Header */
+ .header {
+ background: rgba(255,255,255,0.1);
+ backdrop-filter: blur(20px);
+ border-radius: 20px;
+ padding: 12px 16px;
+ margin-bottom: 12px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ border: 1px solid rgba(255,255,255,0.2);
+ position: sticky;
+ top: 12px;
+ z-index: 100;
+ }
+ 
+ .header h1 { font-size: 1.1rem; display: flex; align-items: center; gap: 6px; }
+ 
+ .header-actions { display: flex; gap: 6px; }
+ 
+ .icon-btn {
+ width: 36px; height: 36px; border-radius: 50%;
+ background: rgba(255,255,255,0.1); border: none; color: white;
+ font-size: 16px; cursor: pointer; transition: 0.2s;
+ }
+ 
+ .icon-btn:hover { background: #a78bfa; }
+ 
+ /* Layout */
+ .split-layout {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 12px;
+ }
+ 
+ @media (max-width: 900px) { .split-layout { grid-template-columns: 1fr; } }
+ 
+ /* Cards */
+ .card {
+ background: rgba(30,30,46,0.9);
+ backdrop-filter: blur(10px);
+ border-radius: 24px;
+ overflow: hidden;
+ border: 1px solid rgba(255,255,255,0.1);
+ display: flex;
+ flex-direction: column;
+ }
+ 
+ .card-header {
+ padding: 12px 16px;
+ background: rgba(0,0,0,0.3);
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ border-bottom: 1px solid rgba(255,255,255,0.1);
+ }
+ 
+ .card-header h3 { font-size: 0.9rem; display: flex; align-items: center; gap: 6px; }
+ 
+ /* Chat Area */
+ .chat-area { height: 450px; display: flex; flex-direction: column; }
+ 
+ .messages-container {
+ flex: 1; overflow-y: auto; padding: 12px;
+ display: flex; flex-direction: column; gap: 10px;
+ -webkit-overflow-scrolling: touch;
+ }
+ 
+ .message {
+ max-width: 85%; padding: 10px 14px; border-radius: 18px;
+ font-size: 0.82rem; line-height: 1.4; animation: fadeIn 0.3s ease;
+ }
+ 
+ @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+ 
+ .message.user {
+ background: linear-gradient(135deg, #a78bfa, #7c3aed);
+ color: white; align-self: flex-end; border-bottom-right-radius: 4px;
+ }
+ 
+ .message.assistant {
+ background: rgba(255,255,255,0.1);
+ color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 4px;
+ }
+ 
+ .message.assistant pre, .message.assistant code {
+ background: rgba(0,0,0,0.3); padding: 6px; border-radius: 8px;
+ font-family: monospace; font-size: 0.7rem; display: block; margin: 6px 0; overflow-x: auto;
+ }
+ 
+ /* Chat Input */
+ .chat-input-area {
+ padding: 12px; border-top: 1px solid rgba(255,255,255,0.1);
+ display: flex; gap: 10px; background: rgba(0,0,0,0.2);
+ }
+ 
+ .chat-input {
+ flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+ border-radius: 30px; padding: 10px 16px; color: white; font-size: 0.85rem; outline: none;
+ }
+ 
+ .chat-input:focus { border-color: #a78bfa; }
+ 
+ .send-btn {
+ background: linear-gradient(135deg, #a78bfa, #7c3aed);
+ border: none; border-radius: 30px; padding: 0 20px; color: white; font-weight: 600; cursor: pointer;
+ }
+ 
+ /* Quick Commands */
+ .quick-commands {
+ padding: 10px 12px; display: flex; gap: 6px; flex-wrap: wrap;
+ border-top: 1px solid rgba(255,255,255,0.05);
+ }
+ 
+ .quick-btn {
+ background: rgba(255,255,255,0.1); border: none;
+ padding: 5px 10px; border-radius: 20px; color: #a78bfa; font-size: 0.65rem; cursor: pointer;
+ }
+ 
+ .quick-btn:hover { background: rgba(167,139,250,0.3); }
+ 
+ /* Preview Area */
+ .preview-frame { background: white; min-height: 450px; }
+ 
+ iframe { width: 100%; min-height: 450px; border: none; }
+ 
+ /* Theme Scroll */
+ .theme-scroll {
+ overflow-x: auto; white-space: nowrap; padding: 10px 12px;
+ -webkit-overflow-scrolling: touch; scrollbar-width: none;
+ }
+ 
+ .theme-scroll::-webkit-scrollbar { display: none; }
+ 
+ .theme-chip {
+ display: inline-block; background: rgba(255,255,255,0.1);
+ padding: 6px 14px; border-radius: 20px; font-size: 0.7rem; color: white; margin-right: 6px; cursor: pointer;
+ }
+ 
+ .theme-chip.active { background: #a78bfa; }
+ 
+ /* Toolbar */
+ .toolbar {
+ padding: 10px 12px; background: rgba(0,0,0,0.2);
+ display: flex; gap: 6px; flex-wrap: wrap;
+ border-top: 1px solid rgba(255,255,255,0.1);
+ }
+ 
+ .tool-btn {
+ background: rgba(255,255,255,0.1); border: none;
+ padding: 6px 12px; border-radius: 20px; color: white; font-size: 0.7rem; cursor: pointer;
+ }
+ 
+ .tool-btn.primary { background: #a78bfa; }
+ 
+ .tool-btn:hover { background: rgba(167,139,250,0.5); }
+ 
+ /* Typing Indicator */
+ .typing-indicator { display: flex; gap: 3px; padding: 6px 10px; background: rgba(255,255,255,0.1); border-radius: 16px; width: fit-content; }
+ 
+ .typing-dot { width: 5px; height: 5px; background: #a78bfa; border-radius: 50%; animation: typing 1.4s infinite; }
+ .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+ .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+ 
+ @keyframes typing { 0%,60%,100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-6px); opacity: 1; } }
+ 
+ /* Code Editor */
+ .code-editor-card { margin-top: 12px; }
+ 
+ .code-editor {
+ width: 100%; height: 160px; background: #0a0a0f; color: #e2e8f0;
+ font-family: monospace; font-size: 0.75rem; padding: 12px; border: none; outline: none; resize: vertical;
+ line-height: 1.4;
+ }
+ 
+ /* Bottom Nav */
+ .bottom-nav {
+ position: fixed; bottom: 0; left: 0; right: 0;
+ background: rgba(26,26,46,0.95); backdrop-filter: blur(20px);
+ padding: 8px 0; padding-bottom: max(8px, env(safe-area-inset-bottom));
+ border-top: 1px solid rgba(255,255,255,0.1);
+ display: flex; justify-content: space-around; z-index: 100;
+ }
+ 
+ .nav-item {
+ display: flex; flex-direction: column; align-items: center; gap: 2px;
+ color: #666; font-size: 0.6rem; padding: 6px 10px; cursor: pointer; transition: 0.2s;
+ }
+ 
+ .nav-item.active { color: #a78bfa; }
+ 
+ .nav-icon { font-size: 20px; }
+ 
+ /* FAB */
+ .fab {
+ position: fixed; bottom: 70px; right: 16px;
+ width: 56px; height: 56px; border-radius: 50%;
+ background: linear-gradient(135deg, #a78bfa, #7c3aed);
+ border: none; color: white; font-size: 24px; cursor: pointer;
+ box-shadow: 0 4px 20px rgba(167,139,250,0.5); z-index: 50;
+ }
+ 
+ .fab:active { transform: scale(0.95); }
+ 
+ /* Storyboard Tab */
+ .tab-content { display: none; }
+ .tab-content.active { display: block; }
+ 
+ .status-bar {
+ display: flex; justify-content: space-around;
+ background: rgba(255,255,255,0.05); border-radius: 16px; padding: 14px; margin-bottom: 12px;
+ }
+ 
+ .status-item { text-align: center; }
+ .status-value { font-size: 1.1rem; font-weight: bold; color: #a78bfa; }
+ .status-label { font-size: 0.6rem; color: #888; }
+ 
+ .storyboard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+ @media (min-width: 500px) { .storyboard { grid-template-columns: repeat(3, 1fr); } }
+ @media (min-width: 900px) { .storyboard { grid-template-columns: repeat(5, 1fr); } }
+ 
+ .scene-card {
+ background: rgba(255,255,255,0.05); border-radius: 14px;
+ overflow: hidden; border: 2px solid transparent; transition: 0.2s;
+ }
+ 
+ .scene-card.selected { border-color: #10b981; box-shadow: 0 0 15px rgba(16,185,129,0.3); }
+ 
+ .scene-image { width: 100%; aspect-ratio: 9/16; object-fit: cover; display: block; }
+ 
+ .scene-info { padding: 8px; }
+ .scene-title { font-size: 0.8rem; font-weight: 600; margin-bottom: 2px; }
+ .scene-meta { font-size: 0.65rem; color: #888; margin-bottom: 6px; }
+ 
+ .scene-actions { display: flex; gap: 4px; }
+ 
+ .btn-sm { flex: 1; padding: 6px; border-radius: 6px; border: none; font-size: 0.65rem; cursor: pointer; }
+ .btn-select { background: rgba(16,185,129,0.2); color: #10b981; }
+ .btn-edit { background: rgba(167,139,250,0.2); color: #a78bfa; }
+ </style>
+</head>
+<body>
+<div class="app-container">
+ <!-- Header -->
+ <header class="header">
+ <h1>🎬 动漫工厂</h1>
+ <div class="header-actions">
+ <button class="icon-btn" onclick="showQR()">📱</button>
+ <button class="icon-btn" onclick="location.reload()">🔄</button>
+ </div>
+ </header>
+ 
+ <!-- QR Modal -->
+ <div id="qrModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:1000; align-items:center; justify-content:center;">
+ <div style="background:#1a1a2e; border-radius:24px; padding:30px; text-align:center; max-width:350px; width:90%;">
+ <h3 style="margin-bottom:20px;">📱 手机扫码预览</h3>
+ <div id="qrCode" style="background:white; padding:20px; border-radius:16px; display:inline-block; margin-bottom:20px;">
+ <div style="width:200px; height:200px; display:flex; align-items:center; justify-content:center; font-size:60px;">📱</div>
+ </div>
+ <div style="background:rgba(0,0,0,0.3); border-radius:12px; padding:12px; margin-bottom:15px;">
+ <div style="font-size:0.7rem; color:#888; margin-bottom:8px;">手机访问地址：</div>
+ <div id="mobileUrl" style="font-size:0.8rem; color:#a78bfa; word-break:break-all; user-select:all;"></div>
+ </div>
+ <button onclick="copyUrl()" style="background:linear-gradient(135deg,#a78bfa,#7c3aed); border:none; padding:12px 24px; border-radius:30px; color:white; font-size:0.9rem; cursor:pointer; margin-right:10px;">📋 复制地址</button>
+ <button onclick="closeQR()" style="background:rgba(255,255,255,0.1); border:none; padding:12px 24px; border-radius:30px; color:white; font-size:0.9rem; cursor:pointer;">关闭</button>
+ <div style="margin-top:15px; font-size:0.75rem; color:#888;">
+ 确保手机和电脑在同一Wi-Fi<br>
+ 打开手机浏览器粘贴地址即可
+ </div>
+ </div>
+ </div>
+ 
+ <!-- Studio Tab -->
+ <div class="tab-content active" id="studio-tab">
+ <div class="split-layout">
+ <!-- Left: AI Chat -->
+ <div class="card">
+ <div class="card-header">
+ <h3>🤖 千尘 · AI助手</h3>
+ <span style="font-size: 0.65rem; color: #10b981;">⚡ 在线</span>
+ </div>
+ <div class="chat-area">
+ <div class="messages-container" id="messagesContainer">
+ <div class="message assistant">
+ ✨ 你好雨陌！我是千尘，你的AI动漫助手。<br><br>
+ 我可以帮你：
+ <br>🎨 生成动漫风格 HTML/CSS
+ <br>🎬 添加动画效果
+ <br>🖼️ 处理图片和滤镜
+ <br>📝 修改代码并预览
+ <br><br>
+ <strong>试试说：</strong>"做一个赛博朋克角色卡片"
+ </div>
+ </div>
+ <div class="chat-input-area">
+ <input type="text" class="chat-input" id="chatInput" placeholder="输入你的需求..." autocomplete="off">
+ <button class="send-btn" onclick="sendMessage()">发送</button>
+ </div>
+ <div class="quick-commands">
+ <button class="quick-btn" data-cmd="赛博朋克角色卡片">🤖 赛博卡片</button>
+ <button class="quick-btn" data-cmd="日系唯美对话框">💬 日系对话</button>
+ <button class="quick-btn" data-cmd="Q版可爱按钮带漂浮动画">🐧 Q版按钮</button>
+ <button class="quick-btn" data-cmd="古风仙侠角色头像">⚔️ 仙侠头像</button>
+ <button class="quick-btn" data-cmd="优化当前预览的代码">✨ 优化代码</button>
+ </div>
+ </div>
+ </div>
+ 
+ <!-- Right: Preview -->
+ <div class="card">
+ <div class="card-header">
+ <h3>🎨 实时预览 · 安全沙箱</h3>
+ <div>
+ <button class="tool-btn" onclick="takeScreenshot()">📸 截图</button>
+ <button class="tool-btn" onclick="resetPreview()">🔄 重置</button>
+ </div>
+ </div>
+ <div class="theme-scroll">
+ <span class="theme-chip active" data-theme="xianxia">⚔️ 仙侠</span>
+ <span class="theme-chip" data-theme="japanese">🌸 日系</span>
+ <span class="theme-chip" data-theme="cyberpunk">🤖 赛博</span>
+ <span class="theme-chip" data-theme="chibi">🐧 Q版</span>
+ <span class="theme-chip" data-theme="realistic">📸 写实</span>
+ <span class="theme-chip" data-theme="fantasy">🐉 奇幻</span>
+ </div>
+ <div class="preview-frame">
+ <iframe id="previewFrame" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>
+ </div>
+ <div class="toolbar">
+ <button class="tool-btn primary" onclick="applyEditorCode()">✨ 应用代码</button>
+ <button class="tool-btn" onclick="setAnimation('float')">🎈 漂浮</button>
+ <button class="tool-btn" onclick="setAnimation('glow')">✨ 闪烁</button>
+ <button class="tool-btn" onclick="setAnimation('breath')">🌊 呼吸</button>
+ <button class="tool-btn" onclick="setAnimation('')">⏹️ 清除</button>
+ </div>
+ </div>
+ </div>
+ 
+ <!-- Code Editor -->
+ <div class="card code-editor-card">
+ <div class="card-header">
+ <h3>📝 代码编辑器</h3>
+ <span style="font-size: 0.65rem; color: #888;">编辑后点击"应用代码"</span>
+ </div>
+ <textarea class="code-editor" id="codeEditor" placeholder="HTML/CSS 代码..."></textarea>
+ </div>
+ </div>
+ 
+ <!-- Storyboard Tab -->
+ <div class="tab-content" id="storyboard-tab">
+ <div class="status-bar">
+ <div class="status-item"><div class="status-value">5</div><div class="status-label">场景</div></div>
+ <div class="status-item"><div class="status-value" id="selectedCount">0</div><div class="status-label">已选</div></div>
+ <div class="status-item"><div class="status-value">9:16</div><div class="status-label">比例</div></div>
+ <div class="status-item"><div class="status-value">2048²</div><div class="status-label">分辨率</div></div>
+ </div>
+ <div class="storyboard" id="storyboard"></div>
+ </div>
+</div>
+ 
+ <!-- FAB -->
+ <button class="fab" onclick="generateVideo()">🎬</button>
+ 
+ <!-- Bottom Nav -->
+ <nav class="bottom-nav">
+ <div class="nav-item active" data-tab="studio"><span class="nav-icon">🎨</span><span>工坊</span></div>
+ <div class="nav-item" data-tab="storyboard"><span class="nav-icon">🎬</span><span>分镜</span></div>
+ </nav>
+
+<script>
+ // ===== Config =====
+ const themes = {
+ japanese: 'background: linear-gradient(135deg, #fef3e8, #ffe4e1); color: #4a3728; font-family: serif;',
+ cyberpunk: 'background: linear-gradient(135deg, #0f0c29, #302b63); color: #0ff; font-family: monospace;',
+ xianxia: 'background: linear-gradient(135deg, #d9cba3, #b8a77a); color: #5d3a1a; font-family: "KaiTi", serif;',
+ chibi: 'background: linear-gradient(135deg, #fdeff2, #ffe6f0); color: #e67e9e; font-family: cursive;',
+ realistic: 'background: linear-gradient(135deg, #e8eef4, #d4dee8); color: #2c3e50; font-family: system-ui;',
+ fantasy: 'background: linear-gradient(135deg, #1b1030, #2a1e3c); color: #e6d5ff;'
+ };
+ 
+ let currentTheme = 'xianxia';
+ let currentCode = '';
+ let currentAnim = '';
+ let isWaiting = false;
+ 
+ const defaultCode = `<div style="text-align: center; padding: 40px;">
+ <div style="font-size: 64px; margin-bottom: 20px;">⚔️</div>
+ <h2 style="margin-bottom: 12px;">第7集《毒丝侵剑心》</h2>
+ <p>古风仙侠动漫分镜预览</p>
+ <button style="background: linear-gradient(135deg, #a78bfa, #7c3aed); border: none; padding: 12px 24px; border-radius: 40px; color: white; margin-top: 16px; cursor: pointer;">✨ 查看分镜 ✨</button>
+</div>`;
+ 
+ // Scene Data
+ const scenes = [
+ { id: 1, title: '剑心破碎危机', desc: '冰洞修炼，剑心破碎', duration: '15秒', image: '../volcano_images_v2/scene1_sword_break.png', selected: false },
+ { id: 2, title: '发现下毒真相', desc: '烛光室内，发现茶水下毒', duration: '30秒', image: '../volcano_images_v2/scene2_poison_discover.png', selected: false },
+ { id: 3, title: '真面目暴露', desc: '夜色对峙，林师兄暴露', duration: '30秒', image: '../volcano_images_v2/scene3_villain_reveal.png', selected: false },
+ { id: 4, title: '激烈剑战', desc: '剑光纵横，激烈战斗', duration: '30秒', image: '../volcano_images_v2/scene4_sword_battle.png', selected: false },
+ { id: 5, title: '悬念结尾', desc: '剑片飘落，神秘黑影', duration: '15秒', image: '../volcano_images_v2/scene5_cliffhanger.png', selected: false }
+ ];
+ 
+ // ===== Sanitize =====
+ function sanitizeHTML(str) {
+ return (str || '').replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '').replace(/on\w+\s*=\s*["'][^"']*["']/gi, '').replace(/javascript:/gi, '#');
+ }
+ 
+ // ===== Update Preview =====
+ function updatePreview() {
+ const code = currentCode || document.getElementById('codeEditor').value || defaultCode;
+ const safeCode = sanitizeHTML(code);
+ const animCSS = currentAnim ? `.preview-content{animation:${currentAnim}} @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}} @keyframes glow{0%,100%{box-shadow:0 0 5px #a78bfa}50%{box-shadow:0 0 20px #a78bfa}} @keyframes breath{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}` : '';
+ 
+ document.getElementById('previewFrame').srcdoc = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>*{margin:0;padding:0;box-sizing:border-box}body{${themes[currentTheme]}min-height:450px;display:flex;align-items:center;justify-content:center;padding:20px}.preview-content{max-width:100%;transition:all 0.3s}${animCSS}button{cursor:pointer}</style></head><body><div class="preview-content">${safeCode}</div></body></html>`;
+ }
+ 
+ // ===== AI Response =====
+ async function getAIResponse(msg) {
+ await new Promise(r => setTimeout(r, 600));
+ const m = msg.toLowerCase();
+ 
+ if (m.includes('赛博') && (m.includes('卡片') || m.includes('角色'))) {
+ return `🤖 赛博朋克角色卡：\n\`\`\`html\n<div style="background:linear-gradient(135deg,#0f0c29,#302b63);border-radius:24px;padding:30px;text-align:center;border:1px solid #0ff;box-shadow:0 0 30px rgba(0,255,255,0.3)"><div style="font-size:64px">🤖</div><h2 style="color:#0ff;margin:16px 0">霓虹猎手</h2><p style="color:#0ff;opacity:0.8">赛博空间特工</p><span style="display:inline-block;background:#0ff;color:#000;padding:6px 16px;border-radius:40px;margin-top:16px">⚡ 传说级</span></div>\n\`\`\``;
+ }
+ 
+ if (m.includes('日系') || m.includes('对话')) {
+ return `🌸 日系对话框：\n\`\`\`html\n<div style="background:rgba(255,240,230,0.95);border-radius:28px;padding:20px;max-width:300px;box-shadow:0 8px 20px rgba(0,0,0,0.1)"><div style="display:flex;gap:12px;align-items:center"><div style="width:40px;height:40px;background:#ffb7c5;border-radius:50%;display:flex;align-items:center;justify-content:center">🌸</div><div><strong style="color:#e67e9e">小樱</strong><br><span style="font-size:12px">今天也是元气满满！</span></div></div></div>\n\`\`\``;
+ }
+ 
+ if (m.includes('q版') || m.includes('可爱')) {
+ return `🐧 Q版按钮：\n\`\`\`html\n<div style="text-align:center;padding:20px"><button style="background:linear-gradient(135deg,#ffb7c5,#ff9eb5);border:none;padding:14px 32px;border-radius:60px;color:white;font-size:18px;font-weight:bold;box-shadow:0 4px 15px rgba(255,150,150,0.3)">🐧 戳我 🐧</button></div>\n\`\`\`\n漂浮动画已添加！`;
+ }
+ 
+ if (m.includes('古风') || m.includes('仙侠')) {
+ return `⚔️ 仙侠头像：\n\`\`\`html\n<div style="text-align:center"><div style="width:100px;height:100px;background:linear-gradient(135deg,#d9cba3,#b8a77a);border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:48px;border:3px solid #c9ae6e">⚔️</div><h3 style="color:#5d3a1a">云瑶仙子</h3><p style="color:#8b6b3d;font-size:12px">修行千年 · 渡劫飞升</p></div>\n\`\`\``;
+ }
+ 
+ if (m.includes('优化')) {
+ return `✨ 当前代码已准备好优化！告诉我具体想调整什么：\n- 颜色？\n- 大小？\n- 动画？\n- 布局？`;
+ }
+ 
+ // Default
+ return `🎨 为你生成：\n\`\`\`html\n<div style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border-radius:28px;padding:32px;text-align:center;color:white"><div style="font-size:56px">✨</div><h2 style="margin:16px 0">${msg.slice(0,20)||'动漫创作'}</h2><p>AI实时预览</p><button style="background:white;border:none;padding:10px 24px;border-radius:40px;color:#7c3aed;margin-top:16px;cursor:pointer">开始创作</button></div>\n\`\`\``;
+ }
+ 
+ function extractCode(text) {
+ const m = text.match(/```html\n([\s\S]*?)\n```/);
+ return m ? m[1] : null;
+ }
+ 
+ // ===== Messages =====
+ function addMessage(content, isUser) {
+ const container = document.getElementById('messagesContainer');
+ const div = document.createElement('div');
+ div.className = `message ${isUser ? 'user' : 'assistant'}`;
+ 
+ if (isUser) {
+ div.textContent = content;
+ } else {
+ let html = content.replace(/```html\n([\s\S]*?)\n```/g, (m, code) => {
+ const escaped = code.replace(/`/g, '\\`').replace(/\$/g, '\\$');
+ return `<pre><code>${code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</code></pre><button class="tool-btn" style="margin-top:6px" onclick="applyCodeFromMsg(\`${escaped}\`)">✨ 应用</button>`;
+ });
+ html = html.replace(/```\n([\s\S]*?)\n```/g, (m, code) => `<pre><code>${code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</code></pre>`);
+ div.innerHTML = html.replace(/\n/g, '<br>');
+ }
+ 
+ container.appendChild(div);
+ container.scrollTop = container.scrollHeight;
+ }
+ 
+ window.applyCodeFromMsg = function(code) {
+ currentCode = code;
+ document.getElementById('codeEditor').value = code;
+ updatePreview();
+ addMessage('✅ 代码已应用到预览区', false);
+ };
+ 
+ async function sendMessage() {
+ const input = document.getElementById('chatInput');
+ const msg = input.value.trim();
+ if (!msg || isWaiting) return;
+ 
+ input.value = '';
+ addMessage(msg, true);
+ isWaiting = true;
+ 
+ const container = document.getElementById('messagesContainer');
+ const typing = document.createElement('div');
+ typing.className = 'message assistant';
+ typing.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+ container.appendChild(typing);
+ container.scrollTop = container.scrollHeight;
+ 
+ try {
+ const response = await getAIResponse(msg);
+ typing.remove();
+ addMessage(response, false);
+ 
+ const code = extractCode(response);
+ if (code) {
+ currentCode = code;
+ document.getElementById('codeEditor').value = code;
+ updatePreview();
+ addMessage('🎨 已自动预览效果！', false);
+ }
+ } catch (e) {
+ typing.remove();
+ addMessage(`⚠️ 出错：${e.message}`, false);
+ }
+ 
+ isWaiting = false;
+ }
+ 
+ // ===== Tab Navigation =====
+ document.querySelectorAll('.nav-item').forEach(item => {
+ item.addEventListener('click', () => {
+ const tab = item.dataset.tab;
+ document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+ document.getElementById(`${tab}-tab`).classList.add('active');
+ document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+ item.classList.add('active');
+ if (tab === 'storyboard') renderStoryboard();
+ });
+ });
+ 
+ // ===== Theme =====
+ document.querySelectorAll('.theme-chip').forEach(chip => {
+ chip.addEventListener('click', () => {
+ currentTheme = chip.dataset.theme;
+ document.querySelectorAll('.theme-chip').forEach(c => c.classList.remove('active'));
+ chip.classList.add('active');
+ updatePreview();
+ });
+ });
+ 
+ // ===== Quick Commands =====
+ document.querySelectorAll('.quick-btn').forEach(btn => {
+ btn.addEventListener('click', () => {
+ document.getElementById('chatInput').value = btn.dataset.cmd;
+ sendMessage();
+ });
+ });
+ 
+ // ===== Keyboard =====
+ document.getElementById('chatInput').addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+ 
+ // ===== Code Editor =====
+ window.applyEditorCode = function() {
+ currentCode = document.getElementById('codeEditor').value;
+ updatePreview();
+ };
+ 
+ // ===== Animation =====
+ window.setAnimation = function(anim) {
+ currentAnim = anim ? `${anim} 1s ease-in-out infinite` : '';
+ updatePreview();
+ };
+ 
+ // ===== Reset =====
+ window.resetPreview = function() {
+ currentCode = '';
+ currentAnim = '';
+ document.getElementById('codeEditor').value = defaultCode;
+ updatePreview();
+ };
+ 
+ // ===== Screenshot =====
+ window.takeScreenshot = function() { alert('请使用手机截图功能'); };
+ 
+ // ===== Storyboard =====
+ function renderStoryboard() {
+ const el = document.getElementById('storyboard');
+ el.innerHTML = '';
+ scenes.forEach((s, i) => {
+ const card = document.createElement('div');
+ card.className = `scene-card ${s.selected ? 'selected' : ''}`;
+ card.innerHTML = `
+ <img src="${s.image}" class="scene-image" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 178%22><rect fill=%22%23333%22 width=%22100%22 height=%22178%22/><text x=%2250%22 y=%2290%22 text-anchor=%22middle%22 fill=%22%23666%22>场景${s.id}</text></svg>'">
+ <div class="scene-info">
+ <div class="scene-title">${s.title}</div>
+ <div class="scene-meta">${s.desc} · ${s.duration}</div>
+ <div class="scene-actions">
+ <button class="btn-sm btn-select" onclick="toggleScene(${i})">${s.selected?'✅ 已选':'⬜ 选择'}</button>
+ <button class="btn-sm btn-edit">✏️</button>
+ </div>
+ </div>`;
+ el.appendChild(card);
+ });
+ document.getElementById('selectedCount').textContent = scenes.filter(s=>s.selected).length;
+ }
+ 
+ window.toggleScene = function(i) {
+ scenes[i].selected = !scenes[i].selected;
+ renderStoryboard();
+ };
+ 
+ window.generateVideo = function() {
+ const sel = scenes.filter(s=>s.selected);
+ if (!sel.length) return alert('请先选择场景！');
+ alert(`将为 ${sel.length} 个场景生成视频！`);
+ };
+ 
+ // ===== QR Functions =====
+ window.showQR = function() {
+ const url = `http://${window.location.hostname}:8080/anime-studio/studio.html`;
+ document.getElementById('mobileUrl').textContent = url;
+ document.getElementById('qrModal').style.display = 'flex';
+ };
+ 
+ window.closeQR = function() {
+ document.getElementById('qrModal').style.display = 'none';
+ };
+ 
+ window.copyUrl = function() {
+ const url = document.getElementById('mobileUrl').textContent;
+ navigator.clipboard.writeText(url).then(() => {
+ alert('✅ 地址已复制！发到手机浏览器打开');
+ }).catch(() => {
+ prompt('复制这个地址到手机：', url);
+ });
+ };
+ 
+ // ===== Init =====
+ currentCode = defaultCode;
+ document.getElementById('codeEditor').value = defaultCode;
+ updatePreview();
+ renderStoryboard();
+ 
+ // Auto show QR on first load
+ if (!localStorage.getItem('qrShown')) {
+ setTimeout(() => {
+ showQR();
+ localStorage.setItem('qrShown', '1');
+ }, 1000);
+ }
+ 
+ console.log('🎬 千尘AI动漫工厂 v2.0');
+</script>
+</body>
+</html>
