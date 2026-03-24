@@ -236,6 +236,31 @@
  <div>
  <div class="card">
  <div class="card-header"><h3>🤖 千尘 AI</h3><span style="font-size:0.65rem;color:#10b981">⚡ 在线</span></div>
+ <!-- 7个分身选择器 -->
+ <div class="agents-selector" id="agentsContainer" style="padding:8px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,0.1)">
+ </div>
+ <style>
+ .agent-btn { 
+ background: rgba(255,255,255,0.1); 
+ border: 1px solid rgba(255,255,255,0.2); 
+ border-radius: 20px; 
+ padding: 6px 12px; 
+ color: white; 
+ font-size: 0.7rem; 
+ cursor: pointer; 
+ display: flex; 
+ align-items: center; 
+ gap: 4px;
+ transition: 0.2s;
+ }
+ .agent-btn:hover { background: rgba(167,139,250,0.3); }
+ .agent-btn.active { 
+ background: linear-gradient(135deg, #a78bfa, #7c3aed); 
+ border-color: #a78bfa;
+ }
+ .agent-icon { font-size: 1rem; }
+ .agent-name { font-size: 0.65rem; }
+ </style>
  <div class="chat-area">
  <div class="messages-container" id="messagesContainer">
  <div class="message assistant">✨ 你好雨陌！<br><br>支持多源生图API：<br>🌐 Pollinations (免费)<br>🤗 HuggingFace (免费)<br>🎨 Stability AI<br>✨ OpenAI DALL-E<br>⚙️ 自定义API<br><br>试试："生成图片 赛博朋克女战士"</div>
@@ -600,13 +625,96 @@ addMsg(`📸 已截图分镜${selectedFrameIdx+1}`);
 };
 
 // 编辑分镜代码
-document.addEventListener('DOMContentLoaded',()=>{
-const editor=document.getElementById('frameCodeEditor');
-if(editor)editor.addEventListener('input',e=>{
-if(storyboard9[selectedFrameIdx]){
-storyboard9[selectedFrameIdx].code=e.target.value;
+// 7个分身角色
+const agents = {
+    ceo: { name: 'CEO分身', icon: '👔', role: '总调度，统筹全局，分配任务' },
+    artist: { name: '美术总监', icon: '🎨', role: '负责AI绘图、分镜设计、画面构图' },
+    writer: { name: '编剧', icon: '📝', role: '负责剧本创作、对白设计、情节编排' },
+    editor: { name: '剪辑师', icon: '🎬', role: '负责视频剪辑、特效处理、最终合成' },
+    prompter: { name: '提示词工程师', icon: '💡', role: '负责优化AI提示词、提升生成质量' },
+    qa: { name: '质检总监', icon: '🔍', role: '负责质量检查、风格统一、问题修复' },
+    voice: { name: '配音师', icon: '🎤', role: '负责角色配音、音效设计、音频处理' }
+};
+
+let currentAgent = 'ceo';
+const backendUrl = 'http://127.0.0.1:8001';
+
+// 选择分身
+window.selectAgent = function(agentId) {
+    currentAgent = agentId;
+    document.querySelectorAll('.agent-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.agent === agentId);
+    });
+    const agent = agents[agentId];
+    addMsg(`✅ 已切换到 ${agent.icon} ${agent.name}`);
+    addMsg(`📋 职责：${agent.role}`);
+};
+
+// 渲染分身选择器
+function renderAgents() {
+    const container = document.getElementById('agentsContainer');
+    if (!container) return;
+    
+    container.innerHTML = Object.entries(agents).map(([id, agent]) => `
+        <button class="agent-btn ${id === currentAgent ? 'active' : ''}" 
+                data-agent="${id}" 
+                onclick="selectAgent('${id}')">
+            <span class="agent-icon">${agent.icon}</span>
+            <span class="agent-name">${agent.name}</span>
+        </button>
+    `).join('');
 }
-});
+
+// 调用后端API
+async function callBackend(action, data) {
+    try {
+        const response = await fetch(`${backendUrl}/${action}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Backend error:', error);
+        return null;
+    }
+}
+
+// 发送消息给分身
+async function sendMessageToAgent(message) {
+    const agent = agents[currentAgent];
+    addMsg(`📤 发送给 ${agent.icon} ${agent.name}: ${message}`);
+    
+    const result = await callBackend('chat', {
+        agent: currentAgent,
+        message: message
+    });
+    
+    if (result && result.response) {
+        addMsg(`${agent.icon} ${agent.name}: ${result.response}`);
+    } else {
+        addMsg(`⚠️ ${agent.name} 暂时无法响应，请稍后重试`);
+    }
+}
+
+// 渲染分镜图（已修复）
+function renderStoryboard9(){
+    const el=document.getElementById('storyboard9Grid');
+    if(!el)return;
+    el.innerHTML=storyboard9.map((f,i)=>`
+    <div style="aspect-ratio:9/16;background:rgba(0,0,0,0.5);border-radius:12px;overflow:hidden;position:relative;cursor:pointer;border:2px solid ${selectedFrameIdx===i?'#a78bfa':'transparent'};transition:0.2s" onclick="selectFrame9(${i})">
+    <div style="position:absolute;top:4px;left:6px;background:rgba(0,0,0,0.6);color:white;font-size:0.65rem;padding:2px 6px;border-radius:10px;z-index:2">${i+1}</div>
+    ${f.imageUrl?`<img src="${f.imageUrl}" style="width:100%;height:100%;object-fit:cover">`:`<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#2d2d44,#1a1a2e);color:#a78bfa;font-size:0.65rem"><div style="font-size:20px">🎬</div>分镜${i+1}</div>`}
+    <div style="position:absolute;bottom:4px;left:0;right:0;text-align:center;background:rgba(0,0,0,0.6);color:white;font-size:0.55rem;padding:2px">${f.prompt.substring(0,12)}...</div>
+    </div>
+    `).join('');
+    document.getElementById('selectedFrame').textContent=selectedFrameIdx+1;
+    document.getElementById('generatedCount').textContent=storyboard9.filter(f=>f.imageUrl).length;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderAgents();
+    // ... 其他初始化代码
 });
 
 const scenes=[
