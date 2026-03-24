@@ -385,6 +385,18 @@
  </div>
  
  <div class="tab-content" id="storyboard-tab">
+ <!-- 第7集入口界面 -->
+ <div class="card" id="episode7Intro">
+ <div style="text-align:center;padding:40px">
+ <div style="font-size:64px;margin-bottom:20px">⚔️</div>
+ <h2 style="margin-bottom:12px;color:#a78bfa">第7集《毒丝侵剑心》</h2>
+ <p style="color:#94a3b8;margin-bottom:20px">古风仙侠动漫分镜预览</p>
+ <button onclick="showStoryboard()" style="background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;padding:12px 24px;border-radius:40px;color:white;margin-top:16px;cursor:pointer;font-size:1rem;font-weight:600">✨ 查看分镜 ✨</button>
+ </div>
+ </div>
+ 
+ <!-- 9宫格分镜（默认隐藏） -->
+ <div id="storyboardContent" style="display:none">
  <div class="status-bar">
  <div class="status-item"><div class="status-value" id="frameCount">9</div><div class="status-label">分镜</div></div>
  <div class="status-item"><div class="status-value" id="selectedFrame">1</div><div class="status-label">当前</div></div>
@@ -426,6 +438,7 @@
  <button class="tool-btn primary" onclick="generateAllFrames()">🎬 生成9格分镜</button>
  <button class="tool-btn" onclick="exportAllFrames()">📦 导出全部</button>
  <button class="tool-btn" onclick="clearStoryboard()">🗑️ 清空</button>
+ <button class="tool-btn" onclick="showEpisode7Intro()">⬅️ 返回</button>
  </div>
  
  <!-- 选中分镜详情 -->
@@ -436,6 +449,7 @@
  <span>点击上方分镜格查看详情</span>
  </div>
  <textarea class="code-editor" id="frameCodeEditor" style="margin-top:12px;height:100px" placeholder="编辑当前分镜代码..."></textarea>
+ </div>
  </div>
  </div>
  </div>
@@ -699,7 +713,21 @@ async function sendMessageToAgent(message) {
     }
 }
 
-// 渲染分镜图（已修复）
+// 显示分镜内容
+window.showStoryboard = function() {
+    document.getElementById('episode7Intro').style.display = 'none';
+    document.getElementById('storyboardContent').style.display = 'block';
+    // 初始化分镜
+    initStoryboard9();
+};
+
+// 显示第7集入口
+window.showEpisode7Intro = function() {
+    document.getElementById('episode7Intro').style.display = 'block';
+    document.getElementById('storyboardContent').style.display = 'none';
+};
+
+// 渲染分镜图
 function renderStoryboard9(){
     const el=document.getElementById('storyboard9Grid');
     if(!el)return;
@@ -713,6 +741,15 @@ function renderStoryboard9(){
     document.getElementById('selectedFrame').textContent=selectedFrameIdx+1;
     document.getElementById('generatedCount').textContent=storyboard9.filter(f=>f.imageUrl).length;
 }
+
+// 选择分镜
+window.selectFrame9=function(i){
+    selectedFrameIdx=i;
+    renderStoryboard9();
+    const f=storyboard9[i];
+    document.getElementById('framePreview').innerHTML=f.imageUrl?`<img src="${f.imageUrl}" style="max-width:100%;border-radius:12px">`:`<div style="text-align:center;color:#888;padding:20px"><div style="font-size:32px">🎬</div><p>${f.prompt}</p><small>点击"生成9格分镜"生成图片</small></div>`;
+    document.getElementById('frameCodeEditor').value=f.code;
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     renderAgents();
