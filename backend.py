@@ -30,12 +30,12 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="."), name="static")
 
 # 小米MiMo API配置
-MIMO_API_KEY = "sk-c3j4vatk8bf3izceepuhz5dst8bmr8t6c7b4mb7wa0ju2kze"
-MIMO_BASE_URL = "https://api.xiaomimimo.com/v1"
+MIMO_API_KEY = os.environ.get("MIMO_API_KEY", "sk-c3j4vatk8bf3izceepuhz5dst8bmr8t6c7b4mb7wa0ju2kze")
+MIMO_BASE_URL = os.environ.get("MIMO_BASE_URL", "https://api.xiaomimimo.com/v1")
 
 # 火山引擎API配置（用于画图）
-VOLCANO_API_KEY = "f47d6f15-832c-4b4a-8434-cb882dbe0ea2"
-VOLCANO_BASE_URL = "https://ark.cn-beijing.volces.com/api/v3"
+VOLCANO_API_KEY = os.environ.get("VOLCANO_API_KEY", "f47d6f15-832c-4b4a-8434-cb882dbe0ea2")
+VOLCANO_BASE_URL = os.environ.get("VOLCANO_BASE_URL", "https://ark.cn-beijing.volces.com/api/v3")
 
 # 7个分身角色定义
 AGENTS = {
