@@ -112,9 +112,6 @@ def call_mimo_api(system_prompt: str, user_message: str) -> str:
     }
     
     try:
-        # 调试信息
-        print(f"Calling MiMo API with payload: {payload}")
-        
         response = requests.post(
             f"{MIMO_BASE_URL}/chat/completions",
             headers=headers,
@@ -122,22 +119,12 @@ def call_mimo_api(system_prompt: str, user_message: str) -> str:
             timeout=60
         )
         
-        # 调试信息
-        print(f"API Response Status: {response.status_code}")
-        print(f"API Response: {response.text[:500]}")
-        
         if response.status_code == 200:
             result = response.json()
-            # 调试信息
-            print(f"Parsed JSON: {result}")
-            
             # 从API响应中提取内容
             if "choices" in result and len(result["choices"]) > 0:
                 message = result["choices"][0].get("message", {})
                 content = message.get("content", "")
-                # 调试信息
-                print(f"Extracted content: {content}")
-                
                 # 确保返回有效内容
                 if content:
                     return content
@@ -145,7 +132,6 @@ def call_mimo_api(system_prompt: str, user_message: str) -> str:
         else:
             return f"API调用失败: {response.status_code}"
     except Exception as e:
-        print(f"Exception: {str(e)}")
         return f"调用出错: {str(e)}"
 
 def generate_image(prompt: str) -> str:
@@ -206,11 +192,6 @@ async def chat(request: ChatRequest):
     
     # 调用小米MiMo API
     mimo_response = call_mimo_api(agent["system_prompt"], request.message)
-    
-    # 调试信息
-    print(f"Agent: {agent_id}")
-    print(f"Message: {request.message}")
-    print(f"MiMo Response: {mimo_response}")
     
     # 确保返回有效的中文内容
     if not mimo_response or len(mimo_response.strip()) == 0:
