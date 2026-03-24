@@ -341,8 +341,74 @@
 </div>
 
 <script>
- // ========== Theme Definitions ==========
- const themeStyles = {
+// ========== Live Preview Module v1.0 ==========
+function initLivePreview(editorId, previewFrameId, onUpdateCallback) {
+ let liveEnabled = true;
+ let updateTimer = null;
+ 
+ const editor = document.getElementById(editorId);
+ const previewFrame = document.getElementById(previewFrameId);
+ 
+ function updatePreview(code) {
+ const doc = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
+ *{margin:0;padding:0;box-sizing:border-box;}
+ body{background:linear-gradient(135deg,#f5f7fa,#e9eef5);min-height:450px;display:flex;align-items:center;justify-content:center;padding:20px;font-family:system-ui;}
+ .preview-content{max-width:100%;animation:fadeIn 0.2s;}
+ @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+ </style></head><body><div class="preview-content">${code || '<div style="padding:40px;">✨ 编辑代码实时预览 ✨</div>'}</div></body></html>`;
+ previewFrame.srcdoc = doc;
+ 
+ if (onUpdateCallback) onUpdateCallback(code);
+ 
+ const wrapper = previewFrame.parentElement;
+ if (wrapper && liveEnabled) {
+ wrapper.style.transition = 'box-shadow 0.2s';
+ wrapper.style.boxShadow = '0 0 0 2px #a78bfa';
+ setTimeout(() => wrapper.style.boxShadow = '', 200);
+ }
+ }
+ 
+ editor.addEventListener('input', (e) => {
+ if (liveEnabled) {
+ if (updateTimer) clearTimeout(updateTimer);
+ updateTimer = setTimeout(() => {
+ updatePreview(e.target.value);
+ showLiveIndicator('⚡ 已实时更新');
+ }, 100);
+ }
+ });
+ 
+ function showLiveIndicator(msg) {
+ const indicator = document.getElementById('liveIndicator');
+ if (indicator) {
+ const originalText = indicator.innerHTML;
+ indicator.innerHTML = msg;
+ setTimeout(() => indicator.innerHTML = originalText, 1500);
+ }
+ }
+ 
+ function toggleLiveMode(enabled) {
+ liveEnabled = enabled;
+ if (enabled) {
+ updatePreview(editor.value);
+ showLiveIndicator('⚡ 实时模式已开启');
+ } else {
+ showLiveIndicator('⏸️ 手动模式');
+ }
+ return liveEnabled;
+ }
+ 
+ function refreshPreview() {
+ updatePreview(editor.value);
+ }
+ 
+ updatePreview(editor.value);
+ 
+ return { toggleLiveMode, refreshPreview, updatePreview };
+}
+
+// ========== Theme Definitions ==========
+const themeStyles = {
  anime: { name: '日系动漫', prompt: 'anime style, vibrant colors, Japanese animation' },
  cyberpunk: { name: '赛博朋克', prompt: 'cyberpunk style, neon lights, futuristic city' },
  fantasy: { name: '幻想奇幻', prompt: 'fantasy art, magical, ethereal' },
@@ -353,9 +419,9 @@
  xianxia: { name: '仙侠修真', prompt: 'xianxia style, immortal cultivation, celestial mountains, flowing robes, sword magic' },
  realistic: { name: '真人写实', prompt: 'photorealistic, real human, detailed skin, natural lighting' },
  watercolor: { name: '水墨国风', prompt: 'watercolor painting, Chinese ink art, brush strokes, poetic' }
- };
+};
 
- const defaultPrompts = [
+const defaultPrompts = [
  "主角登场，特写镜头，眼神坚定",
  "场景建立，广角镜头，壮丽世界",
  "关键对话，双人镜头，情感交流",
@@ -365,18 +431,17 @@
  "友情羁绊，并肩镜头，温暖氛围",
  "反派亮相，仰视镜头，压迫感强",
  "结局画面，全景镜头，希望之光"
- ];
- 
- let storyboardFrames = [];
- let selectedIndex = 0;
- let currentTheme = 'anime';
- let currentApi = 'pollinations';
- let liveEnabled = true;
- let updateTimer = null;
- let apiConfig = { custom: { url: '', key: '' } };
+];
 
- // Initialize
- function init() {
+let storyboardFrames = [];
+let selectedIndex = 0;
+let currentTheme = 'anime';
+let currentApi = 'pollinations';
+let apiConfig = { custom: { url: '', key: '' } };
+let livePreview = null;
+
+// Initialize
+function init() {
  for (let i = 0; i < 9; i++) {
  storyboardFrames.push({
  id: i,
@@ -387,10 +452,16 @@
  }
  renderGrid();
  selectFrame(0);
- setupLivePreview();
+ 
+ // Initialize Live Preview Module
+ livePreview = initLivePreview('codeEditor', 'previewFrame', (code) => {
+ if (storyboardFrames[selectedIndex]) {
+ storyboardFrames[selectedIndex].code = code;
  }
+ });
+}
 
- function renderGrid() {
+function renderGrid() {
  const grid = document.getElementById('storyboardGrid');
  grid.innerHTML = storyboardFrames.map((f, i) => `
  <div class="storyboard-cell ${selectedIndex === i ? 'active' : ''}" onclick="selectFrame(${i})">
@@ -399,68 +470,19 @@
  <div class="storyboard-label">${f.prompt.substring(0, 15)}</div>
  </div>
  `).join('');
- }
+ document.getElementById('selectedFrame').textContent = selectedIndex + 1;
+ document.getElementById('generatedCount').textContent = storyboardFrames.filter(f => f.imageUrl).length;
+}
 
- window.selectFrame = (idx) => {
+window.selectFrame = (idx) => {
  selectedIndex = idx;
  renderGrid();
  document.getElementById('codeEditor').value = storyboardFrames[idx].code;
- updatePreview(storyboardFrames[idx].code);
- };
+ if (livePreview) livePreview.updatePreview(storyboardFrames[idx].code);
+};
 
- // ========== Live Preview Core ==========
- function updatePreview(code) {
- const iframe = document.getElementById('previewFrame');
- const doc = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
- *{margin:0;padding:0;box-sizing:border-box;}
- body{background:linear-gradient(135deg,#f5f7fa,#e9eef5);min-height:450px;display:flex;align-items:center;justify-content:center;padding:20px;}
- .preview-content{max-width:100%;animation:fadeIn 0.2s;}
- @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
- </style></head><body><div class="preview-content">${code || '<div style="padding:40px;">✨ 编辑代码 ✨</div>'}</div></body></html>`;
- iframe.srcdoc = doc;
- if (liveEnabled) {
- document.getElementById('previewWrapper').style.boxShadow = '0 0 0 2px #a78bfa';
- setTimeout(() => document.getElementById('previewWrapper').style.boxShadow = '', 200);
- }
- }
-
- function setupLivePreview() {
- const editor = document.getElementById('codeEditor');
- editor.addEventListener('input', (e) => {
- const newCode = e.target.value;
- if (storyboardFrames[selectedIndex]) storyboardFrames[selectedIndex].code = newCode;
- if (liveEnabled) {
- if (updateTimer) clearTimeout(updateTimer);
- updateTimer = setTimeout(() => {
- updatePreview(newCode);
- const ind = document.getElementById('liveIndicator');
- ind.innerHTML = '⚡ 已实时更新';
- setTimeout(() => ind.innerHTML = '⚡ 实时模式已开启', 1200);
- }, 100);
- }
- });
- }
-
- function toggleLive() {
- liveEnabled = !liveEnabled;
- const toggle = document.getElementById('liveToggle');
- const status = document.getElementById('liveStatus');
- if (liveEnabled) {
- toggle.classList.add('active');
- status.innerHTML = '● 实时';
- status.className = 'status-badge';
- document.getElementById('liveIndicator').innerHTML = '⚡ 实时模式已开启';
- updatePreview(document.getElementById('codeEditor').value);
- } else {
- toggle.classList.remove('active');
- status.innerHTML = '○ 手动';
- status.className = 'status-badge off';
- document.getElementById('liveIndicator').innerHTML = '⏸️ 手动模式';
- }
- }
-
- // ========== Generate Images ==========
- async function generateAll() {
+// ========== Generate Images ==========
+async function generateAll() {
  const bar = document.getElementById('progressBar');
  addMsg(`🎬 生成中，主题: ${themeStyles[currentTheme].name}...`, false);
  for (let i = 0; i < storyboardFrames.length; i++) {
@@ -473,16 +495,16 @@
  renderGrid();
  if (selectedIndex === i) {
  document.getElementById('codeEditor').value = frame.code;
- updatePreview(frame.code);
+ if (livePreview) livePreview.updatePreview(frame.code);
  }
  await new Promise(r => setTimeout(r, 300));
  }
  bar.style.width = '100%';
  setTimeout(() => bar.style.width = '0%', 1000);
  addMsg('✅ 9格分镜生成完成！', false);
- }
+}
 
- async function exportAll() {
+async function exportAll() {
  for (let i = 0; i < storyboardFrames.length; i++) {
  if (storyboardFrames[i].imageUrl) {
  const link = document.createElement('a');
@@ -493,9 +515,9 @@
  }
  }
  addMsg('📦 导出完成！', false);
- }
+}
 
- function clearAll() {
+function clearAll() {
  for (let i = 0; i < storyboardFrames.length; i++) {
  storyboardFrames[i].imageUrl = null;
  storyboardFrames[i].code = `<div style="text-align:center; padding:40px; background:linear-gradient(135deg,#667eea,#764ba2); border-radius:20px; color:white;"><div style="font-size:48px;">🎬</div><p>${storyboardFrames[i].prompt}</p></div>`;
@@ -503,22 +525,22 @@
  renderGrid();
  if (storyboardFrames[selectedIndex]) {
  document.getElementById('codeEditor').value = storyboardFrames[selectedIndex].code;
- updatePreview(storyboardFrames[selectedIndex].code);
+ if (livePreview) livePreview.updatePreview(storyboardFrames[selectedIndex].code);
  }
  addMsg('🗑️ 已清空', false);
- }
+}
 
- // ========== Chat ==========
- function addMsg(content, isUser) {
+// ========== Chat ==========
+function addMsg(content, isUser) {
  const container = document.getElementById('messages');
  const div = document.createElement('div');
  div.className = `message ${isUser ? 'user' : 'assistant'}`;
  div.innerHTML = content;
  container.appendChild(div);
  container.scrollTop = container.scrollHeight;
- }
+}
 
- async function sendMsg() {
+async function sendMsg() {
  const input = document.getElementById('chatInput');
  const msg = input.value.trim();
  if (!msg) return;
@@ -527,11 +549,11 @@
  if (msg.includes('生成')) await generateAll();
  else if (msg.includes('清空')) clearAll();
  else if (msg.includes('导出')) exportAll();
- else addMsg(`✨ 收到！当前主题: ${themeStyles[currentTheme].name}\n实时预览: ${liveEnabled ? '开启' : '关闭'}`, false);
- }
+ else addMsg(`✨ 收到！当前主题: ${themeStyles[currentTheme].name}`, false);
+}
 
- // ========== Insert Materials ==========
- function insertMaterial(type) {
+// ========== Insert Materials ==========
+function insertMaterial(type) {
  const mats = {
  dialog: '<div style="background:rgba(255,255,240,0.95); border-radius:28px; padding:20px;"><p>✨ 台词</p><small>——角色</small></div>',
  character: '<div style="text-align:center;"><div style="width:80px;height:80px;background:#a78bfa;border-radius:50%;margin:0 auto;font-size:40px;">👤</div><h3>角色</h3></div>',
@@ -542,42 +564,60 @@
  const newCode = mats[type] + storyboardFrames[selectedIndex].code;
  storyboardFrames[selectedIndex].code = newCode;
  document.getElementById('codeEditor').value = newCode;
- updatePreview(newCode);
+ if (livePreview) livePreview.updatePreview(newCode);
  }
- }
+}
 
- // ========== Event Bindings ==========
- document.getElementById('sendBtn')?.addEventListener('click', sendMsg);
- document.getElementById('chatInput')?.addEventListener('keypress', e => { if (e.key === 'Enter') sendMsg(); });
- document.getElementById('generateBtn')?.addEventListener('click', generateAll);
- document.getElementById('exportBtn')?.addEventListener('click', exportAll);
- document.getElementById('clearBtn')?.addEventListener('click', clearAll);
- document.getElementById('liveToggle')?.addEventListener('click', toggleLive);
- 
- document.querySelectorAll('.theme-card').forEach(card => {
+// ========== Live Preview Toggle ==========
+let liveEnabled = true;
+document.getElementById('liveToggle')?.addEventListener('click', () => {
+ liveEnabled = !liveEnabled;
+ const toggle = document.getElementById('liveToggle');
+ const status = document.getElementById('liveStatus');
+ if (liveEnabled) {
+ toggle.classList.add('active');
+ status.innerHTML = '● 实时';
+ status.className = 'status-badge';
+ if (livePreview) livePreview.toggleLiveMode(true);
+ } else {
+ toggle.classList.remove('active');
+ status.innerHTML = '○ 手动';
+ status.className = 'status-badge off';
+ if (livePreview) livePreview.toggleLiveMode(false);
+ }
+});
+
+// ========== Event Bindings ==========
+document.getElementById('sendBtn')?.addEventListener('click', sendMsg);
+document.getElementById('chatInput')?.addEventListener('keypress', e => { if (e.key === 'Enter') sendMsg(); });
+document.getElementById('generateBtn')?.addEventListener('click', generateAll);
+document.getElementById('exportBtn')?.addEventListener('click', exportAll);
+document.getElementById('clearBtn')?.addEventListener('click', clearAll);
+
+document.querySelectorAll('.theme-card').forEach(card => {
  card.addEventListener('click', () => {
  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
  card.classList.add('active');
  currentTheme = card.dataset.theme;
  addMsg(`🎨 已切换到: ${themeStyles[currentTheme].name}`, false);
  });
- });
- 
- document.querySelectorAll('[data-material]').forEach(btn => {
+});
+
+document.querySelectorAll('[data-material]').forEach(btn => {
  btn.addEventListener('click', () => insertMaterial(btn.dataset.material));
- });
- 
- document.querySelectorAll('.api-btn').forEach(btn => {
+});
+
+document.querySelectorAll('.api-btn').forEach(btn => {
  btn.addEventListener('click', () => {
  currentApi = btn.dataset.api;
  document.querySelectorAll('.api-btn').forEach(b => b.classList.remove('active'));
  btn.classList.add('active');
  document.getElementById('customApiPanel').style.display = currentApi === 'custom' ? 'block' : 'none';
  });
- });
+});
 
- init();
- console.log('%c🎬 动漫工厂 Ultimate v5.0 | 实时预览 + 10大主题 + 9宫格分镜', 'color:#a78bfa;font-size:14px;');
+init();
+console.log('%c🎬 动漫工厂 Ultimate v5.0 | 实时预览 + 10大主题 + 9宫格分镜', 'color:#a78bfa;font-size:14px;');
 </script>
 </body>
 </html>
