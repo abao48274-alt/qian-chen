@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
  <meta charset="UTF-8">
@@ -7,7 +7,7 @@
  <meta name="apple-mobile-web-app-capable" content="yes">
  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
  <link rel="manifest" href="manifest.json">
- <title>🎬 千尘AI动漫工厂 Ultimate</title>
+ <title>馃幀 鍗冨皹AI鍔ㄦ极宸ュ巶 Ultimate</title>
  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
  <style>
  * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -269,31 +269,31 @@
  <!-- Left: OpenClaw AI Chat + API Config -->
  <div class="card">
  <div class="card-header">
- <h3>🤖 OpenClaw · 分镜助手</h3>
- <span id="apiStatus" style="font-size:0.6rem;">⚡ 已连接</span>
+ <h3>馃 OpenClaw 路 鍒嗛暅鍔╂墜</h3>
+ <span id="apiStatus" style="font-size:0.6rem;">鈿?宸茶繛鎺?/span>
  </div>
  <div class="chat-area">
  <div class="messages" id="messages">
  <div class="message assistant">
- ✨ 欢迎！我是 OpenClaw 分镜助手<br>
- 🎬 支持：10大主题 | 9宫格分镜 | 实时预览 | AI生图<br>
- 💡 试试说："生成赛博朋克风格的分镜" 或 "帮我设计古风角色"
+ 鉁?娆㈣繋锛佹垜鏄?OpenClaw 鍒嗛暅鍔╂墜<br>
+ 馃幀 鏀寔锛?0澶т富棰?| 9瀹牸鍒嗛暅 | 瀹炴椂棰勮 | AI鐢熷浘<br>
+ 馃挕 璇曡瘯璇达細"鐢熸垚璧涘崥鏈嬪厠椋庢牸鐨勫垎闀? 鎴?"甯垜璁捐鍙ら瑙掕壊"
  </div>
  </div>
  <div style="padding:12px; display:flex; gap:8px; border-top:1px solid rgba(255,255,255,0.1);">
- <input type="text" id="chatInput" class="tool-btn" style="flex:1; background:rgba(255,255,255,0.1);" placeholder="输入你的需求...">
- <button class="tool-btn primary" id="sendBtn">发送</button>
+ <input type="text" id="chatInput" class="tool-btn" style="flex:1; background:rgba(255,255,255,0.1);" placeholder="杈撳叆浣犵殑闇€姹?..">
+ <button class="tool-btn primary" id="sendBtn">鍙戦€?/button>
  </div>
  </div>
- <div class="card-header"><h3>🔌 生图API</h3></div>
+ <div class="card-header"><h3>馃攲 鐢熷浘API</h3></div>
  <div style="padding:12px;">
  <div class="api-selector" id="apiSelector">
- <button class="api-btn active" data-api="pollinations">🌐 Pollinations (免费)</button>
- <button class="api-btn" data-api="custom">⚙️ 自定义API</button>
+ <button class="api-btn active" data-api="pollinations">馃寪 Pollinations (鍏嶈垂)</button>
+ <button class="api-btn" data-api="custom">鈿欙笍 鑷畾涔堿PI</button>
  </div>
  <div id="customApiPanel" style="display:none;">
- <input type="text" id="customApiUrl" class="tool-btn" style="width:100%; margin-bottom:6px;" placeholder="API地址">
- <input type="password" id="customApiKey" class="tool-btn" style="width:100%;" placeholder="API Key (可选)">
+ <input type="text" id="customApiUrl" class="tool-btn" style="width:100%; margin-bottom:6px;" placeholder="API鍦板潃">
+ <input type="password" id="customApiKey" class="tool-btn" style="width:100%;" placeholder="API Key (鍙€?">
  </div>
  </div>
  </div>
@@ -301,11 +301,11 @@
  <!-- Center: 9-Grid Storyboard -->
  <div class="card">
  <div class="card-header">
- <h3>🎬 9格分镜预览 · 关键环节</h3>
+ <h3>馃幀 9鏍煎垎闀滈瑙?路 鍏抽敭鐜妭</h3>
  <div style="display: flex; gap: 6px;">
- <button class="tool-btn" id="generateBtn">🎨 一键生成9格</button>
- <button class="tool-btn" id="exportBtn">📦 导出全部</button>
- <button class="tool-btn" id="clearBtn">🗑️ 清空</button>
+ <button class="tool-btn" id="generateBtn">馃帹 涓€閿敓鎴?鏍?/button>
+ <button class="tool-btn" id="exportBtn">馃摝 瀵煎嚭鍏ㄩ儴</button>
+ <button class="tool-btn" id="clearBtn">馃棏锔?娓呯┖</button>
  </div>
  </div>
  <div class="storyboard-container">
@@ -313,16 +313,16 @@
  
  <!-- 10 Theme Selector -->
  <div class="theme-grid-10" id="themeGrid">
- <div class="theme-card" data-theme="anime"><span class="theme-emoji">🌸</span><span>日系动漫</span></div>
- <div class="theme-card" data-theme="cyberpunk"><span class="theme-emoji">🤖</span><span>赛博朋克</span></div>
- <div class="theme-card" data-theme="fantasy"><span class="theme-emoji">🐉</span><span>幻想奇幻</span></div>
- <div class="theme-card" data-theme="slice_of_life"><span class="theme-emoji">☕</span><span>日常治愈</span></div>
- <div class="theme-card" data-theme="action"><span class="theme-emoji">⚡</span><span>热血战斗</span></div>
- <div class="theme-card" data-theme="dark"><span class="theme-emoji">🌙</span><span>暗黑哥特</span></div>
- <div class="theme-card" data-theme="traditional"><span class="theme-emoji">🏯</span><span>古风传统</span></div>
- <div class="theme-card" data-theme="xianxia"><span class="theme-emoji">⚔️</span><span>仙侠修真</span></div>
- <div class="theme-card" data-theme="realistic"><span class="theme-emoji">📸</span><span>真人写实</span></div>
- <div class="theme-card" data-theme="watercolor"><span class="theme-emoji">🎨</span><span>水墨国风</span></div>
+ <div class="theme-card" data-theme="anime"><span class="theme-emoji">馃尭</span><span>鏃ョ郴鍔ㄦ极</span></div>
+ <div class="theme-card" data-theme="cyberpunk"><span class="theme-emoji">馃</span><span>璧涘崥鏈嬪厠</span></div>
+ <div class="theme-card" data-theme="fantasy"><span class="theme-emoji">馃悏</span><span>骞绘兂濂囧够</span></div>
+ <div class="theme-card" data-theme="slice_of_life"><span class="theme-emoji">鈽?/span><span>鏃ュ父娌绘剤</span></div>
+ <div class="theme-card" data-theme="action"><span class="theme-emoji">鈿?/span><span>鐑鎴樻枟</span></div>
+ <div class="theme-card" data-theme="dark"><span class="theme-emoji">馃寵</span><span>鏆楅粦鍝ョ壒</span></div>
+ <div class="theme-card" data-theme="traditional"><span class="theme-emoji">馃彲</span><span>鍙ら浼犵粺</span></div>
+ <div class="theme-card" data-theme="xianxia"><span class="theme-emoji">鈿旓笍</span><span>浠欎緺淇湡</span></div>
+ <div class="theme-card" data-theme="realistic"><span class="theme-emoji">馃摳</span><span>鐪熶汉鍐欏疄</span></div>
+ <div class="theme-card" data-theme="watercolor"><span class="theme-emoji">馃帹</span><span>姘村ⅷ鍥介</span></div>
  </div>
  <div id="progressBar" class="progress-bar"></div>
  </div>
@@ -331,11 +331,11 @@
  <!-- Right: Live Preview + Editor -->
  <div class="card">
  <div class="card-header">
- <h3>📷 实时预览</h3>
+ <h3>馃摲 瀹炴椂棰勮</h3>
  <div class="live-preview-toggle">
- <span style="font-size:0.7rem;">实时预览</span>
+ <span style="font-size:0.7rem;">瀹炴椂棰勮</span>
  <div id="liveToggle" class="toggle-switch active"></div>
- <span id="liveStatus" class="status-badge">● 实时</span>
+ <span id="liveStatus" class="status-badge">鈼?瀹炴椂</span>
  </div>
  </div>
  <div class="main-preview">
@@ -343,17 +343,17 @@
  <iframe id="previewFrame" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>
  </div>
  </div>
- <div class="card-header"><h3>📝 代码编辑器</h3></div>
+ <div class="card-header"><h3>馃摑 浠ｇ爜缂栬緫鍣?/h3></div>
  <div class="code-editor-container">
- <textarea id="codeEditor" placeholder="编辑 HTML/CSS 代码，实时预览效果..."></textarea>
- <div class="live-indicator" id="liveIndicator">⚡ 实时模式已开启</div>
+ <textarea id="codeEditor" placeholder="缂栬緫 HTML/CSS 浠ｇ爜锛屽疄鏃堕瑙堟晥鏋?.."></textarea>
+ <div class="live-indicator" id="liveIndicator">鈿?瀹炴椂妯″紡宸插紑鍚?/div>
  </div>
- <div class="card-header"><h3>🎨 快速素材</h3></div>
+ <div class="card-header"><h3>馃帹 蹇€熺礌鏉?/h3></div>
  <div class="quick-materials" id="quickMaterials">
- <button class="tool-btn" data-material="dialog">💬 对话框</button>
- <button class="tool-btn" data-material="character">👤 角色卡</button>
- <button class="tool-btn" data-material="bg">🖼️ 背景</button>
- <button class="tool-btn" data-material="effect">✨ 特效</button>
+ <button class="tool-btn" data-material="dialog">馃挰 瀵硅瘽妗?/button>
+ <button class="tool-btn" data-material="character">馃懁 瑙掕壊鍗?/button>
+ <button class="tool-btn" data-material="bg">馃柤锔?鑳屾櫙</button>
+ <button class="tool-btn" data-material="effect">鉁?鐗规晥</button>
  </div>
  </div>
  </div>
@@ -362,29 +362,29 @@
 <script>
 // ========== 10 Theme Styles ==========
 const themeStyles = {
- anime: { name: '日系动漫', prompt: 'anime style, vibrant colors, clean lines, Japanese animation, high quality, masterpiece' },
- cyberpunk: { name: '赛博朋克', prompt: 'cyberpunk style, neon lights, futuristic city, purple and cyan, dark atmosphere, high tech' },
- fantasy: { name: '幻想奇幻', prompt: 'fantasy art style, magical, ethereal, mystical creatures, soft glowing light, epic' },
- slice_of_life: { name: '日常治愈', prompt: 'slice of life, gentle colors, warm atmosphere, soft lighting, cozy feeling' },
- action: { name: '热血战斗', prompt: 'action scene, dynamic, dramatic lighting, intense, battle energy, epic, explosive' },
- dark: { name: '暗黑哥特', prompt: 'dark gothic style, mysterious, dramatic shadows, haunting beauty, Victorian, eerie' },
- traditional: { name: '古风传统', prompt: 'traditional Chinese style, ink wash painting, elegant, classical beauty, silk and jade, ancient China aesthetics, hanfu' },
- xianxia: { name: '仙侠修真', prompt: 'xianxia style, immortal cultivation, floating clouds, celestial mountains, flowing robes, sword and magic, ethereal beauty, daoist' },
- realistic: { name: '真人写实', prompt: 'photorealistic style, real human, detailed skin texture, natural lighting, hyper-realistic, professional photography' },
- watercolor: { name: '水墨国风', prompt: 'watercolor painting style, Chinese ink art, brush strokes, poetic, misty mountains, traditional landscape, zen' }
+ anime: { name: '鏃ョ郴鍔ㄦ极', prompt: 'anime style, vibrant colors, clean lines, Japanese animation, high quality, masterpiece' },
+ cyberpunk: { name: '璧涘崥鏈嬪厠', prompt: 'cyberpunk style, neon lights, futuristic city, purple and cyan, dark atmosphere, high tech' },
+ fantasy: { name: '骞绘兂濂囧够', prompt: 'fantasy art style, magical, ethereal, mystical creatures, soft glowing light, epic' },
+ slice_of_life: { name: '鏃ュ父娌绘剤', prompt: 'slice of life, gentle colors, warm atmosphere, soft lighting, cozy feeling' },
+ action: { name: '鐑鎴樻枟', prompt: 'action scene, dynamic, dramatic lighting, intense, battle energy, epic, explosive' },
+ dark: { name: '鏆楅粦鍝ョ壒', prompt: 'dark gothic style, mysterious, dramatic shadows, haunting beauty, Victorian, eerie' },
+ traditional: { name: '鍙ら浼犵粺', prompt: 'traditional Chinese style, ink wash painting, elegant, classical beauty, silk and jade, ancient China aesthetics, hanfu' },
+ xianxia: { name: '浠欎緺淇湡', prompt: 'xianxia style, immortal cultivation, floating clouds, celestial mountains, flowing robes, sword and magic, ethereal beauty, daoist' },
+ realistic: { name: '鐪熶汉鍐欏疄', prompt: 'photorealistic style, real human, detailed skin texture, natural lighting, hyper-realistic, professional photography' },
+ watercolor: { name: '姘村ⅷ鍥介', prompt: 'watercolor painting style, Chinese ink art, brush strokes, poetic, misty mountains, traditional landscape, zen' }
 };
 
 // 9 Default Scene Prompts
 const defaultScenePrompts = [
- "主角登场，特写镜头，眼神坚定，英姿飒爽",
- "场景建立，广角镜头，壮丽世界，宏大场景",
- "关键对话，双人镜头，情感交流，眼神交汇",
- "战斗场面，动态镜头，特效爆发，热血沸腾",
- "转折时刻，悬念镜头，光影对比，紧张气氛",
- "情感高潮，近景镜头，动人瞬间，泪目时刻",
- "友情羁绊，并肩镜头，温暖氛围，夕阳背景",
- "反派亮相，仰视镜头，压迫感强，霸气侧漏",
- "结局画面，全景镜头，希望之光，圆满收尾"
+ "涓昏鐧诲満锛岀壒鍐欓暅澶达紝鐪肩鍧氬畾锛岃嫳濮块鐖?,
+ "鍦烘櫙寤虹珛锛屽箍瑙掗暅澶达紝澹附涓栫晫锛屽畯澶у満鏅?,
+ "鍏抽敭瀵硅瘽锛屽弻浜洪暅澶达紝鎯呮劅浜ゆ祦锛岀溂绁炰氦姹?,
+ "鎴樻枟鍦洪潰锛屽姩鎬侀暅澶达紝鐗规晥鐖嗗彂锛岀儹琛€娌歌吘",
+ "杞姌鏃跺埢锛屾偓蹇甸暅澶达紝鍏夊奖瀵规瘮锛岀揣寮犳皵姘?,
+ "鎯呮劅楂樻疆锛岃繎鏅暅澶达紝鍔ㄤ汉鐬棿锛屾唱鐩椂鍒?,
+ "鍙嬫儏缇佺粖锛屽苟鑲╅暅澶达紝娓╂殩姘涘洿锛屽闃宠儗鏅?,
+ "鍙嶆淳浜浉锛屼话瑙嗛暅澶达紝鍘嬭揩鎰熷己锛岄湼姘斾晶婕?,
+ "缁撳眬鐢婚潰锛屽叏鏅暅澶达紝甯屾湜涔嬪厜锛屽渾婊℃敹灏?
 ];
 
 let storyboardFrames = [];
@@ -404,9 +404,9 @@ function initStoryboard() {
  prompt: defaultScenePrompts[i],
  imageUrl: null,
  code: `<div style="text-align:center; padding:40px; background:linear-gradient(135deg,#667eea,#764ba2); border-radius:20px; color:white;">
- <div style="font-size:48px; margin-bottom:12px;">🎬</div>
+ <div style="font-size:48px; margin-bottom:12px;">馃幀</div>
  <p style="font-size:14px;">${defaultScenePrompts[i]}</p>
- <button style="background:white; border:none; padding:8px 20px; border-radius:40px; margin-top:16px; cursor:pointer; color:#764ba2;">查看详情</button>
+ <button style="background:white; border:none; padding:8px 20px; border-radius:40px; margin-top:16px; cursor:pointer; color:#764ba2;">鏌ョ湅璇︽儏</button>
  </div>`,
  loading: false
  });
@@ -422,10 +422,10 @@ function renderStoryboardGrid() {
  <div class="storyboard-cell ${selectedIndex === i ? 'active' : ''}" onclick="selectFrame(${i})">
  <div class="storyboard-number">${i+1}</div>
  ${frame.imageUrl ? 
- `<img src="${frame.imageUrl}" class="storyboard-preview" alt="分镜${i+1}" onerror="this.src=''">` : 
+ `<img src="${frame.imageUrl}" class="storyboard-preview" alt="鍒嗛暅${i+1}" onerror="this.src=''">` : 
  `<div class="storyboard-placeholder">
- <div style="font-size:24px;">🎬</div>
- <div style="font-size:10px; margin-top:4px;">分镜${i+1}</div>
+ <div style="font-size:24px;">馃幀</div>
+ <div style="font-size:10px; margin-top:4px;">鍒嗛暅${i+1}</div>
  </div>`
  }
  <div class="storyboard-label">${frame.prompt.substring(0, 18)}${frame.prompt.length > 18 ? '...' : ''}</div>
@@ -456,7 +456,7 @@ function updatePreview(code) {
  button:hover{transform:scale(1.02);}
  </style>
  </head>
- <body><div class="preview-content">${code || '<div style="padding:40px; text-align:center; color:#666;">✨ 编辑代码，实时预览 ✨</div>'}</div></body>
+ <body><div class="preview-content">${code || '<div style="padding:40px; text-align:center; color:#666;">鉁?缂栬緫浠ｇ爜锛屽疄鏃堕瑙?鉁?/div>'}</div></body>
  </html>`;
  iframe.srcdoc = doc;
  
@@ -481,8 +481,8 @@ function setupLivePreview() {
  updateTimer = setTimeout(() => {
  updatePreview(newCode);
  const indicator = document.getElementById('liveIndicator');
- indicator.innerHTML = '⚡ 已实时更新';
- setTimeout(() => indicator.innerHTML = '⚡ 实时模式已开启', 1500);
+ indicator.innerHTML = '鈿?宸插疄鏃舵洿鏂?;
+ setTimeout(() => indicator.innerHTML = '鈿?瀹炴椂妯″紡宸插紑鍚?, 1500);
  }, 100);
  }
  });
@@ -496,15 +496,15 @@ function toggleLiveMode() {
  
  if (liveEnabled) {
  toggle.classList.add('active');
- status.innerHTML = '● 实时';
+ status.innerHTML = '鈼?瀹炴椂';
  status.className = 'status-badge';
- indicator.innerHTML = '⚡ 实时模式已开启';
+ indicator.innerHTML = '鈿?瀹炴椂妯″紡宸插紑鍚?;
  updatePreview(document.getElementById('codeEditor').value);
  } else {
  toggle.classList.remove('active');
- status.innerHTML = '○ 手动';
+ status.innerHTML = '鈼?鎵嬪姩';
  status.className = 'status-badge off';
- indicator.innerHTML = '⏸️ 手动模式';
+ indicator.innerHTML = '鈴革笍 鎵嬪姩妯″紡';
  }
 }
 
@@ -542,8 +542,8 @@ async function generateFrameImage(frame, prompt, themeKey) {
  frame.imageUrl = imageUrl;
  frame.code = `<div style="text-align: center; padding: 20px;">
  <img src="${imageUrl}" style="max-width: 100%; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.2);">
- <p style="margin-top: 12px; font-size: 14px; color: #333;">🎬 ${frame.prompt}</p>
- <p style="font-size: 12px; color: #666; margin-top: 4px;">风格: ${theme.name}</p>
+ <p style="margin-top: 12px; font-size: 14px; color: #333;">馃幀 ${frame.prompt}</p>
+ <p style="font-size: 12px; color: #666; margin-top: 4px;">椋庢牸: ${theme.name}</p>
  </div>`;
  }
  } catch (error) {
@@ -562,12 +562,12 @@ async function generateFrameImage(frame, prompt, themeKey) {
 
 async function generateAllFrames() {
  if (isGenerating) {
- addMessageToChat('⏳ 正在生成中，请稍候...', false);
+ addMessageToChat('鈴?姝ｅ湪鐢熸垚涓紝璇风◢鍊?..', false);
  return;
  }
  isGenerating = true;
  const progressBar = document.getElementById('progressBar');
- addMessageToChat(`🎬 开始生成9格分镜，主题: ${themeStyles[currentTheme].name}...`, false);
+ addMessageToChat(`馃幀 寮€濮嬬敓鎴?鏍煎垎闀滐紝涓婚: ${themeStyles[currentTheme].name}...`, false);
  
  for (let i = 0; i < storyboardFrames.length; i++) {
  const frame = storyboardFrames[i];
@@ -580,12 +580,12 @@ async function generateAllFrames() {
  
  progressBar.style.width = '100%';
  setTimeout(() => progressBar.style.width = '0%', 1000);
- addMessageToChat(`✅ 9格分镜全部生成完成！点击任意格子可放大预览`, false);
+ addMessageToChat(`鉁?9鏍煎垎闀滃叏閮ㄧ敓鎴愬畬鎴愶紒鐐瑰嚮浠绘剰鏍煎瓙鍙斁澶ч瑙坄, false);
  isGenerating = false;
 }
 
 async function exportAllFrames() {
- addMessageToChat(`📦 开始导出9张分镜图...`, false);
+ addMessageToChat(`馃摝 寮€濮嬪鍑?寮犲垎闀滃浘...`, false);
  for (let i = 0; i < storyboardFrames.length; i++) {
  const frame = storyboardFrames[i];
  if (frame.imageUrl) {
@@ -596,14 +596,14 @@ async function exportAllFrames() {
  await new Promise(r => setTimeout(r, 300));
  }
  }
- addMessageToChat(`✅ 导出完成！`, false);
+ addMessageToChat(`鉁?瀵煎嚭瀹屾垚锛乣, false);
 }
 
 function clearStoryboard() {
  for (let i = 0; i < storyboardFrames.length; i++) {
  storyboardFrames[i].imageUrl = null;
  storyboardFrames[i].code = `<div style="text-align:center; padding:40px; background:linear-gradient(135deg,#667eea,#764ba2); border-radius:20px; color:white;">
- <div style="font-size:48px; margin-bottom:12px;">🎬</div>
+ <div style="font-size:48px; margin-bottom:12px;">馃幀</div>
  <p>${storyboardFrames[i].prompt}</p>
  </div>`;
  }
@@ -612,7 +612,7 @@ function clearStoryboard() {
  document.getElementById('codeEditor').value = storyboardFrames[selectedIndex].code;
  updatePreview(storyboardFrames[selectedIndex].code);
  }
- addMessageToChat(`🗑️ 已清空所有分镜`, false);
+ addMessageToChat(`馃棏锔?宸叉竻绌烘墍鏈夊垎闀渀, false);
 }
 
 // ========== OpenClaw AI Chat ==========
@@ -629,72 +629,72 @@ async function callOpenClawAI(userMessage) {
  const lowerMsg = userMessage.toLowerCase();
  
  // Theme switching
- if (lowerMsg.includes('日系') || lowerMsg.includes('anime')) {
+ if (lowerMsg.includes('鏃ョ郴') || lowerMsg.includes('anime')) {
  currentTheme = 'anime';
  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
  document.querySelector('.theme-card[data-theme="anime"]')?.classList.add('active');
- return `🎨 已切换到主题: ${themeStyles.anime.name}\n\n你可以说"生成分镜"来创建9格画面，或直接告诉我你想要什么风格的角色。`;
+ return `馃帹 宸插垏鎹㈠埌涓婚: ${themeStyles.anime.name}\n\n浣犲彲浠ヨ"鐢熸垚鍒嗛暅"鏉ュ垱寤?鏍肩敾闈紝鎴栫洿鎺ュ憡璇夋垜浣犳兂瑕佷粈涔堥鏍肩殑瑙掕壊銆俙;
  }
- if (lowerMsg.includes('赛博') || lowerMsg.includes('cyberpunk')) {
+ if (lowerMsg.includes('璧涘崥') || lowerMsg.includes('cyberpunk')) {
  currentTheme = 'cyberpunk';
  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
  document.querySelector('.theme-card[data-theme="cyberpunk"]')?.classList.add('active');
- return `🤖 已切换到主题: ${themeStyles.cyberpunk.name}\n\n霓虹灯、未来城市，开始创作吧！`;
+ return `馃 宸插垏鎹㈠埌涓婚: ${themeStyles.cyberpunk.name}\n\n闇撹櫣鐏€佹湭鏉ュ煄甯傦紝寮€濮嬪垱浣滃惂锛乣;
  }
- if (lowerMsg.includes('古风') || lowerMsg.includes('traditional')) {
+ if (lowerMsg.includes('鍙ら') || lowerMsg.includes('traditional')) {
  currentTheme = 'traditional';
  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
  document.querySelector('.theme-card[data-theme="traditional"]')?.classList.add('active');
- return `🏯 已切换到主题: ${themeStyles.traditional.name}\n\n水墨丹青，古风雅韵，适合宫廷、武侠题材。`;
+ return `馃彲 宸插垏鎹㈠埌涓婚: ${themeStyles.traditional.name}\n\n姘村ⅷ涓归潚锛屽彜椋庨泤闊碉紝閫傚悎瀹环銆佹渚犻鏉愩€俙;
  }
- if (lowerMsg.includes('仙侠') || lowerMsg.includes('xianxia')) {
+ if (lowerMsg.includes('浠欎緺') || lowerMsg.includes('xianxia')) {
  currentTheme = 'xianxia';
  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
  document.querySelector('.theme-card[data-theme="xianxia"]')?.classList.add('active');
- return `⚔️ 已切换到主题: ${themeStyles.xianxia.name}\n\n御剑飞行，修仙问道，适合修真、仙侠题材。`;
+ return `鈿旓笍 宸插垏鎹㈠埌涓婚: ${themeStyles.xianxia.name}\n\n寰″墤椋炶锛屼慨浠欓棶閬擄紝閫傚悎淇湡銆佷粰渚犻鏉愩€俙;
  }
- if (lowerMsg.includes('写实') || lowerMsg.includes('realistic')) {
+ if (lowerMsg.includes('鍐欏疄') || lowerMsg.includes('realistic')) {
  currentTheme = 'realistic';
  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
  document.querySelector('.theme-card[data-theme="realistic"]')?.classList.add('active');
- return `📸 已切换到主题: ${themeStyles.realistic.name}\n\n照片级真实感，适合真人化作品。`;
+ return `馃摳 宸插垏鎹㈠埌涓婚: ${themeStyles.realistic.name}\n\n鐓х墖绾х湡瀹炴劅锛岄€傚悎鐪熶汉鍖栦綔鍝併€俙;
  }
  
  // Generate storyboard
- if (lowerMsg.includes('生成') || lowerMsg.includes('创建') || lowerMsg.includes('制作')) {
+ if (lowerMsg.includes('鐢熸垚') || lowerMsg.includes('鍒涘缓') || lowerMsg.includes('鍒朵綔')) {
  generateAllFrames();
- return `🎬 开始生成9格分镜，主题: ${themeStyles[currentTheme].name}，请稍候...\n\n生成完成后每个格子都会有一张精美的图片！`;
+ return `馃幀 寮€濮嬬敓鎴?鏍煎垎闀滐紝涓婚: ${themeStyles[currentTheme].name}锛岃绋嶅€?..\n\n鐢熸垚瀹屾垚鍚庢瘡涓牸瀛愰兘浼氭湁涓€寮犵簿缇庣殑鍥剧墖锛乣;
  }
  
  // Export
- if (lowerMsg.includes('导出') || lowerMsg.includes('下载')) {
+ if (lowerMsg.includes('瀵煎嚭') || lowerMsg.includes('涓嬭浇')) {
  exportAllFrames();
- return `📦 开始导出9张分镜图，请查看下载文件夹~`;
+ return `馃摝 寮€濮嬪鍑?寮犲垎闀滃浘锛岃鏌ョ湅涓嬭浇鏂囦欢澶箏`;
  }
  
  // Clear
- if (lowerMsg.includes('清空') || lowerMsg.includes('重置')) {
+ if (lowerMsg.includes('娓呯┖') || lowerMsg.includes('閲嶇疆')) {
  clearStoryboard();
- return `🗑️ 已清空所有分镜，可以重新生成了！`;
+ return `馃棏锔?宸叉竻绌烘墍鏈夊垎闀滐紝鍙互閲嶆柊鐢熸垚浜嗭紒`;
  }
  
  // Help
- return `✨ 我是 OpenClaw 分镜助手，你可以这样使用我：
+ return `鉁?鎴戞槸 OpenClaw 鍒嗛暅鍔╂墜锛屼綘鍙互杩欐牱浣跨敤鎴戯細
 
-🎨 **切换主题**：
-- "日系动漫" / "赛博朋克"
-- "古风传统" / "仙侠修真" / "真人写实"
+馃帹 **鍒囨崲涓婚**锛?
+- "鏃ョ郴鍔ㄦ极" / "璧涘崥鏈嬪厠"
+- "鍙ら浼犵粺" / "浠欎緺淇湡" / "鐪熶汉鍐欏疄"
 
-🎬 **生成分镜**：
-- "生成分镜" / "创建9格" / "制作分镜"
+馃幀 **鐢熸垚鍒嗛暅**锛?
+- "鐢熸垚鍒嗛暅" / "鍒涘缓9鏍? / "鍒朵綔鍒嗛暅"
 
-📦 **其他功能**：
-- "导出图片" / "清空分镜"
+馃摝 **鍏朵粬鍔熻兘**锛?
+- "瀵煎嚭鍥剧墖" / "娓呯┖鍒嗛暅"
 
-🔘 **实时预览**：右侧开关已开启，编辑代码立即生效！
+馃敇 **瀹炴椂棰勮**锛氬彸渚у紑鍏冲凡寮€鍚紝缂栬緫浠ｇ爜绔嬪嵆鐢熸晥锛?
 
-当前主题：${themeStyles[currentTheme].name}
-实时预览：${liveEnabled ? '✅ 开启' : '⏸️ 关闭'}`;
+褰撳墠涓婚锛?{themeStyles[currentTheme].name}
+瀹炴椂棰勮锛?{liveEnabled ? '鉁?寮€鍚? : '鈴革笍 鍏抽棴'}`;
 }
 
 async function sendMessage() {
@@ -707,7 +707,7 @@ async function sendMessage() {
  // Show typing
  const typingDiv = document.createElement('div');
  typingDiv.className = 'message assistant';
- typingDiv.innerHTML = '<span style="opacity:0.7;">🤔 思考中...</span>';
+ typingDiv.innerHTML = '<span style="opacity:0.7;">馃 鎬濊€冧腑...</span>';
  document.getElementById('messages').appendChild(typingDiv);
  
  try {
@@ -716,7 +716,7 @@ async function sendMessage() {
  addMessageToChat(reply, false);
  } catch (error) {
  typingDiv.remove();
- addMessageToChat(`⚠️ 出错了：${error.message}`, false);
+ addMessageToChat(`鈿狅笍 鍑洪敊浜嗭細${error.message}`, false);
  }
 }
 
@@ -724,22 +724,22 @@ async function sendMessage() {
 function insertMaterial(type) {
  const materials = {
  dialog: `<div style="background: rgba(255,255,240,0.95); border-radius: 28px; padding: 20px; max-width: 280px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
- <p>✨ 角色台词显示在这里 ✨</p>
- <small style="display:block; margin-top:8px;">—— 动漫角色</small>
+ <p>鉁?瑙掕壊鍙拌瘝鏄剧ず鍦ㄨ繖閲?鉁?/p>
+ <small style="display:block; margin-top:8px;">鈥斺€?鍔ㄦ极瑙掕壊</small>
  </div>`,
  character: `<div style="text-align: center;">
- <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #a78bfa, #7c3aed); border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 48px;">👤</div>
- <h3 style="margin-bottom: 4px;">角色名</h3>
- <p style="font-size: 12px; color: #666;">角色描述</p>
+ <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #a78bfa, #7c3aed); border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 48px;">馃懁</div>
+ <h3 style="margin-bottom: 4px;">瑙掕壊鍚?/h3>
+ <p style="font-size: 12px; color: #666;">瑙掕壊鎻忚堪</p>
  </div>`,
  bg: `<div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 60px 20px; border-radius: 24px; text-align: center; color: white;">
- <h2 style="margin-bottom: 8px;">梦幻场景</h2>
- <p>背景描述</p>
+ <h2 style="margin-bottom: 8px;">姊﹀够鍦烘櫙</h2>
+ <p>鑳屾櫙鎻忚堪</p>
  </div>`,
  effect: `<div style="position: relative; overflow: hidden; padding: 40px; text-align: center;">
- <div style="animation: sparkle 1s infinite; font-size: 32px;">✨✨✨</div>
+ <div style="animation: sparkle 1s infinite; font-size: 32px;">鉁ㄢ湪鉁?/div>
  <style>@keyframes sparkle{0%,100%{opacity:0.5}50%{opacity:1}}</style>
- <p style="margin-top: 8px;">特效光效</p>
+ <p style="margin-top: 8px;">鐗规晥鍏夋晥</p>
  </div>`
  };
  
@@ -748,7 +748,7 @@ function insertMaterial(type) {
  storyboardFrames[selectedIndex].code = newCode;
  document.getElementById('codeEditor').value = newCode;
  updatePreview(newCode);
- addMessageToChat(`✨ 已插入${type}到分镜 ${selectedIndex+1}`, false);
+ addMessageToChat(`鉁?宸叉彃鍏?{type}鍒板垎闀?${selectedIndex+1}`, false);
  }
 }
 
@@ -762,7 +762,7 @@ function applyTheme(theme) {
  card.classList.remove('active');
  }
  });
- addMessageToChat(`🎨 已切换到主题: ${themeStyles[theme].name}`, false);
+ addMessageToChat(`馃帹 宸插垏鎹㈠埌涓婚: ${themeStyles[theme].name}`, false);
 }
 
 // ========== Event Bindings ==========
@@ -801,7 +801,8 @@ initStoryboard();
 setupLivePreview();
 document.querySelector('.theme-card[data-theme="anime"]')?.classList.add('active');
 
-console.log('%c🎬 动漫分镜工坊完整版已启动 | OpenClaw对话 | 10大主题 | 9宫格分镜 | 实时预览', 'color: #a78bfa; font-size: 14px;');
+console.log('%c馃幀 鍔ㄦ极鍒嗛暅宸ュ潑瀹屾暣鐗堝凡鍚姩 | OpenClaw瀵硅瘽 | 10澶т富棰?| 9瀹牸鍒嗛暅 | 瀹炴椂棰勮', 'color: #a78bfa; font-size: 14px;');
 </script>
+<script src='backend-connector.js'></script>
 </body>
 </html>
