@@ -702,6 +702,15 @@ window.closeQR=function(){document.getElementById('qrModal').classList.remove('s
 window.copyUrl=function(){navigator.clipboard.writeText(document.getElementById('mobileUrl').textContent).then(()=>alert('✅ 已复制！'));};
 
 currentCode=defaultCode;document.getElementById('codeEditor').value=defaultCode;saveHistory(defaultCode);renderTimeline();renderMaterials();updatePreview();renderStoryboard();initStoryboard9();document.getElementById('achievementBadge').textContent=`🏆 ${achievements}`;setApi('pollinations');
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('SW registered:', reg.scope))
+            .catch(err => console.log('SW registration failed:', err));
+    });
+}
+
 console.log('🎬 千尘AI动漫工厂 Ultimate v5.0 + 9宫格分镜');
 </script>
 </body>
